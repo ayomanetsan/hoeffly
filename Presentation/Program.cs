@@ -1,6 +1,8 @@
 using Application;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Presentation.Middleware;
+using Presentation.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
@@ -9,9 +11,11 @@ builder.Configuration.AddUserSecrets<Program>();
 
 builder.Services.AddControllers();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-
 
 builder.Services.AddCors(options =>
 {
@@ -33,6 +37,10 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.UseCors("ClientPolicy");
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

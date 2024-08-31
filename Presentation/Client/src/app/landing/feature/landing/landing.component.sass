@@ -1,0 +1,125 @@
+@import '../../../../styles'
+
+footer
+  position: absolute
+  bottom: 0
+  width: 100%
+  background-color: #280109
+
+  .container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    color: $secondary
+
+  .actions
+    display: flex
+    align-items: center
+    gap: 1.5rem
+
+    ul
+      display: flex
+      gap: 1.5rem
+      list-style: none
+
+      a
+        text-decoration: none
+
+        &:hover
+          text-decoration: underline
+          background-color: transparent
+
+.container
+  width: 60%
+  margin: 0 auto
+  padding: 1rem 4rem
+
+  nav
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .actions
+      display: flex
+      align-items: center
+      gap: 1.5rem
+
+      ul
+        display: flex
+        gap: 1.5rem
+        list-style: none
+
+        a
+          text-decoration: none
+          color: $text
+
+          &:hover
+            text-decoration: underline
+            background-color: transparent
+
+  main
+    .hero
+      display: grid
+      grid-template-columns: 1fr 1fr
+      align-items: center
+      margin-top: 9rem
+
+      .text
+        display: flex
+        flex-direction: column
+        gap: 1.5rem
+
+        h1
+          font-weight: 500
+
+        button
+          width: fit-content
+
+      img
+        width: 100%
+
+    .about
+      margin-top: 9rem
+      text-align: center
+
+      h2
+        font-weight: 500
+
+      .points
+        display: flex
+        justify-content: space-between
+        align-items: center
+        flex-wrap: wrap
+        gap: 2.5rem
+        margin-top: 2rem
+
+        .point
+          display: flex
+          flex-direction: column
+          align-items: center
+          gap: 1.5rem
+
+          img
+            aspect-ratio: 1
+            width: 12rem
+
+          p
+            max-width: 40ch
+            text-align: center
+
+        .point:first-child
+          width: 100%
+
+    .slogan
+      margin: 9rem 0
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 2rem
+
+      button
+        width: fit-content
+
+@media screen and (max-width: 1440px)
+  .container
+    width: 100%
