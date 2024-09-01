@@ -19,4 +19,8 @@ public class Gift : EntityBase
     public bool IsReserved { get; set; }
     
     public ICollection<SharedGift> SharedGifts { get; set; } = new List<SharedGift>();
+    
+    public Guid WishlistId { get; set; }
+
+    public Wishlist Wishlist { get; set; } = null!;
 }
