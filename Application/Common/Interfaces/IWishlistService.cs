@@ -4,4 +4,10 @@ public interface IWishlistService
 {
     Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(bool createdByCurrentUser, int pageNumber,
         int pageSize, CancellationToken cancellationToken);
+    
+    Task CreateWishlistAsync(Wishlist wishlist, CancellationToken cancellationToken);
+    
+    Task DeleteWishlistAsync(Guid id, CancellationToken cancellationToken);
+    
+    Task<Wishlist> GetWishlistAsync(Guid id, CancellationToken cancellationToken);
 }

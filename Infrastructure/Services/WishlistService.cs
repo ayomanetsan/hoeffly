@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Domain.Exceptions;
 
 namespace Infrastructure.Services;
 
@@ -7,11 +8,13 @@ public class WishlistService : IWishlistService
 {
     private readonly IRepository<Wishlist> _wishlistRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public WishlistService(IRepository<Wishlist> wishlistRepository, IHttpContextAccessor httpContextAccessor)
+    public WishlistService(IRepository<Wishlist> wishlistRepository, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
     {
         _wishlistRepository = wishlistRepository;
         _httpContextAccessor = httpContextAccessor;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(bool createdByCurrentUser,
@@ -36,7 +39,46 @@ public class WishlistService : IWishlistService
     
         return (wishlists, totalPages);
     }
-    
+
+    public async Task CreateWishlistAsync(Wishlist wishlist, CancellationToken cancellationToken)
+    {
+        await _wishlistRepository.AddAsync(wishlist, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteWishlistAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var wishlist = await _wishlistRepository.GetAsync(id, cancellationToken)
+                       ?? throw new NotFoundException("Wishlist not found.");
+        
+        var email = GetUserEmailFromContext();
+
+        if (wishlist.CreatedBy != email)
+        {
+            throw new ForbiddenException("You are not authorized to delete this wishlist.");
+        }
+        
+        _wishlistRepository.Delete(wishlist);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<Wishlist> GetWishlistAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var wishlist = await _wishlistRepository.GetAsync(id, cancellationToken)
+                       ?? throw new NotFoundException("Wishlist not found.");
+        
+        //TODO: Update wishlist retrieval
+        
+        var email = GetUserEmailFromContext();
+
+        if (wishlist.CreatedBy != email && !wishlist.IsPublic)
+        {
+            throw new ForbiddenException("You are not authorized to view this wishlist.");
+        }
+
+        return wishlist;
+    }
+
     private IQueryable<Wishlist> FilterByCurrentUser(IQueryable<Wishlist> queryable)
     {
         var email = GetUserEmailFromContext();
