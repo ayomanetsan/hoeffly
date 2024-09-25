@@ -1,0 +1,57 @@
+@import '../../../../styles'
+
+.wishlist-card
+  width: 352px
+
+  .card-header
+    padding: 16px 24px
+    border-radius: 10px 10px 0 0
+    background-color: $accent
+
+    .title
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+      p
+        max-width: 16ch
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+
+      .actions
+        display: flex
+        gap: .5rem
+
+  .card-body
+    position: relative
+    display: flex
+    height: 102px
+    gap: .5rem
+    padding: 16px 24px
+    border-radius: 0 0 10px 10px
+    background-color: $card
+
+    p:first-child
+      margin: auto 0
+      width: 100%
+      text-align: center
+
+    img
+      object-fit: cover
+      width: 70px
+      height: 70px
+      border-radius: 10px
+
+    .gifts-count
+      position: absolute
+      top: 50%
+      right: 6px
+      transform: translateY(-50%)
+      display: flex
+      align-items: center
+      justify-content: center
+      aspect-ratio: 1
+      height: 40px
+      border-radius: 50%
+      background-color: $primary

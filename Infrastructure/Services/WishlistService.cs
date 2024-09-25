@@ -7,12 +7,20 @@ namespace Infrastructure.Services;
 public class WishlistService : IWishlistService
 {
     private readonly IRepository<Wishlist> _wishlistRepository;
+    private readonly IRepository<WishlistCategory> _wishlistCategoryRepository;
+    private readonly IRepository<Category> _categoryRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUnitOfWork _unitOfWork;
 
-    public WishlistService(IRepository<Wishlist> wishlistRepository, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+    public WishlistService(IRepository<Wishlist> wishlistRepository,
+        IRepository<WishlistCategory> wishlistCategoryRepository, 
+        IRepository<Category> categoryRepository, 
+        IHttpContextAccessor httpContextAccessor,
+        IUnitOfWork unitOfWork)
     {
         _wishlistRepository = wishlistRepository;
+        _wishlistCategoryRepository = wishlistCategoryRepository;
+        _categoryRepository = categoryRepository;
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
     }
@@ -35,13 +43,34 @@ public class WishlistService : IWishlistService
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Include(w => w.Gifts)
+            .Include(w => w.WishlistCategories)
+            .ThenInclude(wc => wc.Category)
             .ToListAsync(cancellationToken);
     
         return (wishlists, totalPages);
     }
 
-    public async Task CreateWishlistAsync(Wishlist wishlist, CancellationToken cancellationToken)
+    public async Task CreateWishlistAsync(Wishlist wishlist, IEnumerable<string> categories, CancellationToken cancellationToken)
     {
+        foreach (var category in categories)
+        {
+            var dbCategory = await _categoryRepository.GetQueryable()
+                .AsNoTracking()
+                .Where(c => c.Name == category)
+                .FirstAsync(cancellationToken);
+            
+            var wishlistCategory = new WishlistCategory()
+            {
+                CategoryId = dbCategory.Id,
+                WishlistId = wishlist.Id,
+                CreatedBy = GetUserEmailFromContext(),
+                LastModifiedBy = GetUserEmailFromContext()
+            };
+            
+            await _wishlistCategoryRepository.AddAsync(wishlistCategory, cancellationToken);
+            
+            wishlist.WishlistCategories.Add(wishlistCategory);
+        }
         await _wishlistRepository.AddAsync(wishlist, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

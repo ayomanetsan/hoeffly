@@ -1,0 +1,30 @@
+@import '../../../../styles'
+
+.container
+  display: grid
+  grid-template-columns: 320px 1fr
+  width: 100vw
+  height: 100vh
+
+  main
+    padding: 16px
+
+    .wishlists
+      display: flex
+      flex-wrap: wrap
+      gap: 1rem
+
+      .create-card
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 352px
+        height: 215px
+        border-radius: 10px
+        border: 2px dashed $text
+        cursor: pointer
+        opacity: .7
+
+        &:hover
+          opacity: 1

@@ -1,5 +1,3 @@
-using Application.Common.Interfaces;
-
 namespace Application.Wishlists.Commands.CreateWishlist;
 
 public sealed class CreateWishlistCommandHandler : IRequestHandler<CreateWishlistCommand, Unit>
@@ -16,7 +14,7 @@ public sealed class CreateWishlistCommandHandler : IRequestHandler<CreateWishlis
     public async Task<Unit> Handle(CreateWishlistCommand request, CancellationToken cancellationToken)
     {
         var wishlist = _mapper.Map<Wishlist>(request);
-        await _wishlistService.CreateWishlistAsync(wishlist, cancellationToken);
+        await _wishlistService.CreateWishlistAsync(wishlist, request.categories, cancellationToken);
         
         return Unit.Value;
     }

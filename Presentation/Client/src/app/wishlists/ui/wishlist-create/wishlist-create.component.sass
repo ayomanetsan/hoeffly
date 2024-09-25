@@ -1,0 +1,81 @@
+@import '../../../../styles'
+
+.modal-header
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  padding: 24px
+  background-color: $primary
+
+  svg
+    cursor: pointer
+
+form
+  display: flex
+  flex-direction: column
+  align-items: start
+  gap: 24px
+  padding: 48px 120px
+  background-color: $background
+
+  p
+    width: 100%
+    text-align: center
+
+  .custom-radio-field
+    display: flex
+    align-items: center
+    gap: 8px
+    cursor: pointer
+
+    .custom-radio
+      display: flex
+      justify-content: center
+      align-items: center
+      aspect-ratio: 1
+      height: 16px
+      border: 2px solid $text
+      border-radius: 50%
+
+      &.checked::after
+        content: ''
+        display: block
+        aspect-ratio: 1
+        height: 8px
+        border-radius: 50%
+        background-color: $text
+
+  .categories
+    display: flex
+    flex-wrap: wrap
+    gap: 8px
+    justify-content: space-between
+
+    .category
+      flex-grow: 1
+      padding: 8px 16px
+      border-radius: 10px
+      background-color: rgba($primary, .3)
+      cursor: pointer
+      text-align: center
+      display: inline-flex
+      align-items: center
+      justify-content: center
+
+      &:hover
+        background-color: rgba($primary, .7)
+
+      &.selected
+        background-color: rgba($primary, .85)
+
+      &:last-child
+        width: 100%
+
+    &::after
+      content: ""
+      flex: auto
+
+  button
+    align-self: center
