@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WishlistCategories } from '../../models/wishlistCategories';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,7 +10,7 @@ import { WishlistCreateRequest } from '../../models/wishlist';
   templateUrl: './wishlist-create.component.html',
   styleUrl: './wishlist-create.component.sass'
 })
-export class WishlistCreateComponent {
+export class WishlistCreateComponent implements OnInit{
   wishlistForm!: FormGroup;
   wishlistCategories: string[] = WishlistCategories;
 
@@ -66,7 +66,11 @@ export class WishlistCreateComponent {
         categories: categories
       }
 
-      this.wishlistsService.create(wishlistCreateRequest).subscribe();
+      this.wishlistsService.create(wishlistCreateRequest).subscribe({
+        next: () => {
+          this.dialogRef.close(true);
+        },
+      });
     }
   }
 }

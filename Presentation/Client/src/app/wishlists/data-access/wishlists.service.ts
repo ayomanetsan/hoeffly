@@ -17,4 +17,8 @@ export class WishlistsService {
   create(wishlist: WishlistCreateRequest) {
     return this.http.post<WishlistCreateRequest>('/wishlists', wishlist);
   }
+
+  delete(id: string) {
+    return this.http.delete('/wishlists', id);
+  }
 }

@@ -1,13 +1,79 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import { WishlistBriefResponse } from '../../models/wishlist';
+import {Subscription} from "rxjs";
+import {WishlistCardStateService} from "../../data-access/wishlist-card-state.service";
+import {WishlistsService} from "../../data-access/wishlists.service";
 
 @Component({
   selector: 'app-wishlist-card',
   templateUrl: './wishlist-card.component.html',
-  styleUrl: './wishlist-card.component.sass'
+  styleUrl: './wishlist-card.component.sass',
 })
-export class WishlistCardComponent {
-
+export class WishlistCardComponent implements OnInit {
   @Input({ required: true }) wishlist!: WishlistBriefResponse;
+  @Output() wishlistDeleted: EventEmitter<void> = new EventEmitter<void>();
 
+  isMenuOpen = false;
+  private subscription: Subscription = new Subscription();
+
+  constructor(private wishlistCardStateService: WishlistCardStateService, private wishlistsService: WishlistsService) {}
+
+  ngOnInit(): void {
+    this.subscription = this.wishlistCardStateService.menuOpened$.subscribe(openedWishlistId => {
+      if (openedWishlistId !== this.wishlist.id) {
+        this.isMenuOpen = false;
+      }
+    });
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      this.wishlistCardStateService.notifyMenuOpened(this.wishlist.id);
+    }
+  }
+
+  handleAction(action: string): void {
+    this.isMenuOpen = false;
+
+    switch (action) {
+      case 'edit':
+        console.log('Edit wishlist');
+        // TODO: edit
+        break;
+      case 'share':
+        console.log('Share wishlist');
+        // TODO: share
+        break;
+      case 'remove':
+        console.log('Remove wishlist');
+        this.deleteWishlist(this.wishlist.id);
+        break;
+      case 'done':
+        console.log('Mark wishlist as done');
+        // TODO: done
+        break;
+      default:
+        console.log('Unknown action');
+    }
+  }
+
+  deleteWishlist(wishlistId: string) {
+    this.wishlistsService.delete(wishlistId).subscribe({
+      next: () => {
+        this.wishlistDeleted.emit();
+      }
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const isMenuButton = target.closest('.actions-menu-button');
+    const isMenuContent = target.closest('.actions-menu');
+
+    if (!isMenuButton && !isMenuContent) {
+      this.isMenuOpen = false;
+    }
+  }
 }

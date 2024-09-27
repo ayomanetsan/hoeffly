@@ -33,7 +33,7 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Create(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediatr.Send(new DeleteWishlistCommand(id));
         return Ok(result);

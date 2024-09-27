@@ -1,4 +1,5 @@
 ﻿export interface WishlistBriefResponse {
+  id: string;
   name: string;
   isPublic: boolean;
   categories: string[];
