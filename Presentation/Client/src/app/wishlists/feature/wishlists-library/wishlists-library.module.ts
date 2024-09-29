@@ -5,7 +5,7 @@ import { WishlistsLibraryRoutingModule } from './wishlists-library-routing.modul
 import { WishlistsLibraryComponent } from './wishlists-library.component';
 import { SidebarModule } from '../../../shared/ui/sidebar/sidebar.module';
 import { WishlistCardModule } from '../../ui/wishlist-card/wishlist-card.module';
-import { WishlistCreateModule } from '../../ui/wishlist-create/wishlist-create.module';
+import { WishlistModalModule } from '../../ui/wishlist-modal/wishlist-modal.module';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { WishlistCreateModule } from '../../ui/wishlist-create/wishlist-create.m
     WishlistsLibraryRoutingModule,
     SidebarModule,
     WishlistCardModule,
-    WishlistCreateModule
+    WishlistModalModule
   ]
 })
 export class WishlistsLibraryModule { }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { WishlistCreateComponent } from './wishlist-create.component';
+import { WishlistModalComponent } from './wishlist-modal.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -7,11 +7,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    WishlistCreateComponent
+    WishlistModalComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
   ]
 })
-export class WishlistCreateModule { }
+export class WishlistModalModule { }

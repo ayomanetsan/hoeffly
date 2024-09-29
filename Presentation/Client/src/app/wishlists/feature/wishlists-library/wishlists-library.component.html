@@ -8,6 +8,7 @@
         *ngFor="let wishlist of wishlists"
         [wishlist]="wishlist"
         (wishlistDeleted)="onWishlistDeleted($event)"
+        (wishlistUpdated)="onWishlistUpdated()"
       >
       </app-wishlist-card>
       <div class="create-card" (click)="openCreateModal()">

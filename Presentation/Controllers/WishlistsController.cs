@@ -1,5 +1,6 @@
 ﻿using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
+using Application.Wishlists.Commands.UpdateWishlist;
 using Application.Wishlists.Queries.GetFilteredWishlists;
 using Application.Wishlists.Queries.GetWishlistById;
 using MediatR;
@@ -27,6 +28,13 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     
     [HttpPost]
     public async Task<IActionResult> Create(CreateWishlistCommand command)
+    {
+        var result = await mediatr.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateWishlistCommand command)
     {
         var result = await mediatr.Send(command);
         return Ok(result);

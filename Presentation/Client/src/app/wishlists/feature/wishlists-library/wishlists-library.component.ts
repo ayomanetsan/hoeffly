@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { WishlistBriefResponse } from '../../models/wishlist';
 import { MatDialog } from '@angular/material/dialog';
-import { WishlistCreateComponent } from '../../ui/wishlist-create/wishlist-create.component';
+import { WishlistModalComponent } from '../../ui/wishlist-modal/wishlist-modal.component';
 import { WishlistsService } from '../../data-access/wishlists.service';
 
 @Component({
@@ -28,7 +28,21 @@ export class WishlistsLibraryComponent implements OnInit{
   }
 
   openCreateModal() {
-    const dialogRef = this.dialogRef.open(WishlistCreateComponent, { width: '560px' });
+    const defaultWishlist: WishlistBriefResponse = {
+      id: '',
+      name: '',
+      isPublic: false,
+      categories: [],
+      createdAt: new Date(),
+      photoUrls: [],
+      giftsCount: 0
+    };
+
+
+    const dialogRef = this.dialogRef.open(WishlistModalComponent, {
+      width: '560px',
+      data: { wishlist: defaultWishlist, mode: "create" }
+    });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
@@ -38,6 +52,11 @@ export class WishlistsLibraryComponent implements OnInit{
   }
 
   onWishlistDeleted(wishlistId: string) {
+    this.wishlists = this.wishlists.filter(wishlist => wishlist.id !== wishlistId);
+  }
+
+
+  onWishlistUpdated() {
     this.loadWishlists();
   }
 }

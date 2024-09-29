@@ -13,3 +13,10 @@ export interface WishlistCreateRequest {
   isPublic: boolean;
   categories: string[];
 }
+
+export interface WishlistUpdateRequest {
+  id: string;
+  name: string;
+  isPublic: boolean;
+  categories: string[];
+}

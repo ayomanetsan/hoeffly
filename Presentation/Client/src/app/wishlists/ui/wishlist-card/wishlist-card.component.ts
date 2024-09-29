@@ -3,6 +3,8 @@ import { WishlistBriefResponse } from '../../models/wishlist';
 import {Subscription} from "rxjs";
 import {WishlistCardStateService} from "../../data-access/wishlist-card-state.service";
 import {WishlistsService} from "../../data-access/wishlists.service";
+import {WishlistModalComponent} from "../wishlist-modal/wishlist-modal.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-wishlist-card',
@@ -11,12 +13,13 @@ import {WishlistsService} from "../../data-access/wishlists.service";
 })
 export class WishlistCardComponent implements OnInit {
   @Input({ required: true }) wishlist!: WishlistBriefResponse;
-  @Output() wishlistDeleted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() wishlistDeleted: EventEmitter<string> = new EventEmitter<string>();
+  @Output() wishlistUpdated: EventEmitter<void> = new EventEmitter<void>();
 
   isMenuOpen = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(private wishlistCardStateService: WishlistCardStateService, private wishlistsService: WishlistsService) {}
+  constructor(private wishlistCardStateService: WishlistCardStateService, private wishlistsService: WishlistsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.subscription = this.wishlistCardStateService.menuOpened$.subscribe(openedWishlistId => {
@@ -38,15 +41,13 @@ export class WishlistCardComponent implements OnInit {
 
     switch (action) {
       case 'edit':
-        console.log('Edit wishlist');
-        // TODO: edit
+        this.openEditModal();
         break;
       case 'share':
         console.log('Share wishlist');
         // TODO: share
         break;
       case 'remove':
-        console.log('Remove wishlist');
         this.deleteWishlist(this.wishlist.id);
         break;
       case 'done':
@@ -58,10 +59,23 @@ export class WishlistCardComponent implements OnInit {
     }
   }
 
+  openEditModal(): void {
+    const dialogRef = this.dialog.open(WishlistModalComponent, {
+      width: '560px',
+      data: { wishlist: this.wishlist, mode: "edit" },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.wishlistUpdated.emit();
+      }
+    });
+  }
+
   deleteWishlist(wishlistId: string) {
     this.wishlistsService.delete(wishlistId).subscribe({
       next: () => {
-        this.wishlistDeleted.emit();
+        this.wishlistDeleted.emit(wishlistId);
       }
     });
   }

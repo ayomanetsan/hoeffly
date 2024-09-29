@@ -75,6 +75,49 @@ public class WishlistService : IWishlistService
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task UpdateWishlistAsync(Wishlist updatedWishlist, IEnumerable<string> categories, CancellationToken cancellationToken)
+    {
+        var wishlist = await _wishlistRepository.GetAsync(updatedWishlist.Id, cancellationToken)
+                       ?? throw new NotFoundException("Wishlist not found.");
+        
+        wishlist.Name = updatedWishlist.Name;
+        wishlist.IsPublic = updatedWishlist.IsPublic;
+        
+        var existingWishlistCategories = await _wishlistCategoryRepository.GetQueryable()
+            .Where(wc => wc.WishlistId == wishlist.Id)
+            .ToListAsync(cancellationToken);
+
+        foreach (var existingWishlistCategory in existingWishlistCategories)
+        {
+            _wishlistCategoryRepository.Delete(existingWishlistCategory);
+        }
+
+        wishlist.WishlistCategories.Clear();
+        
+        foreach (var category in categories)
+        {
+            var dbCategory = await _categoryRepository.GetQueryable()
+                .AsNoTracking()
+                .Where(c => c.Name == category)
+                .FirstAsync(cancellationToken);
+            
+            var wishlistCategory = new WishlistCategory()
+            {
+                CategoryId = dbCategory.Id,
+                WishlistId = wishlist.Id,
+                CreatedBy = GetUserEmailFromContext(),
+                LastModifiedBy = GetUserEmailFromContext()
+            };
+            
+            await _wishlistCategoryRepository.AddAsync(wishlistCategory, cancellationToken);
+            
+            wishlist.WishlistCategories.Add(wishlistCategory);
+        }
+        
+        _wishlistRepository.Update(wishlist);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task DeleteWishlistAsync(Guid id, CancellationToken cancellationToken)
     {
         var wishlist = await _wishlistRepository.GetAsync(id, cancellationToken)
