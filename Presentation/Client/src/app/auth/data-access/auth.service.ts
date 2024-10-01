@@ -66,8 +66,8 @@ export class AuthService {
         await this.saveUserInfo(user);
         const registrationDate = new Date(user.metadata.creationTime!);
 
-        // Check whether the user was registered just now (1 sec difference)
-        if (registrationDate.getTime() - new Date().getTime() > -1000) {
+        // Check whether the user was registered just now (3 sec difference)
+        if (registrationDate.getTime() - new Date().getTime() > -3000) {
           await this.createUser(user.displayName!, user.email!, user.uid);
         }
 
