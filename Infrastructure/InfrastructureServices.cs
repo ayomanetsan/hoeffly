@@ -16,8 +16,9 @@ public static class InfrastructureServices
         services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(connectionString));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IUserService, UserService>();
+        services.AddHttpContextAccessor();
         services.AddRepositoriesFromAssemblies();
+        services.AddServicesFromAssemblies();
         
         return services;
     } 
@@ -40,6 +41,27 @@ public static class InfrastructureServices
             var repositoryImplementation = typeof(Repository<>).MakeGenericType(entityType);
 
             services.AddScoped(repositoryInterface, repositoryImplementation);
+        }
+    }
+    
+    private static void AddServicesFromAssemblies(this IServiceCollection services)
+    {
+        var interfaceAssembly = Assembly.GetAssembly(typeof(IUserService));
+        var implementationAssembly = Assembly.GetAssembly(typeof(UserService));
+
+        var interfaces = interfaceAssembly!.GetTypes()
+            .Where(t => t.IsInterface && t.Namespace == typeof(IUserService).Namespace && t.Name.EndsWith("Service"));
+
+        foreach (var @interface in interfaces)
+        {
+            var implementationName = @interface.Name.Substring(1);
+            var implementation = implementationAssembly!.GetTypes()
+                .FirstOrDefault(t => t.IsClass && t.Namespace == typeof(UserService).Namespace && t.Name == implementationName);
+
+            if (implementation != null && @interface.IsAssignableFrom(implementation))
+            {
+                services.AddScoped(@interface, implementation);
+            }
         }
     }
 }

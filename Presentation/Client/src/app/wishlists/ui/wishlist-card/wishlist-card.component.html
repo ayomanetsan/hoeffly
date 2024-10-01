@@ -1,0 +1,83 @@
+<div class="wishlist-card">
+  <div class="card-header">
+    <div class="title">
+      <p class="bigger">{{ wishlist.name }}</p>
+      <div class="actions">
+        <ng-container *ngIf="wishlist.isPublic">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </ng-container>
+        <ng-container *ngIf="!wishlist.isPublic">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_39_732)">
+              <path d="M9.9 4.23999C10.5883 4.07887 11.2931 3.99833 12 3.99999C19 3.99999 23 12 23 12C22.393 13.1356 21.6691 14.2047 20.84 15.19M14.12 14.12C13.8454 14.4147 13.5141 14.6511 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.481 9.80385 14.1961C9.51897 13.9113 9.29439 13.5719 9.14351 13.1984C8.99262 12.8248 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2218 9.18488 10.8538C9.34884 10.4858 9.58525 10.1546 9.88 9.87999M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68189 3.96914 7.6566 6.06 6.05999L17.94 17.94Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 1L23 23" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_39_732">
+                <rect width="24" height="24" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </ng-container>
+        <button class="actions-menu-button" (click)="toggleMenu()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="actions-menu"  [class.show]="isMenuOpen">
+          <button (click)="handleAction('edit')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 20H21" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.5 3.49998C16.8978 3.10216 17.4374 2.87866 18 2.87866C18.2786 2.87866 18.5544 2.93353 18.8118 3.04014C19.0692 3.14674 19.303 3.303 19.5 3.49998C19.697 3.69697 19.8532 3.93082 19.9598 4.18819C20.0665 4.44556 20.1213 4.72141 20.1213 4.99998C20.1213 5.27856 20.0665 5.55441 19.9598 5.81178C19.8532 6.06915 19.697 6.303 19.5 6.49998L7 19L3 20L4 16L16.5 3.49998Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Edit
+          </button>
+          <button (click)="handleAction('share')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.58984 13.51L15.4198 17.49" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15.4098 6.51001L8.58984 10.49" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Share
+          </button>
+          <button (click)="handleAction('remove')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 6H5H21" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 11V17" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10 11V17" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Remove
+          </button>
+          <button (click)="handleAction('done')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 11L12 14L22 4" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="subtitle">
+      <p >{{ wishlist.categories.join(' • ') }}</p>
+      <p class="smaller tinted">{{ wishlist.createdAt | date:'d MMM y' }}</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <ng-container *ngIf="wishlist.giftsCount === 0">
+      <p class="bigger tinted">No gifts yet</p>
+    </ng-container>
+    <img *ngFor="let url of wishlist.photoUrls" [ngSrc]="url" alt="gift-photo" width="64" height="64">
+    <ng-container *ngIf="wishlist.giftsCount > 4">
+      <p class="gifts-count">+{{ wishlist.giftsCount - 4}}</p>
+    </ng-container>
+  </div>
+</div>

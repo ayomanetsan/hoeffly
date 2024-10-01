@@ -18,6 +18,10 @@ export class HttpService {
     return this.httpClient.get<T>(this.buildUrl(url), this.getHeaders()).pipe(catchError(this.handleError));
   }
 
+  getById<T>(url: string, id: string | number): Observable<T> {
+    return this.httpClient.get<T>(`${this.buildUrl(url)}/${id}`, this.getHeaders()).pipe(catchError(this.handleError));
+  }
+
   post<T>(url: string, resource: unknown) {
     return this.httpClient.post<T>(this.buildUrl(url), resource, this.getHeaders()).pipe(catchError(this.handleError));
   }

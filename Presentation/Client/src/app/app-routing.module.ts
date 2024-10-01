@@ -16,6 +16,13 @@ const routes: Routes = [
         (m) => m.AuthShellModule
       ),
   },
+  {
+    path: 'wishlists',
+    loadChildren: () =>
+      import('./wishlists/feature/wishlists-shell/wishlists-shell.module').then(
+        (m) => m.WishlistsShellModule
+      ),
+  },
 ];
 
 @NgModule({

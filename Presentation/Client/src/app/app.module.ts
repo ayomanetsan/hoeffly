@@ -9,6 +9,7 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from "../environments/environment.development";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
   ],
   providers: [
     provideHttpClient(),
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

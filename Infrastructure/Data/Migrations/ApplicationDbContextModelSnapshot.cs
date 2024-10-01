@@ -31,6 +31,17 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -58,6 +69,17 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -65,6 +87,143 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e37866c6-b4c2-40b1-9f40-c32565987ece"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9154), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Home"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec21237a-5eef-4782-947d-e02af7579fab"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9158), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Fashion"
+                        },
+                        new
+                        {
+                            Id = new Guid("90d84833-f12d-49f6-9e4d-c0b57c33cdf0"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9159), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = new Guid("5dc8868f-0c19-4a63-8010-95ea62fb7f69"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9167), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Books"
+                        },
+                        new
+                        {
+                            Id = new Guid("85f200a8-c008-4e04-ae4e-bbd4b2339788"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9168), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Personal care"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f277d59-89d1-4ccd-9f47-b2b147595389"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9169), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Sports"
+                        },
+                        new
+                        {
+                            Id = new Guid("f1a9a3aa-d3af-41b4-8b57-e89000ec80fd"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Toys"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ecc1262-f1df-4cc6-b413-67e39670e1f3"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9171), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Jewelery"
+                        },
+                        new
+                        {
+                            Id = new Guid("2871e0e6-eb5d-4847-b5c9-f5497af2da4a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9172), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = new Guid("52d1e842-48d3-4d19-86fb-fd2e39c8438e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9173), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Experiences"
+                        },
+                        new
+                        {
+                            Id = new Guid("75f26310-6e32-44ca-a437-9f3a12496dd3"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9174), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Wellness"
+                        },
+                        new
+                        {
+                            Id = new Guid("27e3d323-0353-426c-a116-65be1f79dee6"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9177), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Music"
+                        },
+                        new
+                        {
+                            Id = new Guid("b2bc1de1-10ee-4aad-ade6-49f7551aa38d"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9178), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Office"
+                        },
+                        new
+                        {
+                            Id = new Guid("4ae1f5e4-2bdd-4d60-8eb7-b076588499c7"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9179), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Garden"
+                        },
+                        new
+                        {
+                            Id = new Guid("ed27b314-032d-48d1-af7d-7280523d1246"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9180), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Gourmet"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Friendship", b =>
@@ -75,6 +234,17 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("RecipientId")
                         .HasColumnType("uuid");
@@ -107,8 +277,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsReserved")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("LikeCount")
                         .HasColumnType("integer");
@@ -129,7 +310,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<byte>("Priority")
                         .HasColumnType("smallint");
 
+                    b.Property<Guid>("WishlistId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WishlistId");
 
                     b.ToTable("Gifts");
                 });
@@ -146,6 +332,17 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("ReplyToMessageId")
                         .HasColumnType("uuid");
@@ -181,8 +378,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -207,8 +415,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("GiftId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -234,6 +453,17 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -256,6 +486,17 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");
@@ -284,6 +525,10 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -294,6 +539,13 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<bool>("IsPublic")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -313,8 +565,19 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsPublic")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -336,6 +599,17 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("WishlistId")
                         .HasColumnType("uuid");
@@ -385,6 +659,17 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Recipient");
 
                     b.Navigation("Requester");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Gift", b =>
+                {
+                    b.HasOne("Domain.Entities.Wishlist", "Wishlist")
+                        .WithMany("Gifts")
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("Domain.Entities.Message", b =>
@@ -539,6 +824,8 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Wishlist", b =>
                 {
                     b.Navigation("AccessRights");
+
+                    b.Navigation("Gifts");
 
                     b.Navigation("Messages");
 

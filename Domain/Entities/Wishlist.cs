@@ -13,4 +13,6 @@ public class Wishlist : EntityBase
     public ICollection<Team> Teams { get; set; } = new List<Team>();
     
     public ICollection<Message> Messages { get; set; } = new List<Message>();
+    
+    public ICollection<Gift> Gifts { get; set; } = new List<Gift>();
 }
