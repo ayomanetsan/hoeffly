@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using Domain.Enums;
+
+namespace Domain.Entities;
 
 public class Gift : EntityBase
 {
@@ -6,13 +8,19 @@ public class Gift : EntityBase
     
     public required string Category { get; set; }
     
-    public byte[]? Photo { get; set; }
+    public string? Note { get; set; }
+    
+    public string? ShopLink { get; set; }
     
     public string? PhotoLink { get; set; }
     
+    public string? ThumbnailLink { get; set; }
+    
     public double Price { get; set; }
     
-    public byte Priority { get; set; }
+    public Currency Currency { get; set; }
+    
+    public PriorityLevel Priority { get; set; }
     
     public int LikeCount { get; set; }
     
