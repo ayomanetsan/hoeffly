@@ -1,4 +1,5 @@
-﻿using Application.Gifts.Commands;
+﻿using Application.Gifts.Commands.CreateGift;
+using Application.Gifts.Commands.DeleteGift;
 using MediatR;
 
 namespace Presentation.Controllers;
@@ -15,4 +16,10 @@ public class GiftsController(IMediator mediatr) : ControllerBase
         return Ok(id);
     }
     
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteGiftAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await mediatr.Send(new DeleteGiftCommand(id), cancellationToken);
+        return Ok(result);
+    }
 }

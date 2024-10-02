@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 
-namespace Application.Gifts.Commands;
+namespace Application.Gifts.Commands.CreateGift;
 
 public record CreateGiftCommand(
     string Name, 

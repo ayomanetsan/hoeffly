@@ -1,4 +1,6 @@
-﻿namespace Application.Gifts.Commands;
+﻿using Application.Gifts.Commands.CreateGift;
+
+namespace Application.Gifts.Commands;
 
 public sealed class CreateGiftCommandHandler : IRequestHandler<CreateGiftCommand, Guid>
 {
