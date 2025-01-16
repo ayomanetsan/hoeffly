@@ -5,6 +5,8 @@ namespace Application.Gifts.Commands.CreateGift;
 public record CreateGiftCommand(
     string Name, 
     string Category, 
+    string? Note, 
+    string? ShopLink,
     string? PhotoLink, 
     string? ThumbnailLink, 
     double Price, 
