@@ -1,8 +1,9 @@
-﻿using Domain.Enums;
+using Domain.Enums;
 
-namespace Application.Gifts.Commands.CreateGift;
+namespace Application.Gifts.Commands.UpdateGift;
 
-public record CreateGiftCommand(
+public record UpdateGiftCommand(
+    Guid Id, 
     string Name, 
     Guid CategoryId,
     string? Note, 
@@ -12,5 +13,5 @@ public record CreateGiftCommand(
     double Price, 
     Currency Currency,
     PriorityLevel Priority,
-    Guid WishlistId
-) : IRequest<Guid>;
+    Guid WishlistId) : IRequest<Unit>;
+    

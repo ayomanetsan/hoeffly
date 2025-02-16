@@ -6,7 +6,9 @@ public class Gift : EntityBase
 {
     public required string Name { get; set; }
     
-    public required string Category { get; set; }
+    public Guid CategoryId { get; set; } 
+
+    public Category Category { get; set; } = null!;
     
     public string? Note { get; set; }
     
