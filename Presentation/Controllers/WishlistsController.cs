@@ -20,9 +20,12 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetWishlist(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetWishlist([FromRoute] Guid id,
+        CancellationToken cancellationToken,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var response = await mediatr.Send(new GetWishlistQuery(id), cancellationToken);
+        var response = await mediatr.Send(new GetWishlistQuery(id, pageNumber, pageSize), cancellationToken);
         return Ok(response);
     }
     

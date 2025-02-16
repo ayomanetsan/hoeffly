@@ -1,3 +1,6 @@
+using Application.Common.Models;
+using Application.Gifts.Queries;
+
 namespace Application.Wishlists.Queries.GetWishlistById;
 
 public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, WishlistResponse>
@@ -14,6 +17,17 @@ public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlis
     public async Task<WishlistResponse> Handle(GetWishlistQuery request, CancellationToken cancellationToken)
     {
         var wishlist = await _wishlistService.GetWishlistAsync(request.Id, cancellationToken);
-        return _mapper.Map<WishlistResponse>(wishlist);
+        var (gifts, totalPages) = await _wishlistService.GetPagedGiftsAsync(request.Id, request.PageNumber, request.PageSize, cancellationToken);
+        
+        return new WishlistResponse
+        {
+            Name = wishlist.Name,
+            Gifts = new PageResponse<GiftResponse>(
+                _mapper.Map<IEnumerable<GiftResponse>>(gifts),
+                request.PageNumber,
+                request.PageSize,
+                totalPages
+            )
+        };
     }
 }
