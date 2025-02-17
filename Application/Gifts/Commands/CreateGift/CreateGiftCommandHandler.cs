@@ -16,6 +16,6 @@ public sealed class CreateGiftCommandHandler : IRequestHandler<CreateGiftCommand
     public async Task<Guid> Handle(CreateGiftCommand request, CancellationToken cancellationToken)
     {
         var gift = _mapper.Map<Gift>(request);
-        return await _giftService.CreateGiftAsync(gift, cancellationToken);
+        return await _giftService.CreateGiftAsync(gift, request.CategoryName, cancellationToken);
     }
 }

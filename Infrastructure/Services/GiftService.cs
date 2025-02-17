@@ -27,17 +27,19 @@ public class GiftService : IGiftService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<Guid> CreateGiftAsync(Gift gift, CancellationToken cancellationToken)
+    public async Task<Guid> CreateGiftAsync(Gift gift, string categoryName, CancellationToken cancellationToken)
     {
         if (!await _wishlistRepository.GetQueryable().AnyAsync(w => w.Id == gift.WishlistId, cancellationToken))
         {
             throw new NotFoundException("Wishlist not found.");
         }
-        
-        if (!await _categoryRepository.GetQueryable().AnyAsync(c => c.Id == gift.CategoryId && c.Type == CategoryType.Gift, cancellationToken))
-        {
-            throw new NotFoundException("Category not found or invalid for gifts.");
-        }
+
+        var category = await _categoryRepository.GetQueryable()
+            .AsNoTracking()
+            .FirstAsync(c => c.Name == categoryName && c.Type == CategoryType.Gift, cancellationToken)
+            ?? throw new NotFoundException("Category not found or invalid for gifts.");
+
+        gift.CategoryId = category.Id;
         
         await _giftRepository.AddAsync(gift, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

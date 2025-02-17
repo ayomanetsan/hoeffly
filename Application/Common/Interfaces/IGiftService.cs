@@ -2,7 +2,7 @@
 
 public interface IGiftService
 {
-    Task<Guid> CreateGiftAsync(Gift gift, CancellationToken cancellationToken);
+    Task<Guid> CreateGiftAsync(Gift gift, string categoryName, CancellationToken cancellationToken);
     
     Task UpdateGiftAsync(Gift gift, CancellationToken cancellationToken);
 

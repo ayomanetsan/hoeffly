@@ -4,7 +4,7 @@ namespace Application.Gifts.Commands.CreateGift;
 
 public record CreateGiftCommand(
     string Name, 
-    Guid CategoryId,
+    string CategoryName,
     string? Note, 
     string? ShopLink,
     string? PhotoLink, 
