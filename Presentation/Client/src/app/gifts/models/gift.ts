@@ -26,3 +26,20 @@ export enum Priority {
     NiceToHave,
     Optional
 }
+
+export interface GiftCreateRequest {
+  name: string;
+  categoryName: string;
+  note: string;
+  shopLink: string;
+  photoLink: string;
+  thumbnailLink: string;
+  price: number;
+  currency: Currency;
+  priority: number;
+  wishlistId: string;
+}
+
+export interface GiftUpdateRequest {
+  // TODO: Update
+}

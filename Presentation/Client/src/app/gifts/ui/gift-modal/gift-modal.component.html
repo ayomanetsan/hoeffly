@@ -5,13 +5,85 @@
         <path d="M6 6L18 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
 </div>
-<div class="modal-body">
-    <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">
-        <p class="bigger">Gift name</p>
-        <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2" autocomplete="off"/>
+<!--<div class="modal-body">-->
+<!--    <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">-->
+<!--        <p class="bigger">Gift name</p>-->
+<!--        <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2" autocomplete="off"/>-->
 
-        <button type="submit" class="accent" [disabled]="!giftForm.valid">
-            {{ isEditMode ? 'Save Changes' : 'Create' }}
-        </button>
-    </form>
+<!--        <button type="submit" class="accent" [disabled]="!giftForm.valid">-->
+<!--            {{ isEditMode ? 'Save Changes' : 'Create' }}-->
+<!--        </button>-->
+<!--    </form>-->
+<!--</div>-->
+<div class="modal-body">
+  <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <p class="bigger">Gift name</p>
+      <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2" autocomplete="off"/>
+      <div class="error" *ngIf="giftForm.get('name')?.invalid && giftForm.get('name')?.touched">
+        Gift name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <p>Category</p>
+      <select formControlName="categoryName">
+        <option value="">Select category</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{category}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <p>Note</p>
+      <textarea formControlName="note" placeholder="Add a note about this gift"></textarea>
+    </div>
+
+    <div class="form-group">
+      <p>Shop Link</p>
+      <input type="url" formControlName="shopLink" placeholder="Enter shop URL"/>
+    </div>
+
+    <div class="form-group">
+      <p>Photo Link</p>
+      <input type="url" formControlName="photoLink" placeholder="Enter photo URL"/>
+    </div>
+
+    <div class="form-group">
+      <p>Thumbnail Link</p>
+      <input type="url" formControlName="thumbnailLink" placeholder="Enter thumbnail URL"/>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <p>Price</p>
+        <input type="number" formControlName="price" placeholder="Enter price"/>
+      </div>
+
+      <div class="form-group">
+        <p>Currency</p>
+        <select formControlName="currency">
+          <option [value]="Currency.EUR">EUR</option>
+          <option [value]="Currency.UAH">UAH</option>
+          <option [value]="Currency.USD">USD</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <p>Priority</p>
+      <select formControlName="priority">
+        <option [value]="Priority.MustHave">Must Have</option>
+        <option [value]="Priority.ReallyWanted">Really Wanted</option>
+        <option [value]="Priority.WouldLike">Would Like</option>
+        <option [value]="Priority.NiceToHave">Nice to Have</option>
+        <option [value]="Priority.Optional">Optional</option>
+      </select>
+    </div>
+
+    <button type="submit" class="accent" [disabled]="!giftForm.valid">
+      {{ isEditMode ? 'Save Changes' : 'Create' }}
+    </button>
+  </form>
 </div>
