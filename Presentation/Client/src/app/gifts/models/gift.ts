@@ -18,3 +18,11 @@ export enum Currency {
     UAH = 1,
     USD = 2,
 }
+
+export enum Priority {
+    MustHave,
+    ReallyWanted,
+    WouldLike,
+    NiceToHave,
+    Optional
+}
