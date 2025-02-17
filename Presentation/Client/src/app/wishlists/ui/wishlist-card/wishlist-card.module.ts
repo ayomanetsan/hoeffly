@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { WishlistCardComponent } from './wishlist-card.component';
+import { RouterLink } from '@angular/router';
 
 
 
@@ -11,9 +12,10 @@ import { WishlistCardComponent } from './wishlist-card.component';
   exports: [
     WishlistCardComponent
   ],
-  imports: [
-    CommonModule,
-    NgOptimizedImage
-  ]
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        RouterLink
+    ]
 })
 export class WishlistCardModule { }

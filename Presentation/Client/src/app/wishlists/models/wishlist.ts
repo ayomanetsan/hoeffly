@@ -1,4 +1,7 @@
-﻿export interface WishlistBriefResponse {
+﻿import { PagedResponse } from '../../shared/models/pagedResponse';
+import { GiftResponse } from '../../gifts/models/gift';
+
+export interface WishlistBriefResponse {
   id: string;
   name: string;
   isPublic: boolean;
@@ -19,4 +22,9 @@ export interface WishlistUpdateRequest {
   name: string;
   isPublic: boolean;
   categories: string[];
+}
+
+export interface WishlistWithGifts {
+  name: string
+  gifts: PagedResponse<GiftResponse>
 }

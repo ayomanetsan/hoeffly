@@ -1,7 +1,7 @@
 <div class="wishlist-card">
   <div class="card-header">
     <div class="title">
-      <p class="bigger">{{ wishlist.name }}</p>
+      <p routerLink="/wishlists/{{wishlist.id}}" class="bigger">{{ wishlist.name }}</p>
       <div class="actions">
         <ng-container *ngIf="wishlist.isPublic">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
