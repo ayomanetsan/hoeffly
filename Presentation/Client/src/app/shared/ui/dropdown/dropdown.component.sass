@@ -1,0 +1,43 @@
+@import '../../../../styles'
+
+.dropdown-container
+  position: relative
+  width: 100%
+
+  .input-wrapper
+    position: relative
+    display: flex
+    align-items: center
+
+  .icon-wrapper
+    position: absolute
+    right: 8px
+
+    svg
+      vertical-align: top
+      cursor: pointer
+      path
+        stroke: $text
+      &:hover path
+        stroke: rgba($text, .7)
+
+  .dropdown-list
+    position: absolute
+    width: 100%
+    max-height: 200px
+    overflow-y: auto
+    margin-top: 8px
+    border-radius: 10px
+    border: 2px solid $gray
+    background: white
+    z-index: 1000
+
+  .dropdown-item
+    padding: 8px 16px
+    cursor: pointer
+    &:hover
+      background-color: #f0f0f0
+
+  .no-results
+    padding: 8px 16px
+    color: rgba($text, .7)
