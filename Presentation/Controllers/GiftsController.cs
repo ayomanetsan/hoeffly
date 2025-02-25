@@ -1,6 +1,7 @@
 ﻿using Application.Gifts.Commands.CreateGift;
 using Application.Gifts.Commands.DeleteGift;
 using Application.Gifts.Commands.UpdateGift;
+using Application.Gifts.Queries.GetGift;
 using MediatR;
 
 namespace Presentation.Controllers;
@@ -10,6 +11,13 @@ namespace Presentation.Controllers;
 [Route("api/[controller]")]
 public class GiftsController(IMediator mediatr) : ControllerBase
 {
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var gift = await mediatr.Send(new GetGiftQuery(id), cancellationToken);
+        return Ok(gift);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateGiftAsync(CreateGiftCommand command, CancellationToken cancellationToken)
     {

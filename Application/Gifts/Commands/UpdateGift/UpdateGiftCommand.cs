@@ -5,7 +5,7 @@ namespace Application.Gifts.Commands.UpdateGift;
 public record UpdateGiftCommand(
     Guid Id, 
     string Name, 
-    Guid CategoryId,
+    string CategoryName,
     string? Note, 
     string? ShopLink,
     string? PhotoLink, 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../../shared/data-access/http.service";
-import {GiftCreateRequest, GiftUpdateRequest} from "../models/gift";
+import { GiftCreateRequest, GiftResponse, GiftUpdateRequest } from '../models/gift';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +8,16 @@ import {GiftCreateRequest, GiftUpdateRequest} from "../models/gift";
 export class GiftService {
   constructor(private http: HttpService) { }
 
+  get(id: string) {
+    return this.http.get<GiftResponse>(`/gifts/${id}`);
+  }
+
   create(gift: GiftCreateRequest) {
     return this.http.post<GiftCreateRequest>('/gifts', gift);
+  }
+
+  update(gift: GiftUpdateRequest) {
+    return this.http.put<GiftUpdateRequest>(`/gifts`, gift);
   }
 
   delete(id: string) {

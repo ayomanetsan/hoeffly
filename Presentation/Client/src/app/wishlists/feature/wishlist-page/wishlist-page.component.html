@@ -5,7 +5,9 @@
     <main>
         <div class="gifts">
             <app-gift-card *ngFor="let gift of gifts"
-                [gift]="gift"
+                    [gift]="gift"
+                    (deleteGift)="onDelete($event)"
+                    (updateGift)="onUpdate($event)"
             ></app-gift-card>
             <div class="create-card" (click)="openCreateModal()">
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

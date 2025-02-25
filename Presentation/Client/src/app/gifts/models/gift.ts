@@ -1,6 +1,7 @@
 import { DropdownOption } from '../../shared/models/dropdownOption';
 
 export interface GiftResponse {
+    id: string
     name: string
     categoryId: string
     categoryName: string
@@ -42,8 +43,8 @@ export interface GiftCreateRequest {
   wishlistId: string;
 }
 
-export interface GiftUpdateRequest {
-  // TODO: Update
+export interface GiftUpdateRequest extends GiftCreateRequest {
+  id: string;
 }
 
 export const GiftCategories: DropdownOption[] = [

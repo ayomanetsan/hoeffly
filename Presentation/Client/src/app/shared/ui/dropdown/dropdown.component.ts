@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, TemplateRef, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, forwardRef, Input, TemplateRef, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DropdownOption } from '../../models/dropdownOption';
@@ -28,7 +28,7 @@ export class DropdownComponent implements ControlValueAccessor {
   searchControl = new FormControl('');
   filteredOptions: DropdownOption[] = [];
   isOpen: boolean = false;
-  selectedOption: any;
+  selectedOption: DropdownOption | null = null;
 
   constructor() {
     this.searchControl.valueChanges
@@ -42,11 +42,9 @@ export class DropdownComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    this.selectedOption = value;
-    if (value) {
-      this.searchControl.setValue(value.displayText);
-    } else {
-      this.searchControl.setValue('');
+    if (value !== undefined) {
+      const matchingOption = this.options.find((option) => option.value === value);
+      this.searchControl.setValue(matchingOption?.text || '');
     }
   }
 

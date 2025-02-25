@@ -14,7 +14,7 @@ public class UpdateGiftCommandHandler : IRequestHandler<UpdateGiftCommand, Unit>
     public async Task<Unit> Handle(UpdateGiftCommand request, CancellationToken cancellationToken)
     {
         var gift = _mapper.Map<Gift>(request);
-        await _giftService.UpdateGiftAsync(gift, cancellationToken);
+        await _giftService.UpdateGiftAsync(gift, request.CategoryName, cancellationToken);
         
         return Unit.Value;
     }

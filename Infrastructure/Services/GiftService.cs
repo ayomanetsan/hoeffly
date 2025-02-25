@@ -46,7 +46,7 @@ public class GiftService : IGiftService
         return gift.Id;
     }
 
-    public async Task UpdateGiftAsync(Gift updatedGift, CancellationToken cancellationToken)
+    public async Task UpdateGiftAsync(Gift updatedGift, string categoryName, CancellationToken cancellationToken)
     {
         var gift = await _giftRepository.GetAsync(updatedGift.Id, cancellationToken)
                        ?? throw new NotFoundException("Gift not found.");
@@ -57,17 +57,18 @@ public class GiftService : IGiftService
             throw new ForbiddenException("You are not authorized to update this gift.");
         }
         
-        if (!await _categoryRepository.GetQueryable().AnyAsync(c => c.Id == updatedGift.CategoryId && c.Type == CategoryType.Gift, cancellationToken))
-        {
-            throw new NotFoundException("Category not found or invalid for gifts.");
-        }
+        var category = await _categoryRepository.GetQueryable()
+            .AsNoTracking()
+            .FirstAsync(c => c.Name == categoryName && c.Type == CategoryType.Gift, cancellationToken)
+            ?? throw new NotFoundException("Category not found or invalid for gifts.");
         
         gift.Name = updatedGift.Name;
-        gift.CategoryId = updatedGift.CategoryId;
+        gift.CategoryId = category.Id;
         gift.Note = updatedGift.Note;
         gift.ShopLink = updatedGift.ShopLink;
-        gift.PhotoLink = updatedGift.PhotoLink;
-        gift.ThumbnailLink = updatedGift.ThumbnailLink;
+        // TODO: fix the update with the photo and thumbnail links
+        // gift.PhotoLink = updatedGift.PhotoLink;
+        // gift.ThumbnailLink = updatedGift.ThumbnailLink;
         gift.Price = updatedGift.Price;
         gift.Currency = updatedGift.Currency;
         gift.Priority = updatedGift.Priority;
@@ -90,6 +91,20 @@ public class GiftService : IGiftService
         _giftRepository.Delete(gift);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-    
+
+    public async Task<Gift> GetGiftAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var gift = await _giftRepository.GetAsync(id, cancellationToken)
+                   ?? throw new NotFoundException("Gift not found.");
+        var email = GetUserEmailFromContext();
+
+        if (gift.CreatedBy != email)
+        {
+            throw new ForbiddenException("You are not authorized to delete this gift.");
+        }
+
+        return gift;
+    }
+
     private string GetUserEmailFromContext() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
 }
