@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, TemplateRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { DropdownOption } from '../../models/dropdownOption';
 
 @Component({
   selector: 'app-dropdown',
@@ -15,7 +16,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   ],
 })
 export class DropdownComponent implements ControlValueAccessor {
-  @Input() options: any[] = [];
+  @Input() options: DropdownOption[] = [];
   @Input() placeholder: string = 'Select an option';
   @Input() noResultsText: string = 'No results found';
   @Input() optionTemplate!: TemplateRef<any>;
@@ -25,7 +26,7 @@ export class DropdownComponent implements ControlValueAccessor {
   @ViewChild('dropdownList') dropdownList!: ElementRef;
 
   searchControl = new FormControl('');
-  filteredOptions: any[] = [];
+  filteredOptions: DropdownOption[] = [];
   isOpen: boolean = false;
   selectedOption: any;
 
@@ -66,7 +67,7 @@ export class DropdownComponent implements ControlValueAccessor {
       return;
     }
     this.filteredOptions = this.options.filter((option) =>
-        option.displayText.toLowerCase().includes(searchTerm.toLowerCase())
+        option.text.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
@@ -78,10 +79,10 @@ export class DropdownComponent implements ControlValueAccessor {
     }
   }
 
-  selectOption(option: any): void {
+  selectOption(option: DropdownOption): void {
     this.selectedOption = option;
-    this.searchControl.setValue(option.displayText);
-    this.onChange(option.displayText);
+    this.searchControl.setValue(option.text);
+    this.onChange(option.value);
     this.isOpen = false;
   }
 

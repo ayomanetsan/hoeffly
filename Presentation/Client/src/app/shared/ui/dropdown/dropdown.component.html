@@ -17,7 +17,7 @@
     <div *ngIf="isOpen" class="dropdown-list" #dropdownList>
         <ng-container *ngIf="filteredOptions.length > 0; else noResults">
             <div *ngFor="let option of filteredOptions" (click)="selectOption(option)" class="dropdown-item">
-                <ng-container>{{ option.displayText }}</ng-container>
+                <ng-container>{{ option.text }}</ng-container>
             </div>
         </ng-container>
 
