@@ -5,85 +5,81 @@
         <path d="M6 6L18 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
 </div>
-<!--<div class="modal-body">-->
-<!--    <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">-->
-<!--        <p class="bigger">Gift name</p>-->
-<!--        <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2" autocomplete="off"/>-->
-
-<!--        <button type="submit" class="accent" [disabled]="!giftForm.valid">-->
-<!--            {{ isEditMode ? 'Save Changes' : 'Create' }}-->
-<!--        </button>-->
-<!--    </form>-->
-<!--</div>-->
 <div class="modal-body">
-  <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <p class="bigger">Gift name</p>
-      <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2" autocomplete="off"/>
-      <div class="error" *ngIf="giftForm.get('name')?.invalid && giftForm.get('name')?.touched">
-        Gift name is required
-      </div>
-    </div>
+    <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">
+        <div class="left">
+            <div class="form-row">
+                <label for="name">Gift name*</label>
+                <input type="text" id="name" formControlName="name" placeholder="e. g. Apple AirPods Pro 2"
+                       autocomplete="off"/>
+                <div class="error" *ngIf="giftForm.get('name')?.invalid && giftForm.get('name')?.touched">
+                    Gift name is required
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="category">Category*</label>
+                <app-dropdown
+                        id="category"
+                        [options]="categories"
+                        formControlName="categoryName"
+                        [placeholder]="'e. g. Electronics'"
+                        [noResultsText]="'No categories found'"
+                ></app-dropdown>
+            </div>
 
-    <div class="form-group">
-      <p>Category</p>
-      <select formControlName="categoryName">
-        <option value="">Select category</option>
-        <option *ngFor="let category of categories" [value]="category">
-          {{category}}
-        </option>
-      </select>
-    </div>
+            <div class="form-row">
+                <label for="priority">Priority*</label>
+                <app-dropdown
+                        id="priority"
+                        [options]="priorities"
+                        formControlName="priority"
+                        [placeholder]="'e. g. Must Have'"
+                        [noResultsText]="'No categories found'"
+                ></app-dropdown>
+            </div>
 
-    <div class="form-group">
-      <p>Note</p>
-      <textarea formControlName="note" placeholder="Add a note about this gift"></textarea>
-    </div>
+            <div class="form-row">
+                <label for="currency">Currency*</label>
+                <app-dropdown
+                        id="currency"
+                        [options]="currencies"
+                        formControlName="currency"
+                        [placeholder]="'e. g. USD'"
+                        [noResultsText]="'No categories found'"
+                ></app-dropdown>
+            </div>
 
-    <div class="form-group">
-      <p>Shop Link</p>
-      <input type="url" formControlName="shopLink" placeholder="Enter shop URL"/>
-    </div>
+            <div class="form-row">
+                <label for="price">Price*</label>
+                <input id="price" type="number" formControlName="price" placeholder="Enter price"/>
+            </div>
+        </div>
 
-    <div class="form-group">
-      <p>Photo Link</p>
-      <input type="url" formControlName="photoLink" placeholder="Enter photo URL"/>
-    </div>
+        <div class="right">
+            <div class="form-row image-upload">
+                <label>Upload Image</label>
+                <div class="image-container">
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*"/>
+                    <div class="image-placeholder" *ngIf="!imagePreview">
+                        <span>Upload Image</span>
+                    </div>
+                    <img *ngIf="imagePreview" [src]="imagePreview" alt="Uploaded Image" class="preview"/>
+                </div>
+            </div>
 
-    <div class="form-group">
-      <p>Thumbnail Link</p>
-      <input type="url" formControlName="thumbnailLink" placeholder="Enter thumbnail URL"/>
-    </div>
+            <div class="form-row">
+                <label for="shopLink">Shop link</label>
+                <input id="shopLink" type="url" formControlName="shopLink" placeholder="Enter shop URL"/>
+            </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <p>Price</p>
-        <input type="number" formControlName="price" placeholder="Enter price"/>
-      </div>
+            <div class="form-row">
+                <label for="note">Note</label>
+                <textarea id="note" formControlName="note" placeholder="Add a note about this gift" rows="4"></textarea>
+            </div>
+        </div>
 
-      <div class="form-group">
-        <p>Currency</p>
-        <select formControlName="currency">
-          <option [value]="Currency.EUR">EUR</option>
-          <option [value]="Currency.UAH">UAH</option>
-          <option [value]="Currency.USD">USD</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <p>Priority</p>
-      <select formControlName="priority">
-        <option [value]="Priority.MustHave">Must Have</option>
-        <option [value]="Priority.ReallyWanted">Really Wanted</option>
-        <option [value]="Priority.WouldLike">Would Like</option>
-        <option [value]="Priority.NiceToHave">Nice to Have</option>
-        <option [value]="Priority.Optional">Optional</option>
-      </select>
-    </div>
-
-    <button type="submit" class="accent" [disabled]="!giftForm.valid">
-      {{ isEditMode ? 'Save Changes' : 'Create' }}
-    </button>
-  </form>
+        <button type="submit" class="accent" [disabled]="!giftForm.valid">
+            {{ isEditMode ? 'Save Changes' : 'Create' }}
+        </button>
+    </form>
 </div>

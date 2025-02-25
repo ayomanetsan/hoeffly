@@ -13,69 +13,72 @@
     cursor: pointer
 
 form
-  display: flex
-  flex-direction: column
-  align-items: start
-  gap: 24px
-  padding: 48px 120px
+  display: grid
+  grid-template-areas: 'left right'
+  grid-template-columns: 1fr 1fr
+  gap: 1rem
+  padding: 1rem
   background-color: $background
 
-  p
-    width: 100%
-    text-align: center
+  .form-row
+    margin-bottom: 1rem
 
-  .custom-radio-field
+    label
+      display: block
+      margin-bottom: .25rem
+
+    div
+      display: flex
+      gap: .25rem
+      margin-top: .25rem
+      color: $error
+      max-width: 368px
+      padding: 0 0 0 .25rem
+
+      svg
+        width: 14px
+
+        path
+          stroke: $error
+
+  .left
+    grid-area: left
+
+  .right
+    grid-area: right
     display: flex
-    align-items: center
-    gap: 8px
-    cursor: pointer
+    flex-direction: column
 
-    .custom-radio
+    .image-upload .image-container
       display: flex
       justify-content: center
       align-items: center
-      aspect-ratio: 1
-      height: 16px
-      border: 2px solid $text
-      border-radius: 50%
-
-      &.checked::after
-        content: ''
-        display: block
-        aspect-ratio: 1
-        height: 8px
-        border-radius: 50%
-        background-color: $text
-
-  .categories
-    display: flex
-    flex-wrap: wrap
-    gap: 8px
-    justify-content: space-between
-
-    .category
-      flex-grow: 1
-      padding: 8px 16px
+      border: 2px dashed $text
       border-radius: 10px
-      background-color: rgba($primary, .3)
-      cursor: pointer
-      text-align: center
-      display: inline-flex
-      align-items: center
-      justify-content: center
+      position: relative
+      overflow: hidden
+      aspect-ratio: 1 / 1
 
-      &:hover
-        background-color: rgba($primary, .7)
-
-      &.selected
-        background-color: rgba($primary, .85)
-
-      &:last-child
+      .image-placeholder
+        display: flex
+        justify-content: center
+        align-items: center
         width: 100%
+        height: 100%
+        color: $text
+        text-align: center
 
-    &::after
-      content: ""
-      flex: auto
+      input[type="file"]
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        opacity: 0
+        cursor: pointer
 
-  button
-    align-self: center
+      .preview
+        width: 100%
+        height: 100%
+        object-fit: cover
+        border-radius: 10px
