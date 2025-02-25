@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from "../../shared/data-access/http.service";
-import {WishlistBriefResponse, WishlistCreateRequest, WishlistUpdateRequest} from "../models/wishlist";
+import {
+  WishlistBriefResponse,
+  WishlistCreateRequest,
+  WishlistUpdateRequest,
+  WishlistWithGifts
+} from '../models/wishlist';
 import { PagedResponse } from "../../shared/models/pagedResponse";
 
 @Injectable({
@@ -15,7 +20,7 @@ export class WishlistsService {
   }
 
   getById(id: string) {
-    return this.http.getById<WishlistBriefResponse>(`/wishlists`, id);
+    return this.http.getById<WishlistWithGifts>(`/wishlists`, id);
   }
 
   create(wishlist: WishlistCreateRequest) {

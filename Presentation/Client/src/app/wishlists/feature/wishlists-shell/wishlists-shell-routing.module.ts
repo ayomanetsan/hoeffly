@@ -9,7 +9,15 @@ const routes: Routes = [
         (m) => m.WishlistsLibraryModule
       ),
     title: 'Wishlists - Library'
-  }
+  },
+  {
+    path: ':id',
+    loadChildren: () =>
+        import('../wishlist-page/wishlist-page.module').then(
+            (m) => m.WishlistPageModule
+        ),
+    title: 'Wishlist'
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,12 @@
+<div class="gift">
+    <img [src]="gift.thumbnailLink" alt="gift.name">
+    <div class="gift__info">
+        <p class="smaller tinted">{{ gift.categoryName }}</p>
+        <h4>{{ gift.name }}</h4>
+        <p>{{ gift.price | currency: getCurrencyString(gift.currency) }}</p>
+    </div>
+    <div class="gift__actions">
+        <button (click)="onUpdate()">Update</button>
+        <button (click)="onDelete()">Delete</button>
+    </div>
+</div>

@@ -1,4 +1,7 @@
-﻿namespace Application.Common.Interfaces;
+﻿using Application.Common.Models;
+using Application.Gifts.Queries;
+
+namespace Application.Common.Interfaces;
 
 public interface IWishlistService
 {
@@ -12,4 +15,6 @@ public interface IWishlistService
     Task DeleteWishlistAsync(Guid id, CancellationToken cancellationToken);
     
     Task<Wishlist> GetWishlistAsync(Guid id, CancellationToken cancellationToken);
+    
+    Task<(IEnumerable<Gift> gifts, int totalPages)> GetPagedGiftsAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken);
 }

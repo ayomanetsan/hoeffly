@@ -1,0 +1,84 @@
+@import '../../../../styles'
+
+.modal-header
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  padding: 24px
+  background-color: $primary
+
+  svg
+    cursor: pointer
+
+form
+  display: grid
+  grid-template-areas: 'left right'
+  grid-template-columns: 1fr 1fr
+  gap: 1rem
+  padding: 1rem
+  background-color: $background
+
+  .form-row
+    margin-bottom: 1rem
+
+    label
+      display: block
+      margin-bottom: .25rem
+
+    div
+      display: flex
+      gap: .25rem
+      margin-top: .25rem
+      color: $error
+      max-width: 368px
+      padding: 0 0 0 .25rem
+
+      svg
+        width: 14px
+
+        path
+          stroke: $error
+
+  .left
+    grid-area: left
+
+  .right
+    grid-area: right
+    display: flex
+    flex-direction: column
+
+    .image-upload .image-container
+      display: flex
+      justify-content: center
+      align-items: center
+      border: 2px dashed $text
+      border-radius: 10px
+      position: relative
+      overflow: hidden
+      aspect-ratio: 1 / 1
+
+      .image-placeholder
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: 100%
+        color: $text
+        text-align: center
+
+      input[type="file"]
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        opacity: 0
+        cursor: pointer
+
+      .preview
+        width: 100%
+        height: 100%
+        object-fit: cover
+        border-radius: 10px

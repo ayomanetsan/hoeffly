@@ -1,0 +1,29 @@
+@import '../../../../styles'
+
+.container
+  display: grid
+  grid-template-columns: 320px 1fr
+  width: 100vw
+  height: 100vh
+
+  main
+    padding: 16px
+
+    .gifts
+      display: flex
+      flex-direction: column
+      gap: 1rem
+
+      .create-card
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        height: 172px
+        border-radius: 10px
+        border: 2px dashed $text
+        cursor: pointer
+        opacity: .7
+
+        &:hover
+          opacity: 1

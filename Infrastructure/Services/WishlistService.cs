@@ -9,18 +9,23 @@ public class WishlistService : IWishlistService
     private readonly IRepository<Wishlist> _wishlistRepository;
     private readonly IRepository<WishlistCategory> _wishlistCategoryRepository;
     private readonly IRepository<Category> _categoryRepository;
+    private readonly IRepository<Gift> _giftRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUnitOfWork _unitOfWork;
+
 
     public WishlistService(IRepository<Wishlist> wishlistRepository,
         IRepository<WishlistCategory> wishlistCategoryRepository, 
         IRepository<Category> categoryRepository, 
+        IRepository<Gift> giftRepository, 
         IHttpContextAccessor httpContextAccessor,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork
+    )
     {
         _wishlistRepository = wishlistRepository;
         _wishlistCategoryRepository = wishlistCategoryRepository;
         _categoryRepository = categoryRepository;
+        _giftRepository = giftRepository;
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
     }
@@ -139,8 +144,6 @@ public class WishlistService : IWishlistService
         var wishlist = await _wishlistRepository.GetAsync(id, cancellationToken)
                        ?? throw new NotFoundException("Wishlist not found.");
         
-        //TODO: Update wishlist retrieval
-        
         var email = GetUserEmailFromContext();
 
         if (wishlist.CreatedBy != email && !wishlist.IsPublic)
@@ -149,6 +152,25 @@ public class WishlistService : IWishlistService
         }
 
         return wishlist;
+    }
+    
+    public async Task<(IEnumerable<Gift> gifts, int totalPages)> GetPagedGiftsAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    {
+        var giftsQuery = _giftRepository.GetQueryable()
+            .Where(g => g.WishlistId == wishlistId)
+            .Include(g => g.Category);
+
+        int totalGifts = await giftsQuery.CountAsync(cancellationToken);
+        int totalPages = (int)Math.Ceiling(totalGifts / (double)pageSize);
+        
+        var gifts = await giftsQuery
+            .AsNoTracking()
+            .OrderByDescending(g => g.LikeCount)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (gifts, totalPages);
     }
 
     private IQueryable<Wishlist> FilterByCurrentUser(IQueryable<Wishlist> queryable)

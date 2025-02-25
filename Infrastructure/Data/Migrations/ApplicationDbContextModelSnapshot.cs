@@ -84,6 +84,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -91,138 +94,303 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e37866c6-b4c2-40b1-9f40-c32565987ece"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9154), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("63209aaa-4d62-4c22-bce4-0e12e0b16351"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8496), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Home"
+                            Name = "New Year",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("ec21237a-5eef-4782-947d-e02af7579fab"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9158), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("9107c182-c0e0-4c16-a0a6-8a26f935529c"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8500), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Fashion"
+                            Name = "Birthday",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("90d84833-f12d-49f6-9e4d-c0b57c33cdf0"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9159), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("a82dafd3-9ce7-4abc-b661-9b14231c5f73"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8502), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Electronics"
+                            Name = "Christmas",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("5dc8868f-0c19-4a63-8010-95ea62fb7f69"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9167), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("392eb906-399b-466c-83cc-c4e5bf0b9817"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8503), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Books"
+                            Name = "Anniversary",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("85f200a8-c008-4e04-ae4e-bbd4b2339788"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9168), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("1c9c49ec-0d78-4344-9742-09d4c9cd3b9f"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8505), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Personal care"
+                            Name = "Valentine's Day",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("3f277d59-89d1-4ccd-9f47-b2b147595389"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9169), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("2d7bcea3-f1f1-484c-99cf-aa6469fa3c94"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8506), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Sports"
+                            Name = "Wedding",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("f1a9a3aa-d3af-41b4-8b57-e89000ec80fd"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9170), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("6085bf63-76fe-4922-8c11-2f58e52b0e83"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8507), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Toys"
+                            Name = "Baby Shower",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("6ecc1262-f1df-4cc6-b413-67e39670e1f3"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9171), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("432d4160-a5f7-4ae2-b69a-179e238f34fc"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8508), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Jewelery"
+                            Name = "Graduation",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("2871e0e6-eb5d-4847-b5c9-f5497af2da4a"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9172), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("9008dd1f-f802-4dce-94de-700141a222ca"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8511), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Kitchen"
+                            Name = "Housewarming",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("52d1e842-48d3-4d19-86fb-fd2e39c8438e"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9173), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("a706d1ca-ba11-4983-8502-681dfe8397ef"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8512), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Experiences"
+                            Name = "Retirement",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("75f26310-6e32-44ca-a437-9f3a12496dd3"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9174), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("3be45b0f-29a4-4a37-aec8-95b05d2d90b0"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8513), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Wellness"
+                            Name = "Easter",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("27e3d323-0353-426c-a116-65be1f79dee6"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9177), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("fe5b7096-74e7-4965-a075-c4eeb1c692dc"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8514), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Music"
+                            Name = "Halloween",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("b2bc1de1-10ee-4aad-ade6-49f7551aa38d"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9178), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("0b26791d-bc33-43d6-be9e-7e3d2a604035"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8516), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Office"
+                            Name = "Thanksgiving",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("4ae1f5e4-2bdd-4d60-8eb7-b076588499c7"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9179), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("62b2eb49-5804-43f2-a504-8142e92948c2"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8517), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Garden"
+                            Name = "Black Friday",
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("ed27b314-032d-48d1-af7d-7280523d1246"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 1, 9, 30, 12, 390, DateTimeKind.Unspecified).AddTicks(9180), new TimeSpan(0, 0, 0, 0, 0)),
+                            Id = new Guid("470a612c-c302-4f55-97e2-0c5f31d28d72"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8518), new TimeSpan(0, 0, 0, 0, 0)),
                             CreatedBy = "system",
                             LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LastModifiedBy = "system",
-                            Name = "Gourmet"
+                            Name = "Summer Vacation",
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("7940f4a4-1dbb-405d-803b-bd8fb9863989"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8520), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Home",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("12a20ef1-b470-4ee7-ae35-6a9b9557e171"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8523), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Fashion",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("50d5c9c3-58b8-49ea-a311-b9b38cfd4a73"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8524), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Electronics",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d1b3a75a-0e79-4cda-bf51-31e2fdb2d738"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8525), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Books",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("22a5bc20-fb4c-47fd-ad6e-141d1b2fa5e5"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8526), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Personal Care",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2e2714fd-65cf-4787-acf5-a8827bd181dc"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8527), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Sports",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("313fa223-734e-4f13-839d-e48bb1f50fac"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8528), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Toys",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("4026bb5d-9408-42a9-8ebd-316861a70c3e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8529), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Jewelry",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("61497b4e-d9fb-46c4-8ebe-e2f08b5e38eb"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8531), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Kitchen",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("dbbe114d-6b94-4e85-bded-52a0ffb617e3"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8533), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Experiences",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("f608058f-b075-4dea-a452-4a88002ddb55"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8534), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Wellness",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("ce5365ec-2ebb-4e77-adb0-fb917170e2cb"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8536), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Music",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("aa288927-5460-434c-aee2-42f34877f69a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8537), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Office",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("62f4e9ac-aeb4-4a54-847d-f2183c45a86e"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8538), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Garden",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d0d84232-652b-485c-ace2-999e18c3074b"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 2, 17, 13, 1, 20, 507, DateTimeKind.Unspecified).AddTicks(8539), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedBy = "system",
+                            LastModifiedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModifiedBy = "system",
+                            Name = "Gourmet",
+                            Type = 1
                         });
                 });
 
@@ -270,9 +438,8 @@ namespace Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -280,6 +447,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsReserved")
                         .HasColumnType("boolean");
@@ -298,8 +468,8 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("Photo")
-                        .HasColumnType("bytea");
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
 
                     b.Property<string>("PhotoLink")
                         .HasColumnType("text");
@@ -307,13 +477,21 @@ namespace Infrastructure.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
-                    b.Property<byte>("Priority")
-                        .HasColumnType("smallint");
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ShopLink")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ThumbnailLink")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("WishlistId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("WishlistId");
 
@@ -663,11 +841,19 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Gift", b =>
                 {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.Wishlist", "Wishlist")
                         .WithMany("Gifts")
                         .HasForeignKey("WishlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Wishlist");
                 });

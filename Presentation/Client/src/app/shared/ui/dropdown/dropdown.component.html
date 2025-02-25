@@ -1,0 +1,28 @@
+<div class="dropdown-container">
+    <div class="input-wrapper">
+        <input #dropdownInput type="text" [formControl]="searchControl" [placeholder]="placeholder" (click)="toggleDropdown()" class="dropdown-input" />
+        <span *ngIf="selectedOption" class="icon-wrapper" (click)="clearSelection()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M6 6L18 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </span>
+        <span *ngIf="!selectedOption" class="icon-wrapper" (click)="toggleDropdown()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </span>
+    </div>
+
+    <div *ngIf="isOpen" class="dropdown-list" #dropdownList>
+        <ng-container *ngIf="filteredOptions.length > 0; else noResults">
+            <div *ngFor="let option of filteredOptions" (click)="selectOption(option)" class="dropdown-item">
+                <ng-container>{{ option.text }}</ng-container>
+            </div>
+        </ng-container>
+
+        <ng-template #noResults>
+            <div class="no-results">{{ noResultsText }}</div>
+        </ng-template>
+    </div>
+</div>

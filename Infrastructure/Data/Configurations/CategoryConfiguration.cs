@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations;
 
@@ -12,16 +13,35 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
     private IEnumerable<Category> SeedCategories()
     {
-        var categories = new string[]
+        var wishlistCategories = new[]
+        {
+            "New Year",
+            "Birthday",
+            "Christmas",
+            "Anniversary",
+            "Valentine's Day",
+            "Wedding",
+            "Baby Shower",
+            "Graduation",
+            "Housewarming",
+            "Retirement",
+            "Easter",
+            "Halloween",
+            "Thanksgiving",
+            "Black Friday",
+            "Summer Vacation"
+        };
+
+        var giftCategories = new[]
         {
             "Home",
             "Fashion",
             "Electronics",
             "Books",
-            "Personal care",
+            "Personal Care",
             "Sports",
             "Toys",
-            "Jewelery",
+            "Jewelry",
             "Kitchen",
             "Experiences",
             "Wellness",
@@ -31,9 +51,21 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             "Gourmet"
         };
 
-        return categories.Select(name => new Category
+        return CreateCategories(wishlistCategories, CategoryType.Wishlist)
+            .Concat(CreateCategories(giftCategories, CategoryType.Gift))
+            .ToList();
+    }
+
+    private IEnumerable<Category> CreateCategories(IEnumerable<string> names, CategoryType categoryType)
+    {
+        return names.Select(name => new Category
         {
-            Id = Guid.NewGuid(), Name = name, CreatedBy = "system", CreatedAt = DateTimeOffset.UtcNow, LastModifiedBy = "system"
-        }).ToList();
+            Id = Guid.NewGuid(),
+            Name = name,
+            Type = categoryType,
+            CreatedBy = "system",
+            CreatedAt = DateTimeOffset.UtcNow,
+            LastModifiedBy = "system"
+        });
     }
 }

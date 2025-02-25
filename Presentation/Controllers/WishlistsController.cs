@@ -13,37 +13,40 @@ namespace Presentation.Controllers;
 public class WishlistsController(IMediator mediatr) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetWishlists([FromQuery] GetFilteredWishlistsQuery query)
+    public async Task<IActionResult> GetWishlists([FromQuery] GetFilteredWishlistsQuery query, CancellationToken cancellationToken)
     {
-        var response = await mediatr.Send(query);
+        var response = await mediatr.Send(query, cancellationToken);
         return Ok(response);
     }
     
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetWishlist(Guid id)
+    public async Task<IActionResult> GetWishlist([FromRoute] Guid id,
+        CancellationToken cancellationToken,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var response = await mediatr.Send(new GetWishlistQuery(id));
+        var response = await mediatr.Send(new GetWishlistQuery(id, pageNumber, pageSize), cancellationToken);
         return Ok(response);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create(CreateWishlistCommand command)
+    public async Task<IActionResult> Create(CreateWishlistCommand command, CancellationToken cancellationToken)
     {
-        var result = await mediatr.Send(command);
+        var result = await mediatr.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateWishlistCommand command)
+    public async Task<IActionResult> Update(UpdateWishlistCommand command, CancellationToken cancellationToken)
     {
-        var result = await mediatr.Send(command);
+        var result = await mediatr.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        var result = await mediatr.Send(new DeleteWishlistCommand(id));
+        var result = await mediatr.Send(new DeleteWishlistCommand(id), cancellationToken);
         return Ok(result);
     }
 }
