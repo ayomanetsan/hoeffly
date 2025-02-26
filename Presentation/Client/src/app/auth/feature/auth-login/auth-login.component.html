@@ -56,7 +56,10 @@
       </button>
     </form>
 
-    <p class="tinted">Don't have an account yet? <a routerLink="/auth/register">Sign up.</a></p>
+    <div class="links">
+      <p class="tinted">Forgot your password? <a routerLink="/auth/reset-password" [queryParams]="{email: loginForm.get('email')?.value}">Reset it now.</a></p>
+      <p class="tinted">Don't have an account yet? <a routerLink="/auth/register">Sign up.</a></p>
+    </div>
   </div>
 
 </div>

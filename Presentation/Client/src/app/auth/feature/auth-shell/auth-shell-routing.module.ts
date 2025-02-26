@@ -16,6 +16,13 @@ const routes: Routes = [
         (m) => m.AuthLoginModule
       ),
   },
+  {
+    path: 'reset-password',
+    loadChildren: () =>
+      import('../auth-reset-password/auth-reset-password.module').then(
+        (m) => m.AuthResetPasswordModule
+      ),
+  },
 ];
 
 @NgModule({
