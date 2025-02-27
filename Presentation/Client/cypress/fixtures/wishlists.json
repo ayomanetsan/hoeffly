@@ -1,0 +1,22 @@
+{
+  "collection": [
+    {
+      "id": "1",
+      "name": "Birthday Gifts",
+      "isPublic": true,
+      "categories": ["Electronics"],
+      "createdAt": "2024-02-01T12:00:00Z",
+      "photoUrls": [],
+      "giftsCount": 3
+    },
+    {
+      "id": "2",
+      "name": "Wedding Wishlist",
+      "isPublic": false,
+      "categories": ["Home"],
+      "createdAt": "2024-02-02T12:00:00Z",
+      "photoUrls": [],
+      "giftsCount": 6
+    }
+  ]
+}
