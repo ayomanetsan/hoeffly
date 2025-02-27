@@ -10,6 +10,7 @@ import { AuthService } from "../../data-access/auth.service";
 export class AuthLoginComponent {
   loginForm: FormGroup;
   loading: boolean = false;
+  showPassword: boolean = false;
 
   constructor(private auth: AuthService, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -32,5 +33,11 @@ export class AuthLoginComponent {
 
   async loginWithGoogle() {
     await this.auth.loginWithGoogle();
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    passwordInput.type = this.showPassword ? 'text' : 'password';
   }
 }
