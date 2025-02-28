@@ -87,6 +87,7 @@ public class WishlistService : IWishlistService
         
         wishlist.Name = updatedWishlist.Name;
         wishlist.IsPublic = updatedWishlist.IsPublic;
+        wishlist.OccasionDate = updatedWishlist.OccasionDate;
         
         var existingWishlistCategories = await _wishlistCategoryRepository.GetQueryable()
             .Where(wc => wc.WishlistId == wishlist.Id)

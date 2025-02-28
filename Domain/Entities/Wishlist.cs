@@ -6,6 +6,8 @@ public class Wishlist : EntityBase
     
     public bool IsPublic { get; set; }
     
+    public DateTimeOffset OccasionDate { get; set; }
+    
     public ICollection<AccessRights> AccessRights { get; set; } = new List<AccessRights>();
     
     public ICollection<WishlistCategory> WishlistCategories { get; set; } = new List<WishlistCategory>();

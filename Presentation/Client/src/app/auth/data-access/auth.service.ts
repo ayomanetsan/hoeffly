@@ -83,6 +83,20 @@ export class AuthService {
     }
   }
 
+  async sendPasswordResetEmail(email: string): Promise<void> {
+    try {
+      await this.afAuth.sendPasswordResetEmail(email);
+      return Promise.resolve();
+    } catch (error: any) {
+      switch (error.code) {
+        case 'auth/invalid-email':
+          this.toastr.error('Provided email is not valid', 'Error');
+          break;
+      }
+      return Promise.reject(error);
+    }
+  }
+
   async logout() {
     await this.afAuth.signOut();
     this.clearUserInfo();

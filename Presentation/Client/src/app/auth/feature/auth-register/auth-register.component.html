@@ -1,5 +1,4 @@
 <div class="container">
-
   <div class="card">
     <div class="logo">
       <h1>Hoffly</h1>
@@ -11,7 +10,10 @@
       <svg fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M17.5297 13.8514L17.5323 13.8375H17.5182H12.6924V10.3805H21.1388C21.2431 10.9674 21.2986 11.5753 21.2986 12.2086C21.2986 14.9456 20.3177 17.2486 18.6212 18.8117L18.6211 18.8117C17.1376 20.183 15.1061 20.9883 12.6807 20.9883C9.17199 20.9883 6.1361 18.9753 4.65911 16.0401C4.05052 14.8276 3.7041 13.4583 3.7041 12.007C3.7041 10.5558 4.05052 9.18415 4.65911 7.97166C6.1361 5.0364 9.17199 3.02344 12.6807 3.02344C15.0964 3.02344 17.1225 3.90948 18.6779 5.35577L16.1164 7.91956C15.1826 7.03196 13.9991 6.57891 12.6807 6.57891C10.3338 6.57891 8.34914 8.16457 7.63752 10.2924L7.63751 10.2924C7.45902 10.8326 7.35566 11.4104 7.35566 12.0047C7.35566 12.599 7.45902 13.1768 7.63751 13.717L7.63751 13.717C8.34679 15.8471 10.3315 17.4328 12.6783 17.4328C13.8898 17.4328 14.921 17.1135 15.7294 16.573C16.6859 15.9338 17.3205 14.9795 17.5297 13.8514Z"
-          fill="#280109" stroke="#280109" stroke-width="0.0234375"/>
+          fill="#280109"
+          stroke="#280109"
+          stroke-width="0.0234375"
+        />
       </svg>
       Continue with google
     </button>
@@ -20,10 +22,15 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="register()">
       <div class="form-row">
-        <input type="text" id="fullName" formControlName="fullName" placeholder="Full name" autocomplete="off"
-               [ngClass]="registerForm.get('fullName')?.invalid && (registerForm.get('fullName')?.dirty || registerForm.get('fullName')?.touched) ? 'danger' : ''"/>
-        <div
-          *ngIf="registerForm.get('fullName')?.invalid && (registerForm.get('fullName')?.dirty || registerForm.get('fullName')?.touched)">
+        <input
+          type="text"
+          id="fullName"
+          formControlName="fullName"
+          placeholder="Full name"
+          autocomplete="off"
+          [ngClass]="registerForm.get('fullName')?.invalid && (registerForm.get('fullName')?.dirty || registerForm.get('fullName')?.touched) ? 'danger' : ''"
+        />
+        <div *ngIf="registerForm.get('fullName')?.invalid && (registerForm.get('fullName')?.dirty || registerForm.get('fullName')?.touched)">
           <div *ngIf="registerForm.get('fullName')?.errors?.['required']">
             <p class="smaller">
               Full name is required.
@@ -33,10 +40,15 @@
       </div>
 
       <div class="form-row">
-        <input type="email" id="email" formControlName="email" placeholder="Email" autocomplete="email"
-               [ngClass]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched) ? 'danger' : ''"/>
-        <div
-          *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Email"
+          autocomplete="email"
+          [ngClass]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched) ? 'danger' : ''"
+        />
+        <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
           <div *ngIf="registerForm.get('email')?.errors?.['required']">
             <p class="smaller">
               Email is required.
@@ -51,10 +63,39 @@
       </div>
 
       <div class="form-row">
-        <input type="password" id="password" formControlName="password" placeholder="Password"
-               [ngClass]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched) ? 'danger' : ''"/>
-        <div
-          *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+        <div class="password-container">
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Password"
+            [ngClass]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched) ? 'danger' : ''"
+          />
+          <span class="password-toggle" (click)="togglePasswordVisibility(false)">
+            <svg *ngIf="!showPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <svg *ngIf="showPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_39_732)">
+                <path
+                  d="M9.9 4.23999C10.5883 4.07887 11.2931 3.99833 12 3.99999C19 3.99999 23 12 23 12C22.393 13.1356 21.6691 14.2047 20.84 15.19M14.12 14.12C13.8454 14.4147 13.5141 14.6511 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.481 9.80385 14.1961C9.51897 13.9113 9.29439 13.5719 9.14351 13.1984C8.99262 12.8248 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2218 9.18488 10.8538C9.34884 10.4858 9.58525 10.1546 9.88 9.87999M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68189 3.96914 7.6566 6.06 6.05999L17.94 17.94Z"
+                  stroke="#280109"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path d="M1 1L23 23" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_39_732">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+        </div>
+        <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
           <div *ngIf="registerForm.get('password')?.errors?.['required']">
             <p class="smaller">
               Password is required.
@@ -62,19 +103,46 @@
           </div>
           <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
             <p class="smaller">
-              Password must be between 8 and 32 characters, contain at least one uppercase letter, one lowercase letter,
-              one number, and one
-              special symbol '!,?, *,.'.
+              Password must be between 8 and 32 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special symbol '!,?, *,.'.
             </p>
           </div>
         </div>
       </div>
 
       <div class="form-row">
-        <input type="password" id="repeatPassword" formControlName="repeatPassword" placeholder="Repeat Password"
-               [ngClass]="registerForm.get('repeatPassword')?.invalid && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched) ? 'danger' : ''"/>
-        <div
-          *ngIf="registerForm.hasError('passwordMismatch') && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched)">
+        <div class="password-container">
+          <input
+            type="password"
+            id="repeatPassword"
+            formControlName="repeatPassword"
+            placeholder="Repeat Password"
+            [ngClass]="registerForm.get('repeatPassword')?.invalid && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched) ? 'danger' : ''"
+          />
+          <span class="password-toggle" (click)="togglePasswordVisibility(true)">
+            <svg *ngIf="!showRepeatPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <svg *ngIf="showRepeatPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_39_732)">
+                <path
+                  d="M9.9 4.23999C10.5883 4.07887 11.2931 3.99833 12 3.99999C19 3.99999 23 12 23 12C22.393 13.1356 21.6691 14.2047 20.84 15.19M14.12 14.12C13.8454 14.4147 13.5141 14.6511 13.1462 14.8151C12.7782 14.9791 12.3809 15.0673 11.9781 15.0744C11.5753 15.0815 11.1752 15.0074 10.8016 14.8565C10.4281 14.7056 10.0887 14.481 9.80385 14.1961C9.51897 13.9113 9.29439 13.5719 9.14351 13.1984C8.99262 12.8248 8.91853 12.4247 8.92563 12.0219C8.93274 11.6191 9.02091 11.2218 9.18488 10.8538C9.34884 10.4858 9.58525 10.1546 9.88 9.87999M17.94 17.94C16.2306 19.243 14.1491 19.9649 12 20C5 20 1 12 1 12C2.24389 9.68189 3.96914 7.6566 6.06 6.05999L17.94 17.94Z"
+                  stroke="#280109"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path d="M1 1L23 23" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_39_732">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+        </div>
+        <div *ngIf="registerForm.hasError('passwordMismatch') && (registerForm.get('repeatPassword')?.dirty || registerForm.get('repeatPassword')?.touched)">
           <div>
             <p>
               Passwords do not match.
@@ -85,7 +153,20 @@
 
       <button class="accent" type="submit" [disabled]="registerForm.invalid || loading">
         Sign Up
-        <svg *ngIf="loading" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_P7sC{transform-origin:center;animation:spinner_svv2 .75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}</style><path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_P7sC"/></svg>
+        <svg *ngIf="loading" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .spinner_P7sC {
+              transform-origin: center;
+              animation: spinner_svv2 0.75s infinite linear;
+            }
+            @keyframes spinner_svv2 {
+              100% {
+                transform: rotate(360deg);
+              }
+            }
+          </style>
+          <path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_P7sC" />
+        </svg>
       </button>
     </form>
 
@@ -94,5 +175,4 @@
       <p class="tinted">Already a member? <a routerLink="/auth/login">Sign in.</a></p>
     </div>
   </div>
-
 </div>

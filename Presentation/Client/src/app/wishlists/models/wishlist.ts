@@ -9,12 +9,14 @@ export interface WishlistBriefResponse {
   createdAt: Date;
   photoUrls: string[];
   giftsCount: number;
+  occasionDate: Date;
 }
 
 export interface WishlistCreateRequest {
   name: string;
   isPublic: boolean;
   categories: string[];
+  occasionDate: Date;
 }
 
 export interface WishlistUpdateRequest {
@@ -22,6 +24,7 @@ export interface WishlistUpdateRequest {
   name: string;
   isPublic: boolean;
   categories: string[];
+  occasionDate: Date;
 }
 
 export interface WishlistWithGifts {

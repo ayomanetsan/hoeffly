@@ -14,30 +14,33 @@ export class WishlistModalComponent implements OnInit{
   wishlistForm!: FormGroup;
   wishlistCategories: string[] = WishlistCategories;
   isEditMode = false;
+  minDate: string;
 
   constructor(
     private dialogRef: MatDialogRef<WishlistModalComponent>,
     private fb: FormBuilder,
     private wishlistsService: WishlistsService,
     @Inject(MAT_DIALOG_DATA) public data: { wishlist?: WishlistBriefResponse, mode: string }
-  ) { }
+  ) {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+  }
 
   ngOnInit() {
-    if(this.data.mode == "edit"){
-      this.isEditMode = true;
-    }
-    else {
-      this.isEditMode = false;
-    }
-
+    this.isEditMode = this.data.mode == "edit";
     this.initForm();
   }
 
   initForm() {
+    const occasionDate: string | null = this.data?.wishlist?.occasionDate
+      ? new Date(this.data.wishlist.occasionDate).toISOString().split('T')[0]
+      : null;
+
     this.wishlistForm = this.fb.group({
       name: [this.data?.wishlist?.name || '', Validators.required],
       isPublic: [this.data?.wishlist?.isPublic || false],
       selectedCategories: [this.getSelectedCategoryIndices(), Validators.required],
+      occasionDate: [occasionDate, Validators.required],
     });
   }
 
@@ -79,25 +82,34 @@ export class WishlistModalComponent implements OnInit{
         (this.wishlistForm.get('selectedCategories')?.value as number[]).includes(index)
       );
 
-      const wishlistRequest: WishlistCreateRequest = {
-        name: this.wishlistForm.get('name')?.value,
-        isPublic: this.wishlistForm.get('isPublic')?.value,
-        categories: categories
-      }
-      const wishlistUpdateRequest: WishlistUpdateRequest = {
-        id: this.data.wishlist!.id,
-        name: this.wishlistForm.get('name')?.value,
-        isPublic: this.wishlistForm.get('isPublic')?.value,
-        categories: categories
+      let occasionDate = this.wishlistForm.get('occasionDate')?.value;
+      if (occasionDate) {
+        const date = new Date(occasionDate);
+        occasionDate = date.toISOString();
       }
 
       if (this.isEditMode) {
+        const wishlistUpdateRequest: WishlistUpdateRequest = {
+          id: this.data.wishlist!.id,
+          name: this.wishlistForm.get('name')?.value,
+          isPublic: this.wishlistForm.get('isPublic')?.value,
+          categories: categories,
+          occasionDate: occasionDate
+        };
+
         this.wishlistsService.update(wishlistUpdateRequest.id, wishlistUpdateRequest).subscribe({
           next: () => {
             this.dialogRef.close(true);
           },
         });
       } else {
+        const wishlistRequest: WishlistCreateRequest = {
+          name: this.wishlistForm.get('name')?.value,
+          isPublic: this.wishlistForm.get('isPublic')?.value,
+          categories: categories,
+          occasionDate: occasionDate
+        };
+
         this.wishlistsService.create(wishlistRequest).subscribe({
           next: () => {
             this.dialogRef.close(true);

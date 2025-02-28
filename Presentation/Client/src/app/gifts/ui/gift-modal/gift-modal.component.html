@@ -6,7 +6,6 @@
     </svg>
 </div>
 <div class="modal-body">
-    {{ giftForm.value | json}}
     <form [formGroup]="giftForm" (ngSubmit)="onSubmit()">
         <div class="left">
             <div class="form-row">

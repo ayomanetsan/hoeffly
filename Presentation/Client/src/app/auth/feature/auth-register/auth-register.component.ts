@@ -10,6 +10,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 export class AuthRegisterComponent {
   registerForm: FormGroup;
   loading: boolean = false;
+  showPassword: boolean = false;
+  showRepeatPassword: boolean = false;
 
   constructor(private auth: AuthService, private fb: FormBuilder) {
     this.registerForm = this.fb.group({
@@ -39,6 +41,20 @@ export class AuthRegisterComponent {
 
   async loginWithGoogle() {
     await this.auth.loginWithGoogle();
+  }
+
+  togglePasswordVisibility(isForRepeatPassword: boolean) {
+    let passwordInput: HTMLInputElement;
+
+    if (isForRepeatPassword) {
+      this.showRepeatPassword = !this.showPassword;
+      passwordInput = document.getElementById('repeatPassword') as HTMLInputElement;
+    } else {
+      this.showPassword = !this.showPassword;
+      passwordInput = document.getElementById('password') as HTMLInputElement;
+    }
+
+    passwordInput.type = this.showPassword ? 'text' : 'password';
   }
 
   private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
