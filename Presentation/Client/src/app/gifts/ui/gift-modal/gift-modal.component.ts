@@ -94,7 +94,7 @@ export class GiftModalComponent implements OnInit {
             ...giftCreateRequest,
             id: this.giftId
         }
-        console.log(giftUpdateRequest)
+
         // Handle update logic
         if (this.selectedImage) {
           this.imageService.uploadImage(this.selectedImage, this.giftForm.value.name).subscribe(imageBbResponse => {

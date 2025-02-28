@@ -1,3 +1,3 @@
 namespace Application.Wishlists.Commands.CreateWishlist;
 
-public record CreateWishlistCommand(string Name, bool IsPublic, IEnumerable<string> categories) : IRequest<Unit>;
+public record CreateWishlistCommand(string Name, bool IsPublic, DateTimeOffset OccasionDate, IEnumerable<string> categories) : IRequest<Unit>;

@@ -7,8 +7,22 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="wishlistForm" (ngSubmit)="onSubmit()">
-    <p class="bigger">Name the new wishlist</p>
-    <input type="text" id="name" formControlName="name" placeholder="Wishlist name" autocomplete="off"/>
+    <div class="form-row">
+      <label for="name">Wishlist name*</label>
+      <input type="text" id="name" formControlName="name" placeholder="e. g. Birthday Wishes"
+             autocomplete="off"/>
+      <div class="error" *ngIf="wishlistForm.get('name')?.invalid && wishlistForm.get('name')?.touched">
+        Wishlist name is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="name">Occasion date*</label>
+      <input type="date" id="occasionDate" formControlName="occasionDate" [min]="minDate" />
+      <div class="error" *ngIf="wishlistForm.get('occasionDate')?.invalid && wishlistForm.get('occasionDate')?.touched">
+        Occasion date is required
+      </div>
+    </div>
 
     <div class="custom-radio-field" (click)="changeVisibilityInput(false)">
       <div class="custom-radio" [class.checked]="!wishlistForm.get('isPublic')?.value"></div>

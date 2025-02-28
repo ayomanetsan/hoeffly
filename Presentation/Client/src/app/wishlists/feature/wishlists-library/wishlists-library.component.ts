@@ -35,7 +35,8 @@ export class WishlistsLibraryComponent implements OnInit{
       categories: [],
       createdAt: new Date(),
       photoUrls: [],
-      giftsCount: 0
+      giftsCount: 0,
+      occasionDate: new Date()
     };
 
 
