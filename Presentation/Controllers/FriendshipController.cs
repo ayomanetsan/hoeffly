@@ -34,16 +34,16 @@ public class FriendshipController(IMediator mediatr) : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetFriends(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetFriends([FromQuery] GetFriendsQuery query, CancellationToken cancellationToken)
     {
-        var result = await mediatr.Send(new GetFriendsQuery(), cancellationToken);
+        var result = await mediatr.Send(query, cancellationToken);
         return Ok(result);
     }
     
     [HttpGet("users")]
-    public async Task<IActionResult> GetPublicUsers(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetPublicUsers([FromQuery] GetUsersQuery query,CancellationToken cancellationToken)
     {
-        var result = await mediatr.Send(new GetUsersQuery(), cancellationToken);
+        var result = await mediatr.Send(query, cancellationToken);
         return Ok(result);
     }
 }
