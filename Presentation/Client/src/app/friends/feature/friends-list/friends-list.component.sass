@@ -1,0 +1,30 @@
+@import '../../../../styles'
+
+.container
+  display: grid
+  grid-template-columns: 320px 1fr
+  width: 100vw
+  height: 100vh
+
+  main
+    padding: 16px
+
+    .users
+      display: flex
+      flex-direction: row
+      flex-wrap: wrap
+      gap: 1rem
+
+    .actions
+      display: flex
+      margin-bottom: 2rem
+
+      button
+        &:first-child
+          border-radius: 10px 0 0 10px
+
+        &:last-child
+          border-radius: 0 10px 10px 0
+
+        &:hover
+          background-color: #D86E52

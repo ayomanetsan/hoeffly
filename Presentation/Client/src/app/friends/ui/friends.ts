@@ -3,6 +3,7 @@ export interface FriendResponse {
   name: string;
   email: string;
   status: InvitationStatus;
+  isSender: boolean;
 }
 
 export enum InvitationStatus {
@@ -16,6 +17,6 @@ export interface SendFriendshipRequest {
 }
 
 export interface ManageFriendshipRequest {
-  id: string;
+  friendshipId: string;
   status: InvitationStatus;
 }

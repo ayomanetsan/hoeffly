@@ -1,0 +1,24 @@
+<div class="container">
+  <aside>
+    <app-sidebar></app-sidebar>
+  </aside>
+  <main>
+    <div class="actions">
+      <button (click)="changeFilter('friends')" [ngClass]="selectedFilter === 'friends' ? 'secondary' : ''">Friends</button>
+      <button (click)="changeFilter('users')" [ngClass]="selectedFilter === 'users' ? 'secondary' : ''">Users</button>
+    </div>
+    <div class="users">
+      <ng-container *ngIf="selectedFilter === 'friends'">
+        <app-friend-card *ngFor="let friend of friends"
+           [friend]="friend"
+           (requestManaged)="manageFriendRequest($event)"
+           (requestDeleted)="removeFriend($event)">
+        </app-friend-card>
+      </ng-container>
+
+      <ng-container *ngIf="selectedFilter === 'users'">
+        <app-user-card *ngFor="let user of users" [user]="user" (requestSent)="sendFriendRequest($event)"></app-user-card>
+      </ng-container>
+    </div>
+  </main>
+</div>

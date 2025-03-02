@@ -27,7 +27,7 @@ export class FriendsService {
     return this.http.delete('/friendship', id);
   }
 
-  manageFriendshipRequest(id: string, manageFriendshipRequest: ManageFriendshipRequest) {
+  manageFriendshipRequest(manageFriendshipRequest: ManageFriendshipRequest) {
     return this.http.put<ManageFriendshipRequest>('/friendship/manage', manageFriendshipRequest);
   }
 }

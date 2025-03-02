@@ -23,6 +23,13 @@ const routes: Routes = [
         (m) => m.WishlistsShellModule
       ),
   },
+  {
+    path: 'friends',
+    loadChildren: () =>
+      import('./friends/feature/friends-shell/friends-shell.module').then(
+        (m) => m.FriendsShellModule
+      ),
+  }
 ];
 
 @NgModule({

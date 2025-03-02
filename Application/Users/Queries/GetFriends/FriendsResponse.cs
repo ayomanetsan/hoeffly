@@ -6,8 +6,9 @@ public record FriendsResponse(
     Guid Id,
     string Name, 
     string Email,
-    InvitationStatus Status
+    InvitationStatus Status,
+    bool IsSender
     )
 {
-    public FriendsResponse() : this(Guid.Empty, "", "", InvitationStatus.Accepted){ }
+    public FriendsResponse() : this(Guid.Empty, "", "", InvitationStatus.Accepted, false){ }
 };

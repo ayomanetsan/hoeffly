@@ -10,6 +10,7 @@ $gray: #5A5A5A
 $secondary: #EA9781
 $accent: #68B3DE
 $error: #FF0000
+$danger: #D9534F
 
 *
   box-sizing: border-box
@@ -87,6 +88,10 @@ button
   background: none
   cursor: pointer
 
+  &.smaller
+    padding: .5rem 1rem
+    font-size: .875rem
+
   &.secondary
     background-color: $secondary
 
@@ -103,6 +108,16 @@ button
     &:disabled
       background-color: #B1D2E5
       cursor: not-allowed
+
+  &.danger
+    background-color: $danger
+
+    &.outline
+      background-color: transparent
+      border: 2px solid $danger
+
+    &:hover
+      background-color: #C9302C
 
 .password-container
   position: relative
