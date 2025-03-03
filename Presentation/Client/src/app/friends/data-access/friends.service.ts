@@ -20,7 +20,7 @@ export class FriendsService {
   }
 
   sendFriendshipRequest(friendshipRequest: SendFriendshipRequest) {
-    return this.http.post<SendFriendshipRequest>('/friendship/send', friendshipRequest);
+    return this.http.post<string>('/friendship/send', friendshipRequest);
   }
 
   delete(id: string) {

@@ -9,7 +9,7 @@ import { FriendResponse, InvitationStatus, ManageFriendshipRequest } from '../fr
 export class FriendCardComponent {
 
   @Input() friend!: FriendResponse;
-  @Output() requestManaged = new EventEmitter<ManageFriendshipRequest>();
+  @Output() requestManaged = new EventEmitter<{ request: ManageFriendshipRequest, receiverEmail: string }>();
   @Output() requestDeleted = new EventEmitter<string>();
 
   protected readonly InvitationStatus = InvitationStatus;
@@ -19,8 +19,9 @@ export class FriendCardComponent {
       status: status,
       friendshipId: this.friend.id,
     };
+    const receiverEmail = this.friend.email;
 
-    this.requestManaged.emit(manageFriendshipRequest);
+    this.requestManaged.emit({ request: manageFriendshipRequest, receiverEmail });
   }
 
   deleteFriend() {

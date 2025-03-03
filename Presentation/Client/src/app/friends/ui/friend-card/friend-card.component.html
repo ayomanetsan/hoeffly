@@ -19,6 +19,15 @@
       @case (InvitationStatus.Accepted) {
         <button class="danger smaller" (click)="deleteFriend()">Remove friend</button>
       }
+      @case (InvitationStatus.Rejected) {
+        @if (friend.isSender) {
+          <p class="smaller">The user rejected your request</p>
+          <button class="danger smaller" (click)="deleteFriend()">Delete request</button>
+        } @else {
+          <p class="smaller">You rejected user's request</p>
+          <button class="danger smaller" (click)="deleteFriend()">Delete request</button>
+        }
+      }
     }
   </div>
 </div>
