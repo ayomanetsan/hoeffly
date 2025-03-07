@@ -16,6 +16,7 @@ public static class InfrastructureServices
         services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(connectionString));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSignalR();
         services.AddHttpContextAccessor();
         services.AddRepositoriesFromAssemblies();
         services.AddServicesFromAssemblies();

@@ -1,5 +1,6 @@
 using Application;
 using Infrastructure;
+using Infrastructure.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Presentation.Middleware;
 using Presentation.Options;
@@ -45,6 +46,8 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
+
+app.MapHub<FriendsHub>("/friendsHub");
 
 app.MigrateContext();
 
