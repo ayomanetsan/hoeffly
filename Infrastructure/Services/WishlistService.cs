@@ -283,4 +283,26 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         _accessRightsRepository.Delete(accessRight);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<(IEnumerable<AccessRights> accessRights, int totalPages)> GetWishlistAccessRightAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    {
+        var wishlist = await _wishlistRepository.GetAsync(wishlistId, cancellationToken)
+                       ?? throw new NotFoundException($"Wishlist not found.");
+        
+        var queryable = _accessRightsRepository
+            .GetQueryable()
+            .Where(a => a.WishlistId == wishlistId && a.Type != AccessType.Owner)
+            .Include(a => a.User);
+        
+        var totalItems = await queryable.CountAsync(cancellationToken);
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        
+        var accessRights = await queryable
+            .OrderBy(a => a.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+        
+        return (accessRights, totalPages);
+    }
 }
