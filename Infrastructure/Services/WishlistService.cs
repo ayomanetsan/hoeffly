@@ -213,7 +213,7 @@ public class WishlistService : IWishlistService, IWishlistAccessService
     
     private string GetUserEmailFromContext() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
     
-    public async Task ShareWishlistAsync(AccessRights accessRight, string email, CancellationToken cancellationToken)
+    public async Task<Guid> ShareWishlistAsync(AccessRights accessRight, string email, CancellationToken cancellationToken)
     {
         var sharedFromEmail = GetUserEmailFromContext();
         var sharedFrom = await _userRepository
@@ -250,18 +250,37 @@ public class WishlistService : IWishlistService, IWishlistAccessService
             .GetQueryable()
             .Where(a => a.WishlistId == accessRight.WishlistId && a.UserId == sharedTo.Id)
             .FirstOrDefaultAsync(cancellationToken);
-    
+
         if (existingAccess != null)
         {
             existingAccess.Type = accessRight.Type;
             _accessRightsRepository.Update(existingAccess);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return existingAccess.Id;
         }
-        else
-        {
-            accessRight.UserId = sharedTo.Id;
-            await _accessRightsRepository.AddAsync(accessRight, cancellationToken);
-        }
+        
+        accessRight.UserId = sharedTo.Id;
+        await _accessRightsRepository.AddAsync(accessRight, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return accessRight.Id;
+    }
 
+    public async Task RevokeWishlistAccessAsync(Guid accessRightId, CancellationToken cancellationToken)
+    {
+        var accessRight = await _accessRightsRepository.GetAsync(accessRightId, cancellationToken)
+                            ?? throw new NotFoundException("Access right not found.");
+        
+        var wishlist = await _wishlistRepository.GetAsync(accessRight.WishlistId, cancellationToken)
+                       ?? throw new NotFoundException("Wishlist not found.");
+        
+        var email = GetUserEmailFromContext();
+
+        if (wishlist.CreatedBy != email)
+        {
+            throw new ForbiddenException("You are not authorized to delete this access right.");
+        }
+        
+        _accessRightsRepository.Delete(accessRight);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

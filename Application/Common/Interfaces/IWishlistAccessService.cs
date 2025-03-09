@@ -4,5 +4,7 @@ namespace Application.Common.Interfaces;
 
 public interface IWishlistAccessService
 {
-    Task ShareWishlistAsync(AccessRights accessRight, string email, CancellationToken cancellationToken);
+    Task<Guid> ShareWishlistAsync(AccessRights accessRight, string email, CancellationToken cancellationToken);
+    
+    Task RevokeWishlistAccessAsync(Guid accessRightId, CancellationToken cancellationToken);
 }

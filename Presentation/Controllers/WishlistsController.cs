@@ -1,5 +1,6 @@
 ﻿using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
+using Application.Wishlists.Commands.DeleteWishlistAccess;
 using Application.Wishlists.Commands.ShareWishlist;
 using Application.Wishlists.Commands.UpdateWishlist;
 using Application.Wishlists.Queries.GetFilteredWishlists;
@@ -55,7 +56,14 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     public async Task<IActionResult> ShareWishlist(Guid id, [FromBody] ShareWishlistCommand request, CancellationToken cancellationToken)
     {
         var command = new ShareWishlistCommand(id, request.Email, request.AccessType);
-        await mediatr.Send(command, cancellationToken);
+        var result = await mediatr.Send(command, cancellationToken);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{id}/access")]
+    public async Task<IActionResult> RevokeWishlistAccess(Guid id, CancellationToken cancellationToken)
+    {
+        await mediatr.Send(new RevokeWishlistAccessCommand(id), cancellationToken);
         return Ok();
     }
 }
