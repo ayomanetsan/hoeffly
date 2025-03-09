@@ -58,6 +58,15 @@ public class UserService(
 
         return (users, totalPages);
     }
-    
+
+    public async Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        return await userRepository
+                   .GetQueryable()
+                   .Where(u => u.Email == email)
+                   .FirstOrDefaultAsync(cancellationToken)
+               ?? throw new NotFoundException($"User not found.");
+    }
+
     private string GetUserEmailFromContext() => httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
 }
