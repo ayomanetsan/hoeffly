@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       import('./wishlists/feature/wishlists-shell/wishlists-shell.module').then(
         (m) => m.WishlistsShellModule
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'friends',
@@ -29,6 +31,7 @@ const routes: Routes = [
       import('./friends/feature/friends-shell/friends-shell.module').then(
         (m) => m.FriendsShellModule
       ),
+    canActivate: [authGuard],
   }
 ];
 

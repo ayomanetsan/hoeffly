@@ -3,6 +3,7 @@ using Application.Wishlists.Commands.DeleteWishlist;
 using Application.Wishlists.Commands.DeleteWishlistAccess;
 using Application.Wishlists.Commands.ShareWishlist;
 using Application.Wishlists.Commands.UpdateWishlist;
+using Application.Wishlists.Queries.CheckAccess;
 using Application.Wishlists.Queries.GetFilteredWishlists;
 using Application.Wishlists.Queries.GetWishlistAccessRights;
 using Application.Wishlists.Queries.GetWishlistById;
@@ -76,6 +77,13 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
         )
     {
         var result = await mediatr.Send(new GetWishlistAccessRightsQuery(id, pageNumber, pageSize), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{id:guid}/access/check")]
+    public async Task<IActionResult> CheckAccess(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await mediatr.Send(new CheckAccessQuery(id), cancellationToken);
         return Ok(result);
     }
 }

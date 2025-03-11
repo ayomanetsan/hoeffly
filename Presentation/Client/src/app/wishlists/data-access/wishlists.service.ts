@@ -36,6 +36,10 @@ export class WishlistsService {
     return this.http.put<WishlistUpdateRequest>('/wishlists', wishlist);
   }
 
+  checkAccess(id: string) {
+    return this.http.get<AccessType | undefined>(`/wishlists/${id}/access/check`);
+  }
+
   getAccess(id: string, pageNumber = 1, pageSize = 10) {
     return this.http.get<PagedResponse<AccessRightsResponse>>(`/wishlists/${id}/access?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }

@@ -306,4 +306,12 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         
         return (accessRights, totalPages);
     }
+    
+    public async Task<AccessType?> CheckAccessRightsAsync(Guid requestWishlistId, CancellationToken cancellationToken)
+    {
+        return (await _accessRightsRepository.GetQueryable()
+            .AsNoTracking()
+            .Where(a => a.WishlistId == requestWishlistId && a.User.Email == GetUserEmailFromContext())
+            .FirstOrDefaultAsync(cancellationToken))?.Type;
+    }
 }

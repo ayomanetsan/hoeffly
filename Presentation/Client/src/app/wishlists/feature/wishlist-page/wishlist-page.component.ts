@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WishlistsService } from '../../data-access/wishlists.service';
 import { GiftResponse } from '../../../gifts/models/gift';
 import { MatDialog } from '@angular/material/dialog';
 import { GiftModalComponent } from '../../../gifts/ui/gift-modal/gift-modal.component';
 import { GiftService } from '../../../gifts/data-access/gift.service';
+import { AccessType } from '../../models/accessRights';
 
 @Component({
   selector: 'app-wishlist-page',
@@ -15,9 +16,11 @@ export class WishlistPageComponent implements OnInit {
 
   private wishlistId!: string;
   gifts: GiftResponse[] = [];
+  accessType!: AccessType;
 
   constructor(
       private route: ActivatedRoute,
+      private router: Router,
       private wishlistsService: WishlistsService,
       private giftService: GiftService,
       private dialogRef: MatDialog
@@ -26,7 +29,19 @@ export class WishlistPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.wishlistId = params['id'];
-      this.loadGifts();
+
+      this.wishlistsService.checkAccess(this.wishlistId).subscribe(async accessType => {
+        if (!accessType && accessType !== AccessType.Owner) {
+          // Redirect to the not found page if the user has no access to the wishlist
+          // TODO: create the not found page
+          await this.router.navigate(['/']);
+          return;
+        }
+
+        // TODO: alter the page based on access type
+        this.accessType = accessType;
+        this.loadGifts();
+      });
     });
   }
 
