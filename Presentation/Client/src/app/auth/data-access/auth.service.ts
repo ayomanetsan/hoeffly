@@ -103,6 +103,10 @@ export class AuthService {
     await this.router.navigate(['/auth/login']);
   }
 
+  async getCurrentUserEmail() {
+    return await this.afAuth.currentUser.then(user => user!.email);
+  }
+
   private async createUser(name: string, email: string, firebaseUid: string) {
     await this.http.post('/users', { name: name, email: email, firebaseUid: firebaseUid}).toPromise();
   }

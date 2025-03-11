@@ -17,10 +17,10 @@ public class UsersController(IMediator mediatr) : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetUserByEmail([FromBody] GetUserByEmailQuery command)
+    public async Task<IActionResult> GetUserByEmail([FromQuery] string email)
     {
         // TODO: update schema to include photo url
-        var result = await mediatr.Send(command);
+        var result = await mediatr.Send(new GetUserByEmailQuery(email));
         return Ok(result);
     }
 }

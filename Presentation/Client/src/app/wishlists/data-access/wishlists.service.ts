@@ -7,6 +7,7 @@ import {
   WishlistWithGifts
 } from '../models/wishlist';
 import { PagedResponse } from "../../shared/models/pagedResponse";
+import { AccessRightsResponse, AccessType, ShareWishlistRequest } from '../models/accessRights';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,17 @@ export class WishlistsService {
 
   update(id: string, wishlist: WishlistUpdateRequest) {
     return this.http.put<WishlistUpdateRequest>('/wishlists', wishlist);
+  }
+
+  getAccess(id: string, pageNumber = 1, pageSize = 10) {
+    return this.http.get<PagedResponse<AccessRightsResponse>>(`/wishlists/${id}/access?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  }
+
+  revokeAccess(accessRightsId: string) {
+    return this.http.delete(`/wishlists/${accessRightsId}/access`, '');
+  }
+
+  grantAccess(request: ShareWishlistRequest) {
+    return this.http.post('/wishlists/share', request);
   }
 }

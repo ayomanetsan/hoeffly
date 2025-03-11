@@ -5,6 +5,7 @@ import {WishlistCardStateService} from "../../data-access/wishlist-card-state.se
 import {WishlistsService} from "../../data-access/wishlists.service";
 import {WishlistModalComponent} from "../wishlist-modal/wishlist-modal.component";
 import {MatDialog} from "@angular/material/dialog";
+import { WishlistAccessComponent } from '../wishlist-access/wishlist-access.component';
 
 @Component({
   selector: 'app-wishlist-card',
@@ -44,8 +45,7 @@ export class WishlistCardComponent implements OnInit {
         this.openEditModal();
         break;
       case 'share':
-        console.log('Share wishlist');
-        // TODO: share
+        this.openShareModal();
         break;
       case 'remove':
         this.deleteWishlist(this.wishlist.id);
@@ -69,6 +69,12 @@ export class WishlistCardComponent implements OnInit {
       if (result) {
         this.wishlistUpdated.emit();
       }
+    });
+  }
+
+  private openShareModal(): void {
+    const dialogRef = this.dialog.open(WishlistAccessComponent, {
+      data: { wishlistId: this.wishlist.id, wishlistName: this.wishlist.name },
     });
   }
 

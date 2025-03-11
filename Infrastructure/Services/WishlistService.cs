@@ -291,7 +291,8 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         
         var queryable = _accessRightsRepository
             .GetQueryable()
-            .Where(a => a.WishlistId == wishlistId && a.Type != AccessType.Owner)
+            .AsNoTracking()
+            .Where(a => a.WishlistId == wishlistId)
             .Include(a => a.User);
         
         var totalItems = await queryable.CountAsync(cancellationToken);
