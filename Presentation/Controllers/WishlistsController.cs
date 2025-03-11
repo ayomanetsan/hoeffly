@@ -53,11 +53,10 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
         return Ok(result);
     }
     
-    [HttpPost("{id}/share")]
-    public async Task<IActionResult> ShareWishlist(Guid id, [FromBody] ShareWishlistCommand request, CancellationToken cancellationToken)
+    [HttpPost("share")]
+    public async Task<IActionResult> ShareWishlist([FromBody] ShareWishlistCommand request, CancellationToken cancellationToken)
     {
-        var command = new ShareWishlistCommand(id, request.Email, request.AccessType);
-        var result = await mediatr.Send(command, cancellationToken);
+        var result = await mediatr.Send(request, cancellationToken);
         return Ok(result);
     }
     
