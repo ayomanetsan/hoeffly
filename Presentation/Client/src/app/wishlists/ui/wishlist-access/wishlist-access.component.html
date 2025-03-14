@@ -1,0 +1,73 @@
+﻿<div class="modal-header">
+  <p>Share "{{ data.wishlistName }}"</p>
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 6L6 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6 6L18 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+<div class="modal-body">
+  <div class="filters">
+    <button class="smaller" (click)="changeFilter('friends')" [ngClass]="selectedFilter === 'friends' ? 'secondary' : ''">Friends</button>
+    <button class="smaller" (click)="changeFilter('users')" [ngClass]="selectedFilter === 'users' ? 'secondary' : ''">Users</button>
+  </div>
+
+  <form [formGroup]="accessForm">
+    <div class="form-row" *ngIf="selectedFilter === 'friends'">
+      <label for="name">Name*</label>
+      <app-dropdown
+        id="name"
+        [options]="friendsDropdown"
+        formControlName="email"
+        [placeholder]="'e.g. John Doe'"
+        [noResultsText]="'No friends found'"
+        (click)="accessForm.markAllAsTouched()"
+      ></app-dropdown>
+      <div class="error" *ngIf="accessForm.get('email')?.invalid && accessForm.get('email')?.touched">
+        Name is required
+      </div>
+    </div>
+    <div class="form-row" *ngIf="selectedFilter === 'users'">
+      <label for="email">Email*</label>
+      <input id="email" type="email" placeholder="e.g. johndoe@gmail.com" formControlName="email">
+      <div class="error" *ngIf="accessForm.get('email')?.invalid && accessForm.get('email')?.touched">
+        Email format is invalid
+      </div>
+    </div>
+    <button class="accent smaller" [disabled]="accessForm.invalid" (click)="getUserDetails()">Grant</button>
+  </form>
+
+  <div>
+    <h4>People with access</h4>
+    <div class="access-list">
+      <div class="person" *ngFor="let person of peopleWithAccess">
+        <div class="person-info">
+          <p>{{ person.email === currentUserEmail ? person.name + ' (You)' : person.name }}</p>
+          <p class="smaller tinted">{{ person.email }}</p>
+        </div>
+        <div class="person-actions">
+          <ng-container *ngIf="person.type === AccessType.Owner; else dropdownTemplate">Owner</ng-container>
+          <ng-template #dropdownTemplate>
+            <ng-container *ngIf="!isOwner; else ownerTemplate">
+              {{ AccessType[person.type] }}
+            </ng-container>
+            <ng-template #ownerTemplate>
+              <app-dropdown
+                [options]="accessTypeDropdown"
+                [placeholder]="'Type'"
+                [noResultsText]="'No access types found'"
+                [ngModel]="person.type"
+                (ngModelChange)="updateAccessType(person, $event)">
+              </app-dropdown>
+              <svg (click)="revokeAccess(person)" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 9L9 15" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 9L15 15" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <button *ngIf="isOwner" class="accent" (click)="updateAccess()">Update</button>
+  </div>
+</div>

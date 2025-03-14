@@ -1,7 +1,6 @@
 ﻿using Application.Users.Commands.CreateUser;
+using Application.Users.Queries.GetUserByEmail;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
@@ -14,6 +13,14 @@ public class UsersController(IMediator mediatr) : ControllerBase
     public async Task<IActionResult> Create(CreateUserCommand command)
     {
         var result = await mediatr.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetUserByEmail([FromQuery] string email)
+    {
+        // TODO: update schema to include photo url
+        var result = await mediatr.Send(new GetUserByEmailQuery(email));
         return Ok(result);
     }
 }

@@ -58,10 +58,15 @@ public static class InfrastructureServices
             var implementationName = @interface.Name.Substring(1);
             var implementation = implementationAssembly!.GetTypes()
                 .FirstOrDefault(t => t.IsClass && t.Namespace == typeof(UserService).Namespace && t.Name == implementationName);
-
+            
             if (implementation != null && @interface.IsAssignableFrom(implementation))
             {
                 services.AddScoped(@interface, implementation);
+
+                foreach (var additionalInterface in implementation.GetInterfaces().Where(i => i.Name.EndsWith("Service")))
+                {
+                    services.AddScoped(additionalInterface, implementation);
+                }
             }
         }
     }

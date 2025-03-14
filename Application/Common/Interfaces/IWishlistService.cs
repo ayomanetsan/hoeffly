@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Gifts.Queries;
+using Domain.Enums;
 
 namespace Application.Common.Interfaces;
 
@@ -17,4 +18,5 @@ public interface IWishlistService
     Task<Wishlist> GetWishlistAsync(Guid id, CancellationToken cancellationToken);
     
     Task<(IEnumerable<Gift> gifts, int totalPages)> GetPagedGiftsAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<AccessType?> CheckAccessRightsAsync(Guid requestWishlistId, CancellationToken cancellationToken);
 }

@@ -1,7 +1,11 @@
 ﻿using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
+using Application.Wishlists.Commands.DeleteWishlistAccess;
+using Application.Wishlists.Commands.ShareWishlist;
 using Application.Wishlists.Commands.UpdateWishlist;
+using Application.Wishlists.Queries.CheckAccess;
 using Application.Wishlists.Queries.GetFilteredWishlists;
+using Application.Wishlists.Queries.GetWishlistAccessRights;
 using Application.Wishlists.Queries.GetWishlistById;
 using MediatR;
 
@@ -47,6 +51,39 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var result = await mediatr.Send(new DeleteWishlistCommand(id), cancellationToken);
+        return Ok(result);
+    }
+    
+    [HttpPost("share")]
+    public async Task<IActionResult> ShareWishlist([FromBody] ShareWishlistCommand request, CancellationToken cancellationToken)
+    {
+        var result = await mediatr.Send(request, cancellationToken);
+        return Ok(result);
+    }
+    
+    [HttpDelete("{id}/access")]
+    public async Task<IActionResult> RevokeWishlistAccess(Guid id, CancellationToken cancellationToken)
+    {
+        await mediatr.Send(new RevokeWishlistAccessCommand(id), cancellationToken);
+        return Ok();
+    }
+    
+    [HttpGet("{id}/access")]
+    public async Task<IActionResult> GetWishlistAccessRights(
+        Guid id, 
+        CancellationToken cancellationToken,
+        [FromQuery] int pageNumber = 1, 
+        [FromQuery] int pageSize = 10
+        )
+    {
+        var result = await mediatr.Send(new GetWishlistAccessRightsQuery(id, pageNumber, pageSize), cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("{id:guid}/access/check")]
+    public async Task<IActionResult> CheckAccess(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await mediatr.Send(new CheckAccessQuery(id), cancellationToken);
         return Ok(result);
     }
 }

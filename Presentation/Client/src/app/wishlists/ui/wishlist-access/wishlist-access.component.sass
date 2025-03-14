@@ -1,0 +1,86 @@
+﻿@import '../../../../styles'
+
+.modal-header
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  padding: 24px
+  background-color: $primary
+
+  svg
+    cursor: pointer
+
+.modal-body
+  display: flex
+  flex-direction: column
+  gap: 1rem
+  padding: 1.5rem
+  width: 520px
+  background-color: $background
+
+  .filters
+    display: flex
+
+    button
+      &:first-child
+        border-radius: 10px 0 0 10px
+
+      &:last-child
+        border-radius: 0 10px 10px 0
+
+      &:hover
+        background-color: #D86E52
+
+  form
+    display: flex
+    flex-direction: column
+    align-items: start
+    gap: .5rem
+
+    .form-row
+      width: 100%
+
+      label
+        display: block
+        margin-bottom: .25rem
+
+      div
+        display: flex
+        gap: .25rem
+        margin-top: .25rem
+        color: $error
+        max-width: 368px
+        padding: 0 0 0 .25rem
+
+        svg
+          width: 14px
+
+          path
+            stroke: $error
+
+    button
+      width: 100%
+      text-align: center
+
+  h4
+    margin-bottom: .5rem
+
+  .access-list
+    margin-bottom: 2rem
+
+    .person
+      display: flex
+      justify-content: space-between
+      margin-bottom: .5rem
+
+      .person-actions
+        display: flex
+        align-items: center
+        gap: .5rem
+        max-width: 140px
+
+        svg
+          cursor: pointer
+          min-width: 24px

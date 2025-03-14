@@ -1,26 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Domain.Enums;
 using Domain.Exceptions;
 
 namespace Infrastructure.Services;
 
-public class WishlistService : IWishlistService
+public class WishlistService : IWishlistService, IWishlistAccessService
 {
     private readonly IRepository<Wishlist> _wishlistRepository;
     private readonly IRepository<WishlistCategory> _wishlistCategoryRepository;
     private readonly IRepository<Category> _categoryRepository;
     private readonly IRepository<Gift> _giftRepository;
+    private readonly IRepository<User> _userRepository;
+    private readonly IRepository<AccessRights> _accessRightsRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IUnitOfWork _unitOfWork;
 
 
-    public WishlistService(IRepository<Wishlist> wishlistRepository,
+    public WishlistService(
+        IRepository<Wishlist> wishlistRepository,
         IRepository<WishlistCategory> wishlistCategoryRepository, 
         IRepository<Category> categoryRepository, 
         IRepository<Gift> giftRepository, 
         IHttpContextAccessor httpContextAccessor,
-        IUnitOfWork unitOfWork
-    )
+        IUnitOfWork unitOfWork, 
+        IRepository<User> userRepository, 
+        IRepository<AccessRights> accessRightsRepository
+        ) 
     {
         _wishlistRepository = wishlistRepository;
         _wishlistCategoryRepository = wishlistCategoryRepository;
@@ -28,6 +34,8 @@ public class WishlistService : IWishlistService
         _giftRepository = giftRepository;
         _httpContextAccessor = httpContextAccessor;
         _unitOfWork = unitOfWork;
+        _userRepository = userRepository;
+        _accessRightsRepository = accessRightsRepository;
     }
 
     public async Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(bool createdByCurrentUser,
@@ -76,7 +84,30 @@ public class WishlistService : IWishlistService
             
             wishlist.WishlistCategories.Add(wishlistCategory);
         }
+        
         await _wishlistRepository.AddAsync(wishlist, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
+        var currentUserEmail = GetUserEmailFromContext();
+        var currentUser = await _userRepository
+            .GetQueryable()
+            .Where(u => u.Email == currentUserEmail)
+            .FirstOrDefaultAsync(cancellationToken);
+    
+        if (currentUser == null)
+        {
+            throw new NotFoundException($"User with email {currentUserEmail} not found.");
+        }
+        var accessRight = new AccessRights
+        {
+            WishlistId = wishlist.Id,
+            UserId = currentUser.Id,
+            Type = AccessType.Owner,
+            CreatedBy = currentUserEmail,
+            LastModifiedBy = currentUserEmail,
+        };
+        
+        await _accessRightsRepository.AddAsync(accessRight, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
@@ -181,4 +212,106 @@ public class WishlistService : IWishlistService
     }
     
     private string GetUserEmailFromContext() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+    
+    public async Task<Guid> ShareWishlistAsync(AccessRights accessRight, string email, CancellationToken cancellationToken)
+    {
+        var sharedFromEmail = GetUserEmailFromContext();
+        var sharedFrom = await _userRepository
+            .GetQueryable()
+            .Where(u => u.Email == sharedFromEmail)
+            .FirstOrDefaultAsync(cancellationToken);
+    
+        if (sharedFrom == null)
+        {
+            throw new NotFoundException($"User with email {sharedFromEmail} not found.");
+        }
+
+        var sharedTo = await _userRepository
+            .GetQueryable()
+            .Where(u => u.Email == email)
+            .FirstOrDefaultAsync(cancellationToken);
+        
+        if (sharedTo == null)
+        {
+            throw new NotFoundException($"User with email {email} not found.");
+        }
+        
+        var wishlist = await _wishlistRepository
+            .GetQueryable()
+            .Where(w => w.Id == accessRight.WishlistId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (wishlist == null)
+        {
+            throw new NotFoundException($"Wishlist with ID {accessRight.WishlistId} not found.");
+        }
+        
+        var existingAccess = await _accessRightsRepository
+            .GetQueryable()
+            .Where(a => a.WishlistId == accessRight.WishlistId && a.UserId == sharedTo.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (existingAccess != null)
+        {
+            existingAccess.Type = accessRight.Type;
+            _accessRightsRepository.Update(existingAccess);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return existingAccess.Id;
+        }
+        
+        accessRight.UserId = sharedTo.Id;
+        await _accessRightsRepository.AddAsync(accessRight, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return accessRight.Id;
+    }
+
+    public async Task RevokeWishlistAccessAsync(Guid accessRightId, CancellationToken cancellationToken)
+    {
+        var accessRight = await _accessRightsRepository.GetAsync(accessRightId, cancellationToken)
+                            ?? throw new NotFoundException("Access right not found.");
+        
+        var wishlist = await _wishlistRepository.GetAsync(accessRight.WishlistId, cancellationToken)
+                       ?? throw new NotFoundException("Wishlist not found.");
+        
+        var email = GetUserEmailFromContext();
+
+        if (wishlist.CreatedBy != email)
+        {
+            throw new ForbiddenException("You are not authorized to delete this access right.");
+        }
+        
+        _accessRightsRepository.Delete(accessRight);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<(IEnumerable<AccessRights> accessRights, int totalPages)> GetWishlistAccessRightAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    {
+        var wishlist = await _wishlistRepository.GetAsync(wishlistId, cancellationToken)
+                       ?? throw new NotFoundException($"Wishlist not found.");
+        
+        var queryable = _accessRightsRepository
+            .GetQueryable()
+            .AsNoTracking()
+            .Where(a => a.WishlistId == wishlistId)
+            .Include(a => a.User);
+        
+        var totalItems = await queryable.CountAsync(cancellationToken);
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        
+        var accessRights = await queryable
+            .OrderBy(a => a.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+        
+        return (accessRights, totalPages);
+    }
+    
+    public async Task<AccessType?> CheckAccessRightsAsync(Guid requestWishlistId, CancellationToken cancellationToken)
+    {
+        return (await _accessRightsRepository.GetQueryable()
+            .AsNoTracking()
+            .Where(a => a.WishlistId == requestWishlistId && a.User.Email == GetUserEmailFromContext())
+            .FirstOrDefaultAsync(cancellationToken))?.Type;
+    }
 }

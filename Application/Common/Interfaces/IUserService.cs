@@ -6,4 +6,6 @@ public interface IUserService
     
     Task<(IEnumerable<User> users, int totalPages)> GetUsersAsync(int pageNumber,
         int pageSize, CancellationToken cancellationToken);
+    
+    Task<User> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
 }

@@ -1,6 +1,7 @@
 namespace Application.Users.Queries.GetUsers;
 
 public record UsersResponse(
+    // TODO: update schema to include photo url
     string Name, 
     string Email
 )
