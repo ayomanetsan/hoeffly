@@ -190,7 +190,9 @@ public class WishlistService : IWishlistService, IWishlistAccessService
     {
         var giftsQuery = _giftRepository.GetQueryable()
             .Where(g => g.WishlistId == wishlistId)
-            .Include(g => g.Category);
+            .Include(g => g.Category)
+            .Include(g=> g.SharedGifts)
+            .ThenInclude(sg => sg.User);
 
         int totalGifts = await giftsQuery.CountAsync(cancellationToken);
         int totalPages = (int)Math.Ceiling(totalGifts / (double)pageSize);

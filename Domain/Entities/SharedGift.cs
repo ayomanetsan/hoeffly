@@ -4,7 +4,7 @@ namespace Domain.Entities;
 
 public class SharedGift : EntityBase
 {
-    public InvitationStatus Status { get; set; }
+    public SharedGiftStatus Status { get; set; }
     
     public Guid GiftId { get; set; }
 
