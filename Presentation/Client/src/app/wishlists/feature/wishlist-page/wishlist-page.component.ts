@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GiftModalComponent } from '../../../gifts/ui/gift-modal/gift-modal.component';
 import { GiftService } from '../../../gifts/data-access/gift.service';
 import { AccessType } from '../../models/accessRights';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wishlist-page',
@@ -26,7 +27,8 @@ export class WishlistPageComponent implements OnInit {
       private router: Router,
       private wishlistsService: WishlistsService,
       private giftService: GiftService,
-      private dialogRef: MatDialog
+      private dialogRef: MatDialog,
+      private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -93,4 +95,18 @@ export class WishlistPageComponent implements OnInit {
       }
     });
   }
+
+  onReserve({ giftId, toBeReserved }: { giftId: string, toBeReserved: boolean }): void {
+    if (toBeReserved) {
+      this.giftService.reserve(giftId).subscribe(() => {
+        this.toastr.success('Gift reserved successfully');
+      });
+    } else {
+      this.giftService.cancelReservation(giftId).subscribe(() => {
+        this.toastr.success('Gift reservation canceled');
+      });
+    }
+  }
+
+  protected readonly AccessType = AccessType;
 }

@@ -176,9 +176,8 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         var wishlist = await _wishlistRepository.GetAsync(id, cancellationToken)
                        ?? throw new NotFoundException("Wishlist not found.");
         
-        var email = GetUserEmailFromContext();
-
-        if (wishlist.CreatedBy != email && !wishlist.IsPublic)
+        // TODO: Update the 
+        if (await CheckAccessRightsAsync(id, cancellationToken) == null)
         {
             throw new ForbiddenException("You are not authorized to view this wishlist.");
         }
@@ -311,9 +310,19 @@ public class WishlistService : IWishlistService, IWishlistAccessService
     
     public async Task<AccessType?> CheckAccessRightsAsync(Guid requestWishlistId, CancellationToken cancellationToken)
     {
-        return (await _accessRightsRepository.GetQueryable()
+        var accessType = (await _accessRightsRepository.GetQueryable()
             .AsNoTracking()
-            .Where(a => a.WishlistId == requestWishlistId && a.User.Email == GetUserEmailFromContext())
-            .FirstOrDefaultAsync(cancellationToken))?.Type;
+            .FirstOrDefaultAsync(a => a.WishlistId == requestWishlistId && a.User.Email == GetUserEmailFromContext(), cancellationToken))?.Type;
+
+        if (accessType != null)
+        {
+            return accessType;
+        }
+        
+        var isPublic = await _wishlistRepository.GetQueryable()
+            .AsNoTracking()
+            .AnyAsync(w => w.IsPublic && w.Id == requestWishlistId, cancellationToken);
+        
+        return isPublic ? AccessType.Viewer : null;
     }
 }

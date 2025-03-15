@@ -6,7 +6,12 @@
         <p>{{ gift.price | currency: getCurrencyString(gift.currency) }}</p>
     </div>
     <div class="gift__actions">
+      <ng-container *ngIf="accessType !== AccessType.Viewer; else guestActions">
         <button (click)="onUpdate()">Update</button>
         <button (click)="onDelete()">Delete</button>
+      </ng-container>
+      <ng-template #guestActions>
+        <button (click)="onReserve()">{{ gift.isReserved ? 'Cancel Reservation' : 'Reserve' }}</button>
+      </ng-template>
     </div>
 </div>

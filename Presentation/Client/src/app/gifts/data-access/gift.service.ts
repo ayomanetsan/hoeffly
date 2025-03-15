@@ -23,4 +23,12 @@ export class GiftService {
   delete(id: string) {
     return this.http.delete('/gifts', id);
   }
+
+  reserve(id: string) {
+    return this.http.post<string>(`/gifts/${id}/reserve`, {});
+  }
+
+  cancelReservation(id: string) {
+    return this.http.delete(`/gifts/${id}/cancel-reservation`, '');
+  }
 }
