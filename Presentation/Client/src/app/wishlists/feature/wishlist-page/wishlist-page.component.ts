@@ -2,12 +2,15 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WishlistsService } from '../../data-access/wishlists.service';
-import { GiftResponse } from '../../../gifts/models/gift';
+import { GiftResponse, ReserveAction, SharedGiftResponse, SharedGiftStatus } from '../../../gifts/models/gift';
 import { MatDialog } from '@angular/material/dialog';
 import { GiftModalComponent } from '../../../gifts/ui/gift-modal/gift-modal.component';
 import { GiftService } from '../../../gifts/data-access/gift.service';
 import { AccessType } from '../../models/accessRights';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../auth/data-access/auth.service';
+import { ReservationsHubService } from '../../../gifts/data-access/reservations-hub.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wishlist-page',
@@ -15,11 +18,14 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './wishlist-page.component.sass'
 })
 export class WishlistPageComponent implements OnInit {
+  private giftReservationSubscription!: Subscription;
+  private giftReservationCancelSubscription!: Subscription;
 
   private wishlistId!: string;
   gifts: GiftResponse[] = [];
   accessType!: AccessType;
   wishlistName!: string;
+  currentUserEmail!: string;
 
   constructor(
       private location: Location,
@@ -28,10 +34,13 @@ export class WishlistPageComponent implements OnInit {
       private wishlistsService: WishlistsService,
       private giftService: GiftService,
       private dialogRef: MatDialog,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private authService: AuthService,
+      private reservationsHub: ReservationsHubService
   ) { }
 
-  ngOnInit(): void {
+  // TODO: separate ngOnInit into smaller methods
+  async ngOnInit(): Promise<void> {
     this.route.params.subscribe(params => {
       this.wishlistId = params['id'];
 
@@ -46,8 +55,47 @@ export class WishlistPageComponent implements OnInit {
         // TODO: alter the page based on access type
         this.accessType = accessType;
         this.loadGifts();
+
+        // Hub methods
+        this.reservationsHub.startConnection();
+
+        this.giftReservationSubscription = this.reservationsHub.giftReservationReceived$.subscribe((response: { giftId: string, reservedByEmail: string }) => {
+          const sharedGift: SharedGiftResponse = {
+            userEmail: response.reservedByEmail,
+            status: SharedGiftStatus.Primary,
+          };
+
+          this.gifts = this.gifts.map(gift =>
+            gift.id === response.giftId
+              ? { ...gift, isReserved: true, sharedGifts: [...gift.sharedGifts, sharedGift] }
+              : gift
+          );
+        });
+
+        this.giftReservationCancelSubscription = this.reservationsHub.giftReservationCancelReceived$.subscribe((response: { giftId: string, reservedByEmail: string }) => {
+          this.gifts = this.gifts.map(gift => {
+            if (gift.id !== response.giftId) return gift;
+
+            // Remove the user from sharedGifts
+            const updatedSharedGifts = gift.sharedGifts.filter(g => g.userEmail !== response.reservedByEmail);
+
+            // If there are users left, make the first one Primary
+            if (updatedSharedGifts.length > 0) {
+              updatedSharedGifts[0] = { ...updatedSharedGifts[0], status: SharedGiftStatus.Primary };
+            }
+
+            return {
+              ...gift,
+              isReserved: updatedSharedGifts.length > 0,
+              sharedGifts: updatedSharedGifts
+            };
+          });
+        });
       });
     });
+
+    // The current user is guaranteed to be authenticated at this point
+    this.currentUserEmail = await this.authService.getCurrentUserEmail() as string;
   }
 
   navigateToPreviousPage(): void {
@@ -96,15 +144,26 @@ export class WishlistPageComponent implements OnInit {
     });
   }
 
-  onReserve({ giftId, toBeReserved }: { giftId: string, toBeReserved: boolean }): void {
-    if (toBeReserved) {
-      this.giftService.reserve(giftId).subscribe(() => {
-        this.toastr.success('Gift reserved successfully');
-      });
-    } else {
-      this.giftService.cancelReservation(giftId).subscribe(() => {
-        this.toastr.success('Gift reservation canceled');
-      });
+  onReserve({ giftId, reserveAction }: { giftId: string, reserveAction: ReserveAction }): void {
+    // TODO: implement real-time reservation
+    switch (reserveAction) {
+      case ReserveAction.Reserve:
+        this.giftService.reserve(giftId).subscribe(() => {
+          this.toastr.success('Gift reserved successfully');
+          this.reservationsHub.reserveGift(giftId);
+        });
+        break;
+      case ReserveAction.CancelReservation:
+        this.giftService.cancelReservation(giftId).subscribe(() => {
+          this.toastr.success('Gift reservation canceled');
+          this.reservationsHub.cancelReservation(giftId);
+        });
+        break;
+      case ReserveAction.RequestSharedReservation:
+        this.giftService.reserve(giftId).subscribe(() => {
+          this.toastr.success('Reservation join requested successfully');
+        });
+        break;
     }
   }
 

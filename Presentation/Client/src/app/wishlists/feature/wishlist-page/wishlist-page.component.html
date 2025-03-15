@@ -20,6 +20,7 @@
             <app-gift-card *ngFor="let gift of gifts"
                     [gift]="gift"
                     [accessType]="accessType"
+                    [currentUserEmail]="currentUserEmail"
                     (deleteGift)="onDelete($event)"
                     (updateGift)="onUpdate($event)"
                     (reserveGift)="onReserve($event)"

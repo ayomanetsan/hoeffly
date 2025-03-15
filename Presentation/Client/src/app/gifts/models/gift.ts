@@ -14,6 +14,7 @@ export interface GiftResponse {
     priority: number
     likeCount: number
     isReserved: boolean
+    sharedGifts: SharedGiftResponse[]
 }
 
 export enum Currency {
@@ -28,6 +29,23 @@ export enum Priority {
     WouldLike,
     NiceToHave,
     Optional
+}
+
+export interface SharedGiftResponse {
+  userEmail: string;
+  status: SharedGiftStatus;
+}
+
+export enum SharedGiftStatus {
+  Pending,
+  Accepted,
+  Primary
+}
+
+export enum ReserveAction {
+  Reserve,
+  CancelReservation,
+  RequestSharedReservation
 }
 
 export interface GiftCreateRequest {

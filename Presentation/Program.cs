@@ -47,7 +47,10 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 
+// TODO: create an extension method to inject all hubs
 app.MapHub<FriendsHub>("/friendsHub");
+
+app.MapHub<ReservationsHub>("/reservationsHub");
 
 app.MigrateContext();
 
