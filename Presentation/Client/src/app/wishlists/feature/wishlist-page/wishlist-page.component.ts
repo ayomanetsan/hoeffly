@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WishlistsService } from '../../data-access/wishlists.service';
@@ -17,8 +18,10 @@ export class WishlistPageComponent implements OnInit {
   private wishlistId!: string;
   gifts: GiftResponse[] = [];
   accessType!: AccessType;
+  wishlistName!: string;
 
   constructor(
+      private location: Location,
       private route: ActivatedRoute,
       private router: Router,
       private wishlistsService: WishlistsService,
@@ -45,8 +48,13 @@ export class WishlistPageComponent implements OnInit {
     });
   }
 
+  navigateToPreviousPage(): void {
+    this.location.back();
+  }
+
   loadGifts(): void {
     this.wishlistsService.getById(this.wishlistId).subscribe(res => {
+      this.wishlistName = res.name;
       this.gifts = res.gifts.collection;
     });
   }
