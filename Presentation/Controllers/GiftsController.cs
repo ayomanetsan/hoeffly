@@ -57,4 +57,12 @@ public class GiftsController(IMediator mediatr) : ControllerBase
         return Ok();
     }
     
+    [HttpPut("accept-reservation")]
+    public async Task<IActionResult> AcceptGiftReservationAsync(
+        [FromBody] AcceptGiftReservationCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await mediatr.Send(request, cancellationToken);
+        return Ok();
+    }
 }

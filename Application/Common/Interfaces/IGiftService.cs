@@ -13,4 +13,6 @@ public interface IGiftService
     Task<Guid> ReserveGiftAsync(SharedGift sharedGift, CancellationToken cancellationToken);
     
     Task CancelGiftReservationAsync(Guid giftId, CancellationToken cancellationToken);
+    
+    Task AcceptGiftReservation(string email, Guid giftId, CancellationToken cancellationToken);
 }
