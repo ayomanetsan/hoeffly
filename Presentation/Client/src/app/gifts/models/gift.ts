@@ -73,7 +73,7 @@ export const GiftCategories: DropdownOption[] = [
     { value: 'Personal care', text: 'Personal care' },
     { value: 'Sports', text: 'Sports' },
     { value: 'Toys', text: 'Toys' },
-    { value: 'Jewelery', text: 'Jewelery' },
+    { value: 'Jewelry', text: 'Jewelry' },
     { value: 'Kitchen', text: 'Kitchen' },
     { value: 'Experiences', text: 'Experiences' },
     { value: 'Wellness', text: 'Wellness' },
@@ -95,4 +95,9 @@ export const PriorityCategories: DropdownOption[] = [
     { value: Priority.WouldLike, text: 'Would Like' },
     { value: Priority.NiceToHave, text: 'Nice to Have' },
     { value: Priority.Optional, text: 'Optional' }
+];
+
+export const ReservationCategories: DropdownOption[] = [
+  { value: true, text: 'Reserved' },
+  { value: false, text: 'Not reserved' },
 ];

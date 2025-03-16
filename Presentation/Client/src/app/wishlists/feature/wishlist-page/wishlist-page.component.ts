@@ -1,23 +1,33 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WishlistsService } from '../../data-access/wishlists.service';
-import { GiftResponse, ReserveAction, SharedGiftResponse, SharedGiftStatus } from '../../../gifts/models/gift';
+import {
+  GiftCategories,
+  GiftResponse,
+  PriorityCategories,
+  ReservationCategories,
+  ReserveAction,
+  SharedGiftResponse,
+  SharedGiftStatus,
+} from '../../../gifts/models/gift';
 import { MatDialog } from '@angular/material/dialog';
 import { GiftModalComponent } from '../../../gifts/ui/gift-modal/gift-modal.component';
 import { GiftService } from '../../../gifts/data-access/gift.service';
 import { AccessType } from '../../models/accessRights';
 import { ToastrService } from 'ngx-toastr';
+import {DropdownOption} from "../../../shared/models/dropdownOption";
+import {Subject, takeUntil, Subscription} from "rxjs";
+import {debounceTime} from "rxjs/operators";
 import { AuthService } from '../../../auth/data-access/auth.service';
 import { ReservationsHubService } from '../../../gifts/data-access/reservations-hub.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wishlist-page',
   templateUrl: './wishlist-page.component.html',
   styleUrl: './wishlist-page.component.sass'
 })
-export class WishlistPageComponent implements OnInit {
+export class WishlistPageComponent implements OnInit, OnDestroy {
   private giftReservationSubscription!: Subscription;
   private giftReservationCancelSubscription!: Subscription;
 
@@ -26,6 +36,17 @@ export class WishlistPageComponent implements OnInit {
   accessType!: AccessType;
   wishlistName!: string;
   currentUserEmail!: string;
+
+  selectedPriority: number | null = null;
+  selectedReservation: boolean | null = null;
+  selectedCategory: string | null = null;
+
+  private filterSubject = new Subject<void>();
+  private destroy$ = new Subject<void>();
+
+  readonly categories = GiftCategories;
+  readonly reservations = ReservationCategories;
+  readonly priorities = PriorityCategories;
 
   constructor(
       private location: Location,
@@ -54,6 +75,16 @@ export class WishlistPageComponent implements OnInit {
 
         // TODO: alter the page based on access type
         this.accessType = accessType;
+
+        this.filterSubject
+          .pipe(
+            debounceTime(300),
+            takeUntil(this.destroy$)
+          )
+          .subscribe(() => {
+            this.loadGifts();
+          });
+
         this.loadGifts();
 
         // Hub methods
@@ -98,15 +129,55 @@ export class WishlistPageComponent implements OnInit {
     this.currentUserEmail = await this.authService.getCurrentUserEmail() as string;
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   navigateToPreviousPage(): void {
     this.location.back();
   }
 
   loadGifts(): void {
-    this.wishlistsService.getById(this.wishlistId).subscribe(res => {
-      this.wishlistName = res.name;
-      this.gifts = res.gifts.collection;
-    });
+    const filters: {
+      categoryNames?: string[],
+      isReserved?: boolean,
+      priorities?: number[]
+    } = {};
+
+    if (this.selectedCategory) {
+      filters.categoryNames = [this.selectedCategory];
+    }
+
+    if (this.selectedReservation !== null) {
+      filters.isReserved = this.selectedReservation;
+    }
+
+    if (this.selectedPriority !== null) {
+      filters.priorities = [this.selectedPriority];
+    }
+
+    this.wishlistsService.getById(this.wishlistId,
+      Object.keys(filters).length > 0 ? filters : undefined)
+      .subscribe(res => {
+        this.wishlistName = res.name;
+        this.gifts = res.gifts.collection;
+      });
+  }
+
+  filterByPriority(option: DropdownOption): void {
+    this.selectedPriority = option.value !== null ? Number(option.value) : null;
+    this.filterSubject.next();
+  }
+
+  filterByReservation(option: DropdownOption): void {
+    this.selectedReservation = option.value !== null ? Boolean(option.value) : null;
+    this.filterSubject.next();
+  }
+
+  filterByCategory(option: DropdownOption): void {
+    this.selectedCategory = option.value !== null ? String(option.value) : null;
+    this.filterSubject.next();
   }
 
   openCreateModal(): void {

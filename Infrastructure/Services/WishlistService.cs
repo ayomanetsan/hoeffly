@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Application.Common.Models;
+using Application.Wishlists.Queries.GetWishlist;
 using Domain.Enums;
 using Domain.Exceptions;
 
@@ -185,12 +187,42 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         return wishlist;
     }
     
-    public async Task<(IEnumerable<Gift> gifts, int totalPages)> GetPagedGiftsAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public async Task<(IEnumerable<Gift> gifts, int totalPages)> GetPagedGiftsAsync(
+        Guid wishlistId, 
+        int pageNumber, 
+        int pageSize, 
+        GiftFilterParameters? filters,
+        CancellationToken cancellationToken)
     {
         var giftsQuery = _giftRepository.GetQueryable()
-            .Where(g => g.WishlistId == wishlistId)
+            .Where(g => g.WishlistId == wishlistId);
+        
+        if (filters != null)
+        {
+            if (filters.CategoryNames != null && filters.CategoryNames.Any())
+            {
+                var categoryIds = await _categoryRepository.GetQueryable()
+                    .Where(c => filters.CategoryNames.Contains(c.Name))
+                    .Select(c => c.Id)
+                    .ToListAsync(cancellationToken);
+                
+                giftsQuery = giftsQuery.Where(g => categoryIds.Contains(g.CategoryId));
+            }
+
+            if (filters.IsReserved.HasValue)
+            {
+                giftsQuery = giftsQuery.Where(g => g.IsReserved == filters.IsReserved.Value);
+            }
+
+            if (filters.Priorities != null && filters.Priorities.Any())
+            {
+                giftsQuery = giftsQuery.Where(g => filters.Priorities.Contains(g.Priority));
+            }
+        }
+        
+        giftsQuery = giftsQuery
             .Include(g => g.Category)
-            .Include(g=> g.SharedGifts)
+            .Include(g => g.SharedGifts)
             .ThenInclude(sg => sg.User);
 
         int totalGifts = await giftsQuery.CountAsync(cancellationToken);

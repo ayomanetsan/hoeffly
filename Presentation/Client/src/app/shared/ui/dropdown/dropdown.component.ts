@@ -1,4 +1,14 @@
-import { Component, forwardRef, Input, TemplateRef, ViewChild, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  TemplateRef,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DropdownOption } from '../../models/dropdownOption';
@@ -21,6 +31,8 @@ export class DropdownComponent implements ControlValueAccessor {
   @Input() noResultsText: string = 'No results found';
   @Input() optionTemplate!: TemplateRef<any>;
   @Input() debounceTime: number = 300;
+
+  @Output() optionSelected = new EventEmitter<DropdownOption>();
 
   @ViewChild('dropdownInput') dropdownInput!: ElementRef;
   @ViewChild('dropdownList') dropdownList!: ElementRef;
@@ -82,12 +94,16 @@ export class DropdownComponent implements ControlValueAccessor {
     this.searchControl.setValue(option.text);
     this.onChange(option.value);
     this.isOpen = false;
+
+    this.optionSelected.emit(option);
   }
 
   clearSelection(): void {
     this.selectedOption = null;
-    this.searchControl.setValue(''); 
-    this.onChange(null); 
-    this.filteredOptions = this.options; 
+    this.searchControl.setValue('');
+    this.onChange(null);
+    this.filteredOptions = this.options;
+
+    this.optionSelected.emit({ value: null, text: '' });
   }
 }

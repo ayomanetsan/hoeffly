@@ -49,6 +49,7 @@ export class GiftCardComponent implements OnInit {
         break;
       case ReserveAction.RequestSharedReservation:
         this.reservationRequestPending = true;
+        this.gift.sharedGifts.push({ userEmail: this.currentUserEmail, status: SharedGiftStatus.Pending });
         break;
     }
 

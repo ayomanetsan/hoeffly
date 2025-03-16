@@ -8,6 +8,30 @@
         <path d="M12 19L5 12L12 5" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <h2>{{ wishlistName }}</h2>
+
+      <div class="filters">
+        <app-dropdown
+          [options]="priorities"
+          [placeholder]="'Filter by priority'"
+          [noResultsText]="'No priorities found'"
+          (optionSelected)="filterByPriority($event)">
+        </app-dropdown>
+
+        <app-dropdown
+          [options]="reservations"
+          [placeholder]="'Filter by reservation'"
+          [noResultsText]="'No options found'"
+          (optionSelected)="filterByReservation($event)">
+        </app-dropdown>
+
+        <app-dropdown
+          [options]="categories"
+          [placeholder]="'Filter by category'"
+          [noResultsText]="'No categories found'"
+          (optionSelected)="filterByCategory($event)">
+        </app-dropdown>
+      </div>
+
         <div class="gifts">
           <div *ngIf="accessType !== AccessType.Viewer" class="create-card" (click)="openCreateModal()">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

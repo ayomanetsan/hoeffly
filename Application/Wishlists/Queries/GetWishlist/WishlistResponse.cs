@@ -1,7 +1,7 @@
 using Application.Common.Models;
 using Application.Gifts.Queries;
 
-namespace Application.Wishlists.Queries.GetWishlistById;
+namespace Application.Wishlists.Queries.GetWishlist;
 
 public record WishlistResponse
 {
