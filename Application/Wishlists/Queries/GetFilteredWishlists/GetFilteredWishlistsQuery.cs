@@ -2,4 +2,4 @@
 
 namespace Application.Wishlists.Queries.GetFilteredWishlists;
 
-public record GetFilteredWishlistsQuery(bool CreatedByCurrentUser) : PageRequest<PageResponse<WishlistBriefResponse>>;
+public record GetFilteredWishlistsQuery(int AccessType) : PageRequest<PageResponse<WishlistBriefResponse>>;

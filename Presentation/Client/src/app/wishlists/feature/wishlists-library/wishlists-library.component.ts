@@ -3,6 +3,7 @@ import { WishlistBriefResponse } from '../../models/wishlist';
 import { MatDialog } from '@angular/material/dialog';
 import { WishlistModalComponent } from '../../ui/wishlist-modal/wishlist-modal.component';
 import { WishlistsService } from '../../data-access/wishlists.service';
+import {AccessType} from "../../models/accessRights";
 
 @Component({
   selector: 'app-wishlists-library',
@@ -12,6 +13,7 @@ import { WishlistsService } from '../../data-access/wishlists.service';
 export class WishlistsLibraryComponent implements OnInit{
 
   wishlists: WishlistBriefResponse[] = [];
+  public selectedFilter: number = AccessType.Owner;
 
   constructor(private wishlistsService: WishlistsService, private dialogRef: MatDialog) { }
 
@@ -20,7 +22,49 @@ export class WishlistsLibraryComponent implements OnInit{
   }
 
   loadWishlists() {
-    this.wishlistsService.get(true).subscribe(
+    this.wishlistsService.get(this.selectedFilter).subscribe(
+      response => {
+        this.wishlists = response.collection;
+      }
+    );
+  }
+
+  changeFilter(selectedFilter: number): void {
+    if (this.selectedFilter === selectedFilter) {
+      return;
+    }
+
+    this.selectedFilter = selectedFilter;
+
+    switch (this.selectedFilter) {
+      case 0:
+        this.getWishlistsWithAccessTypeOwner();
+        break;
+      case 1:
+        this.getWishlistsWithAccessTypeEditor();
+        break
+      case 2:
+        this.getWishlistsWithAccessTypeViewer();
+        break
+    }
+  }
+
+  private getWishlistsWithAccessTypeOwner(): void {
+    this.wishlistsService.get(0).subscribe(
+      response => {
+        this.wishlists = response.collection;
+      }
+    );
+  }
+  private getWishlistsWithAccessTypeEditor(): void {
+    this.wishlistsService.get(1).subscribe(
+      response => {
+        this.wishlists = response.collection;
+      }
+    );
+  }
+  private getWishlistsWithAccessTypeViewer(): void {
+    this.wishlistsService.get(2).subscribe(
       response => {
         this.wishlists = response.collection;
       }
@@ -60,4 +104,6 @@ export class WishlistsLibraryComponent implements OnInit{
   onWishlistUpdated() {
     this.loadWishlists();
   }
+
+  protected readonly AccessType = AccessType;
 }

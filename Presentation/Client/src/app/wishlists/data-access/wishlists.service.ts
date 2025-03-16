@@ -16,8 +16,8 @@ export class WishlistsService {
 
   constructor(private http: HttpService) { }
 
-  get(createdByCurrentUser = false, pageNumber = 1, pageSize = 10) {
-    return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists?createdByCurrentUser=${createdByCurrentUser}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  get(accessType = 0, pageNumber = 1, pageSize = 10) {
+    return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists?accessType=${accessType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
   getById(id: string, filters?: {

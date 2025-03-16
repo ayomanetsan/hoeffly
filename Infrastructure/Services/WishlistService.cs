@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Application.Common.Models;
-using Application.Wishlists.Queries.GetWishlist;
 using Domain.Enums;
 using Domain.Exceptions;
 
@@ -40,14 +39,28 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         _accessRightsRepository = accessRightsRepository;
     }
 
-    public async Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(bool createdByCurrentUser,
+    public async Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(int accessType,
         int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var queryable = _wishlistRepository.GetQueryable();
-
-        queryable = createdByCurrentUser
-            ? FilterByCurrentUser(queryable)
-            : queryable.Where(w => w.IsPublic);
+        var currentUserEmail = GetUserEmailFromContext();
+        var currentUser = await _userRepository
+            .GetQueryable()
+            .Where(u => u.Email == currentUserEmail)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (currentUser == null)
+        {
+            throw new NotFoundException($"User with email {currentUserEmail} not found.");
+        }
+        
+        var wishlistIds = await _accessRightsRepository
+            .GetQueryable()
+            .Where(ar => ar.UserId == currentUser.Id && ar.Type == (AccessType)accessType).
+            Select(ar => ar.WishlistId)
+            .ToListAsync(cancellationToken);
+        
+        var queryable = _wishlistRepository
+            .GetQueryable()
+            .Where(w => wishlistIds.Contains(w.Id));
 
         var totalItems = await queryable.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -237,12 +250,6 @@ public class WishlistService : IWishlistService, IWishlistAccessService
 
         return (gifts, totalPages);
     }
-
-    private IQueryable<Wishlist> FilterByCurrentUser(IQueryable<Wishlist> queryable)
-    {
-        var email = GetUserEmailFromContext();
-        return queryable.Where(w => w.CreatedBy == email);
-    }
     
     private string GetUserEmailFromContext() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
     
@@ -319,8 +326,10 @@ public class WishlistService : IWishlistService, IWishlistAccessService
 
     public async Task<(IEnumerable<AccessRights> accessRights, int totalPages)> GetWishlistAccessRightAsync(Guid wishlistId, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var wishlist = await _wishlistRepository.GetAsync(wishlistId, cancellationToken)
-                       ?? throw new NotFoundException($"Wishlist not found.");
+        if (!await _wishlistRepository.ExistsAsync(wishlistId, cancellationToken))
+        {
+            throw new NotFoundException("Wishlist not found.");
+        }
         
         var queryable = _accessRightsRepository
             .GetQueryable()
