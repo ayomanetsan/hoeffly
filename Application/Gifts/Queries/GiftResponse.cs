@@ -29,13 +29,26 @@ public record GiftResponse
     public int LikeCount { get; set; }
 
     public bool IsReserved { get; set; }
-
+    
+    public IEnumerable<SharedGiftResponse> SharedGifts { get; set; }
+    
+    public class SharedGiftResponse
+    {
+        public Guid UserId { get; set; }
+        public string UserEmail { get; set; }
+        public SharedGiftStatus Status { get; set; }
+    }
+    
     private class MappingProfile : Profile
     {
         public MappingProfile()
         {
             CreateMap<Gift, GiftResponse>()
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.SharedGifts, opt => opt.MapFrom(src => src.SharedGifts));
+
+            CreateMap<SharedGift, SharedGiftResponse>()
+                .ForMember(dest => dest.UserEmail, opt => opt.MapFrom(src => src.User.Email));
         }
     }
 }

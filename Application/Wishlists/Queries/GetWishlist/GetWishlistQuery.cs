@@ -1,4 +1,6 @@
-namespace Application.Wishlists.Queries.GetWishlistById;
+using Application.Common.Models;
 
-public record GetWishlistQuery(Guid Id, int PageNumber = 1, int PageSize = 10) 
+namespace Application.Wishlists.Queries.GetWishlist;
+
+public record GetWishlistQuery(Guid Id, int PageNumber = 1, int PageSize = 10, GiftFilterParameters? Filters = null) 
     : IRequest<WishlistResponse>;

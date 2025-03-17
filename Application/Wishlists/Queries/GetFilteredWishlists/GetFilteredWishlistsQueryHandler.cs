@@ -18,7 +18,7 @@ public sealed class GetFilteredWishlistsQueryHandler :
         CancellationToken cancellationToken)
     {
         var (wishlists, totalPages) = await _wishlistService.GetWishlistsAsync(
-            request.CreatedByCurrentUser, 
+            request.AccessType, 
             request.PageNumber, 
             request.PageSize, 
             cancellationToken);

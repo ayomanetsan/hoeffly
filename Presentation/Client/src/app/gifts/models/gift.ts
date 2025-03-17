@@ -14,6 +14,7 @@ export interface GiftResponse {
     priority: number
     likeCount: number
     isReserved: boolean
+    sharedGifts: SharedGiftResponse[]
 }
 
 export enum Currency {
@@ -28,6 +29,23 @@ export enum Priority {
     WouldLike,
     NiceToHave,
     Optional
+}
+
+export interface SharedGiftResponse {
+  userEmail: string;
+  status: SharedGiftStatus;
+}
+
+export enum SharedGiftStatus {
+  Pending,
+  Accepted,
+  Primary
+}
+
+export enum ReserveAction {
+  Reserve,
+  CancelReservation,
+  RequestSharedReservation
 }
 
 export interface GiftCreateRequest {
@@ -47,6 +65,11 @@ export interface GiftUpdateRequest extends GiftCreateRequest {
   id: string;
 }
 
+export interface AcceptGiftReservationRequest {
+  giftId: string;
+  email: string;
+}
+
 export const GiftCategories: DropdownOption[] = [
     { value: 'Home', text: 'Home' },
     { value: 'Fashion', text: 'Fashion' },
@@ -55,7 +78,7 @@ export const GiftCategories: DropdownOption[] = [
     { value: 'Personal care', text: 'Personal care' },
     { value: 'Sports', text: 'Sports' },
     { value: 'Toys', text: 'Toys' },
-    { value: 'Jewelery', text: 'Jewelery' },
+    { value: 'Jewelry', text: 'Jewelry' },
     { value: 'Kitchen', text: 'Kitchen' },
     { value: 'Experiences', text: 'Experiences' },
     { value: 'Wellness', text: 'Wellness' },
@@ -77,4 +100,9 @@ export const PriorityCategories: DropdownOption[] = [
     { value: Priority.WouldLike, text: 'Would Like' },
     { value: Priority.NiceToHave, text: 'Nice to Have' },
     { value: Priority.Optional, text: 'Optional' }
+];
+
+export const ReservationCategories: DropdownOption[] = [
+  { value: true, text: 'Reserved' },
+  { value: false, text: 'Not reserved' },
 ];

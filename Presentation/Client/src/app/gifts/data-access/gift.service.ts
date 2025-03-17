@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../../shared/data-access/http.service";
-import { GiftCreateRequest, GiftResponse, GiftUpdateRequest } from '../models/gift';
+import { AcceptGiftReservationRequest, GiftCreateRequest, GiftResponse, GiftUpdateRequest } from '../models/gift';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,17 @@ export class GiftService {
 
   delete(id: string) {
     return this.http.delete('/gifts', id);
+  }
+
+  reserve(id: string) {
+    return this.http.post<string>(`/gifts/${id}/reserve`, {});
+  }
+
+  cancelReservation(id: string) {
+    return this.http.delete(`/gifts/${id}/cancel-reservation`, '');
+  }
+
+  acceptReservation(acceptGiftReservationRequest: AcceptGiftReservationRequest) {
+    return this.http.put('/gifts/accept-reservation', acceptGiftReservationRequest);
   }
 }

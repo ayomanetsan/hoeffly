@@ -8,7 +8,7 @@ public record WishlistBriefResponse(
     IEnumerable<string> Categories, 
     DateTimeOffset CreatedAt, 
     IEnumerable<string> PhotoUrls, 
-    int GiftsCount)
+    int GiftsCount) 
 {
     public WishlistBriefResponse() : this(Guid.Empty, "", false, new DateTimeOffset(), new List<string>(), new DateTimeOffset(), new List<string>(), 0){ }
 };

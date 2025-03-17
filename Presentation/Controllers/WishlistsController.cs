@@ -1,4 +1,5 @@
-﻿using Application.Wishlists.Commands.CreateWishlist;
+﻿using Application.Common.Models;
+using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
 using Application.Wishlists.Commands.DeleteWishlistAccess;
 using Application.Wishlists.Commands.ShareWishlist;
@@ -6,7 +7,8 @@ using Application.Wishlists.Commands.UpdateWishlist;
 using Application.Wishlists.Queries.CheckAccess;
 using Application.Wishlists.Queries.GetFilteredWishlists;
 using Application.Wishlists.Queries.GetWishlistAccessRights;
-using Application.Wishlists.Queries.GetWishlistById;
+using Application.Wishlists.Queries.GetWishlist;
+using Domain.Enums;
 using MediatR;
 
 namespace Presentation.Controllers;
@@ -27,9 +29,19 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
     public async Task<IActionResult> GetWishlist([FromRoute] Guid id,
         CancellationToken cancellationToken,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 10)
+        [FromQuery] int pageSize = 10,
+        [FromQuery] List<string>? categoryNames = null,
+        [FromQuery] bool? isReserved = null,
+        [FromQuery] List<PriorityLevel>? priorities = null)
     {
-        var response = await mediatr.Send(new GetWishlistQuery(id, pageNumber, pageSize), cancellationToken);
+        var filters = new GiftFilterParameters
+        {
+            CategoryNames = categoryNames,
+            IsReserved = isReserved,
+            Priorities = priorities
+        };
+        
+        var response = await mediatr.Send(new GetWishlistQuery(id, pageNumber, pageSize, filters), cancellationToken);
         return Ok(response);
     }
     

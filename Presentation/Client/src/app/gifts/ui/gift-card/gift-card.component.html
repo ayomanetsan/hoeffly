@@ -1,12 +1,22 @@
 <div class="gift">
-    <img [src]="gift.thumbnailLink" alt="gift.name">
-    <div class="gift__info">
-        <p class="smaller tinted">{{ gift.categoryName }}</p>
-        <h4>{{ gift.name }}</h4>
-        <p>{{ gift.price | currency: getCurrencyString(gift.currency) }}</p>
-    </div>
-    <div class="gift__actions">
-        <button (click)="onUpdate()">Update</button>
-        <button (click)="onDelete()">Delete</button>
-    </div>
+  <img [src]="gift.thumbnailLink" [alt]="gift.name">
+  <div class="gift-info">
+    <p class="smaller tinted">{{ gift.categoryName }}</p>
+    <h4>{{ gift.name }}</h4>
+    <p>{{ gift.price | currency: getCurrencyString(gift.currency) }}</p>
+    <ng-container *ngIf="accessType === AccessType.Viewer">
+      <button class="accent smaller" *ngIf="!gift.isReserved" (click)="onReserve(ReserveAction.Reserve)">Reserve</button>
+<!--
+Perhaps there is a reason to make 'manageReservation' instead of cancel here
+-->
+<!--      <button class="danger smaller" *ngIf="reservedByCurrentUser" (click)="onReserve(ReserveAction.CancelReservation)">Cancel reservation</button>-->
+      <button class="danger smaller" *ngIf="reservedByCurrentUser || reservationRequestAccepted" (click)="openReservationModal()">Manage reservation</button>
+      <button class="secondary smaller" *ngIf="!reservedByCurrentUser && gift.isReserved && !reservationRequestPending && !reservationRequestAccepted" (click)="onReserve(ReserveAction.RequestSharedReservation)">Join reservation</button>
+      <button class="secondary smaller" *ngIf="reservationRequestPending" (click)="onReserve(ReserveAction.RequestSharedReservation)">Reservation pending</button>
+    </ng-container>
+  </div>
+  <div *ngIf="accessType !== AccessType.Viewer">
+    <button (click)="onUpdate()">Update</button>
+    <button (click)="onDelete()">Delete</button>
+  </div>
 </div>

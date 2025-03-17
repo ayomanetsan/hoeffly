@@ -75,9 +75,9 @@
     <ng-container *ngIf="wishlist.giftsCount === 0">
       <p class="bigger tinted">No gifts yet</p>
     </ng-container>
-    <img *ngFor="let url of wishlist.photoUrls" [ngSrc]="url" alt="gift-photo" width="64" height="64">
+    <img *ngFor="let url of wishlist.photoUrls | slice:0:4" [ngSrc]="url" alt="gift-photo" width="64" height="64">
     <ng-container *ngIf="wishlist.giftsCount > 4">
-      <p class="gifts-count">+{{ wishlist.giftsCount - 4}}</p>
+      <p class="gifts-count">+{{ wishlist.giftsCount - 4 }}</p>
     </ng-container>
   </div>
 </div>

@@ -1,7 +1,11 @@
-﻿using Application.Gifts.Commands.CreateGift;
+﻿using Application.Gifts.Commands.AcceptGiftReservation;
+using Application.Gifts.Commands.CancelGiftReservation;
+using Application.Gifts.Commands.CreateGift;
 using Application.Gifts.Commands.DeleteGift;
+using Application.Gifts.Commands.ReserveGift;
 using Application.Gifts.Commands.UpdateGift;
 using Application.Gifts.Queries.GetGift;
+using Domain.Exceptions;
 using MediatR;
 
 namespace Presentation.Controllers;
@@ -37,5 +41,28 @@ public class GiftsController(IMediator mediatr) : ControllerBase
     {
         var result = await mediatr.Send(new DeleteGiftCommand(id), cancellationToken);
         return Ok(result);
+    }
+    
+    [HttpPost("{id}/reserve")]
+    public async Task<IActionResult> ReserveGiftAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var sharedGiftId = await mediatr.Send(new ReserveGiftCommand(id), cancellationToken);
+        return Ok(sharedGiftId);
+    }
+    
+    [HttpDelete("{id}/cancel-reservation")]
+    public async Task<IActionResult> CancelGiftReservationAsync(Guid id, CancellationToken cancellationToken)
+    {
+        await mediatr.Send(new CancelGiftReservationCommand(id), cancellationToken);
+        return Ok();
+    }
+    
+    [HttpPut("accept-reservation")]
+    public async Task<IActionResult> AcceptGiftReservationAsync(
+        [FromBody] AcceptGiftReservationCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await mediatr.Send(request, cancellationToken);
+        return Ok();
     }
 }

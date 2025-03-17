@@ -16,12 +16,40 @@ export class WishlistsService {
 
   constructor(private http: HttpService) { }
 
-  get(createdByCurrentUser = false, pageNumber = 1, pageSize = 10) {
-    return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists?createdByCurrentUser=${createdByCurrentUser}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  get(accessType = 0, pageNumber = 1, pageSize = 10) {
+    return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists?accessType=${accessType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
-  getById(id: string) {
-    return this.http.getById<WishlistWithGifts>(`/wishlists`, id);
+  getById(id: string, filters?: {
+    categoryNames?: string[],
+    isReserved?: boolean,
+    priorities?: number[]
+  }) {
+    let url = `/wishlists/${id}`;
+
+    if (filters) {
+      const params = new URLSearchParams();
+
+      if (filters.categoryNames && filters.categoryNames.length > 0) {
+        filters.categoryNames.forEach(categoryName => {
+          params.append('categoryNames', categoryName);
+        });
+      }
+
+      if (filters.isReserved !== undefined && filters.isReserved !== null) {
+        params.append('isReserved', filters.isReserved.toString());
+      }
+
+      if (filters.priorities && filters.priorities.length > 0) {
+        filters.priorities.forEach(priority => {
+          params.append('priorities', priority.toString());
+        });
+      }
+
+      url += `?${params.toString()}`;
+    }
+
+    return this.http.get<WishlistWithGifts>(url);
   }
 
   create(wishlist: WishlistCreateRequest) {

@@ -1,0 +1,19 @@
+﻿<div class="modal-header">
+  <p>Manage "{{ data.giftName }}" reservation</p>
+  <svg (click)="close()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 6L6 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M6 6L18 18" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+<div class="modal-body">
+  <div class="reservation" *ngFor="let reservation of data.reservations">
+    <div class="reservation-info">
+      <p>{{ reservation.userEmail === data.currentUserEmail ? reservation.userEmail + ' (You)' : reservation.userEmail }}</p>
+      <p class="smaller tinted">{{ SharedGiftStatus[reservation.status] }}</p>
+    </div>
+    <div class="reservation-action">
+      <button class="accent smaller" *ngIf="reservationOwner && reservation.status === SharedGiftStatus.Pending" (click)="onAcceptReservation(reservation)">Accept</button>
+      <button class="danger smaller" *ngIf="reservationOwner && reservation.status === SharedGiftStatus.Primary || reservedByCurrentUser && reservation.status === SharedGiftStatus.Accepted" (click)="onCancelReservation(reservation.userEmail)">Cancel reservation</button>
+    </div>
+  </div>
+</div>

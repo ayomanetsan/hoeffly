@@ -3,6 +3,15 @@
     <app-sidebar></app-sidebar>
   </aside>
   <main>
+    <div class="actions">
+      <button (click)="changeFilter(AccessType.Owner)" [ngClass]="selectedFilter === AccessType.Owner ? 'secondary' : ''">Owner</button>
+      <button (click)="changeFilter(AccessType.Editor)" [ngClass]="selectedFilter === AccessType.Editor ? 'secondary' : ''">Editor</button>
+      <button (click)="changeFilter(AccessType.Viewer)" [ngClass]="selectedFilter === AccessType.Viewer ? 'secondary' : ''">Viewer</button>
+    </div>
+    <div class="no-wishlists">
+      <h1 *ngIf="selectedFilter === AccessType.Editor && this.wishlists.length === 0">You have no wishlists to edit.</h1>
+      <h1 *ngIf="selectedFilter === AccessType.Viewer && this.wishlists.length === 0">You have no wishlists to view.</h1>
+    </div>
     <div class="wishlists">
       <app-wishlist-card
         *ngFor="let wishlist of wishlists"
@@ -11,7 +20,7 @@
         (wishlistUpdated)="onWishlistUpdated()"
       >
       </app-wishlist-card>
-      <div class="create-card" (click)="openCreateModal()">
+      <div class="create-card" (click)="openCreateModal()" *ngIf="selectedFilter === AccessType.Owner">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M38 6H10C7.79086 6 6 7.79086 6 10V38C6 40.2091 7.79086 42 10 42H38C40.2091 42 42 40.2091 42 38V10C42 7.79086 40.2091 6 38 6Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M24 16V32" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

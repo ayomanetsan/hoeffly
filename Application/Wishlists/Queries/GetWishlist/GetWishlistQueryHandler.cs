@@ -1,7 +1,7 @@
 using Application.Common.Models;
 using Application.Gifts.Queries;
 
-namespace Application.Wishlists.Queries.GetWishlistById;
+namespace Application.Wishlists.Queries.GetWishlist;
 
 public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, WishlistResponse>
 {
@@ -17,7 +17,12 @@ public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlis
     public async Task<WishlistResponse> Handle(GetWishlistQuery request, CancellationToken cancellationToken)
     {
         var wishlist = await _wishlistService.GetWishlistAsync(request.Id, cancellationToken);
-        var (gifts, totalPages) = await _wishlistService.GetPagedGiftsAsync(request.Id, request.PageNumber, request.PageSize, cancellationToken);
+        var (gifts, totalPages) = await _wishlistService.GetPagedGiftsAsync(
+            request.Id, 
+            request.PageNumber, 
+            request.PageSize,
+            request.Filters,
+            cancellationToken);
         
         return new WishlistResponse
         {
