@@ -10,9 +10,11 @@ export class ReservationsHubService {
   private hubConnection!: HubConnection;
   private giftReservationReceived = new Subject<{ giftId: string, reservedByEmail: string }>();
   private giftReservationCancelReceived = new Subject<{ giftId: string, reservedByEmail: string }>();
+  private giftReservationAcceptanceReceived = new Subject<{ giftId: string, reservedByEmail: string }>();
 
   giftReservationReceived$ = this.giftReservationReceived.asObservable();
   giftReservationCancelReceived$ = this.giftReservationCancelReceived.asObservable();
+  giftReservationAcceptanceReceived$ = this.giftReservationAcceptanceReceived.asObservable();
 
   constructor(private afAuth: AngularFireAuth) { }
 
@@ -46,6 +48,10 @@ export class ReservationsHubService {
     this.hubConnection.invoke('CancelReservation', giftId).then().catch(err => console.error(err));
   }
 
+  acceptReservationRequest(giftId: string, reservedByEmail: string) {
+    this.hubConnection.invoke('AcceptReservationRequest', giftId, reservedByEmail).then().catch(err => console.error(err));
+  }
+
   private addMessageListener() {
     this.hubConnection.on('ReceiveGiftReservation', (giftId: string, reservedByEmail: string) => {
       this.giftReservationReceived.next({ giftId, reservedByEmail });
@@ -53,6 +59,10 @@ export class ReservationsHubService {
 
     this.hubConnection.on('ReceiveGiftReservationCancel', (giftId: string, reservedByEmail: string) => {
       this.giftReservationCancelReceived.next({ giftId, reservedByEmail });
+    });
+
+    this.hubConnection.on('ReceiveGiftReservationAcceptance', (giftId: string, reservedByEmail: string) => {
+      this.giftReservationAcceptanceReceived.next({ giftId, reservedByEmail });
     });
   }
 }

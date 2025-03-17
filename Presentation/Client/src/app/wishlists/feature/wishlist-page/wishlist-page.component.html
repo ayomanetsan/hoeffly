@@ -45,9 +45,11 @@
                     [gift]="gift"
                     [accessType]="accessType"
                     [currentUserEmail]="currentUserEmail"
+                    [dialogRef]="dialogRef"
                     (deleteGift)="onDelete($event)"
                     (updateGift)="onUpdate($event)"
                     (reserveGift)="onReserve($event)"
+                    (joinReservation)="onJoinReservation($event)"
             ></app-gift-card>
         </div>
     </main>

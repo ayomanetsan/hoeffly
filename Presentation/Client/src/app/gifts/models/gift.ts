@@ -65,6 +65,11 @@ export interface GiftUpdateRequest extends GiftCreateRequest {
   id: string;
 }
 
+export interface AcceptGiftReservationRequest {
+  giftId: string;
+  email: string;
+}
+
 export const GiftCategories: DropdownOption[] = [
     { value: 'Home', text: 'Home' },
     { value: 'Fashion', text: 'Fashion' },

@@ -18,4 +18,9 @@ public class ReservationsHub : Hub<IReservationClient>
         var reservedByEmail = Context.User?.FindFirst(ClaimTypes.Email)?.Value;
         await Clients.Others.ReceiveGiftReservationCancel(giftId, reservedByEmail!);
     }
+    
+    public async Task AcceptReservationRequest(Guid giftId, string reservedByEmail)
+    {
+        await Clients.Others.ReceiveGiftReservationAcceptance(giftId, reservedByEmail);
+    }
 }

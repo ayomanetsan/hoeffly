@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WishlistsService } from '../../data-access/wishlists.service';
 import {
+  AcceptGiftReservationRequest,
   GiftCategories,
   GiftResponse,
   PriorityCategories,
@@ -16,9 +17,9 @@ import { GiftModalComponent } from '../../../gifts/ui/gift-modal/gift-modal.comp
 import { GiftService } from '../../../gifts/data-access/gift.service';
 import { AccessType } from '../../models/accessRights';
 import { ToastrService } from 'ngx-toastr';
-import {DropdownOption} from "../../../shared/models/dropdownOption";
-import {Subject, takeUntil, Subscription} from "rxjs";
-import {debounceTime} from "rxjs/operators";
+import { DropdownOption } from "../../../shared/models/dropdownOption";
+import { Subject, Subscription, takeUntil } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 import { AuthService } from '../../../auth/data-access/auth.service';
 import { ReservationsHubService } from '../../../gifts/data-access/reservations-hub.service';
 
@@ -30,6 +31,7 @@ import { ReservationsHubService } from '../../../gifts/data-access/reservations-
 export class WishlistPageComponent implements OnInit, OnDestroy {
   private giftReservationSubscription!: Subscription;
   private giftReservationCancelSubscription!: Subscription;
+  private giftReservationAcceptanceSubscription!: Subscription;
 
   private wishlistId!: string;
   gifts: GiftResponse[] = [];
@@ -48,16 +50,15 @@ export class WishlistPageComponent implements OnInit, OnDestroy {
   readonly reservations = ReservationCategories;
   readonly priorities = PriorityCategories;
 
-  constructor(
-      private location: Location,
-      private route: ActivatedRoute,
-      private router: Router,
-      private wishlistsService: WishlistsService,
-      private giftService: GiftService,
-      private dialogRef: MatDialog,
-      private toastr: ToastrService,
-      private authService: AuthService,
-      private reservationsHub: ReservationsHubService
+  constructor(private location: Location,
+    private route: ActivatedRoute,
+    private router: Router,
+    private wishlistsService: WishlistsService,
+    private giftService: GiftService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private reservationsHub: ReservationsHubService,
+    public dialogRef: MatDialog,
   ) { }
 
   // TODO: separate ngOnInit into smaller methods
@@ -91,9 +92,11 @@ export class WishlistPageComponent implements OnInit, OnDestroy {
         this.reservationsHub.startConnection();
 
         this.giftReservationSubscription = this.reservationsHub.giftReservationReceived$.subscribe((response: { giftId: string, reservedByEmail: string }) => {
+          const status = this.gifts.filter(gift => gift.id === response.giftId)[0].sharedGifts.length ? SharedGiftStatus.Pending : SharedGiftStatus.Primary;
+
           const sharedGift: SharedGiftResponse = {
             userEmail: response.reservedByEmail,
-            status: SharedGiftStatus.Primary,
+            status: status,
           };
 
           this.gifts = this.gifts.map(gift =>
@@ -121,6 +124,19 @@ export class WishlistPageComponent implements OnInit, OnDestroy {
               sharedGifts: updatedSharedGifts
             };
           });
+        });
+
+        this.giftReservationAcceptanceSubscription = this.reservationsHub.giftReservationAcceptanceReceived$.subscribe((response: { giftId: string, reservedByEmail: string }) => {
+          const sharedGift: SharedGiftResponse = {
+            userEmail: response.reservedByEmail,
+            status: SharedGiftStatus.Accepted,
+          };
+
+          this.gifts = this.gifts.map(gift =>
+            gift.id === response.giftId
+              ? { ...gift, isReserved: true, sharedGifts: [...gift.sharedGifts, sharedGift] }
+              : gift
+          );
         });
       });
     });
@@ -233,9 +249,21 @@ export class WishlistPageComponent implements OnInit, OnDestroy {
       case ReserveAction.RequestSharedReservation:
         this.giftService.reserve(giftId).subscribe(() => {
           this.toastr.success('Reservation join requested successfully');
+          this.reservationsHub.reserveGift(giftId);
         });
         break;
     }
+  }
+
+  onJoinReservation({ giftId, userEmail }: { giftId: string, userEmail: string }): void {
+    const acceptGiftReservationRequest: AcceptGiftReservationRequest = {
+      giftId: giftId,
+      email: userEmail,
+    };
+
+    this.giftService.acceptReservation(acceptGiftReservationRequest).subscribe(() => {
+      this.reservationsHub.acceptReservationRequest(giftId, userEmail);
+    });
   }
 
   protected readonly AccessType = AccessType;
