@@ -67,9 +67,18 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row group">
                 <label for="shopLink">Shop link</label>
                 <input id="shopLink" type="url" formControlName="shopLink" placeholder="Enter shop URL"/>
+                <button [disabled]="scraping" class="secondary smaller" type="button" (click)="scrapeGift()" matTooltip="Synschronize gift details from the shop link" matTooltipShowDelay="300">
+                  <svg *ngIf="!scraping" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 23L3 19L7 15" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 13V15C21 16.0609 20.5786 17.0783 19.8284 17.8284C19.0783 18.5786 18.0609 19 17 19H3" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17 1L21 5L17 9" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 11V9C3 7.93913 3.42143 6.92172 4.17157 6.17157C4.92172 5.42143 5.93913 5 7 5H21" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <svg *ngIf="scraping" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_P7sC{transform-origin:center;animation:spinner_svv2 .75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}</style><path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_P7sC"/></svg>
+                </button>
             </div>
 
             <div class="form-row">
@@ -78,8 +87,9 @@
             </div>
         </div>
 
-        <button type="submit" class="accent" [disabled]="!giftForm.valid">
-            {{ isEditMode ? 'Save Changes' : 'Create' }}
+        <button type="submit" class="accent" [disabled]="!giftForm.valid || creating">
+          <svg *ngIf="creating" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_P7sC{transform-origin:center;animation:spinner_svv2 .75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}</style><path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_P7sC"/></svg>
+          {{ isEditMode ? 'Save Changes' : 'Create' }}
         </button>
     </form>
 </div>

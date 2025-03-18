@@ -70,6 +70,14 @@ export interface AcceptGiftReservationRequest {
   email: string;
 }
 
+export interface GiftDetails {
+  name: string;
+  price: number;
+  currency: string;
+  imageUrl: string;
+  isEmpty: boolean;
+}
+
 export const GiftCategories: DropdownOption[] = [
     { value: 'Home', text: 'Home' },
     { value: 'Fashion', text: 'Fashion' },
