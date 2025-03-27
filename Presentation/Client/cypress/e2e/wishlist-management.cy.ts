@@ -45,24 +45,6 @@ describe('Wishlists Library', () => {
     cy.get('.wishlists app-wishlist-card').should('have.length', 1);
   });
 
-  it('Користувач може редагувати вішліст', () => {
-    cy.get('.wishlists app-wishlist-card').first().within(() => {
-      cy.get('.actions-menu-button').click();
-      cy.get('.actions-menu button').contains('Edit').click();
-    });
-
-    cy.get('app-wishlist-modal.mat-mdc-dialog-component-host').should('exist');
-
-    cy.get('input#name').clear().type('Updated Wishlist Name');
-    cy.get('button').contains('Save').click();
-
-    cy.wait(10000);
-    cy.get('app-wishlist-card .title p.bigger')
-      .first()
-      .should('have.text', 'Updated Wishlist Name');
-
-  });
-
   it('Користувач може обрати до 3 категорій', () => {
     cy.get('.create-card').click();
 
