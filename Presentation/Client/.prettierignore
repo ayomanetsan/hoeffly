@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+coverage
+.angular
+.postcssrc.json
+angular.json
+README.md
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
