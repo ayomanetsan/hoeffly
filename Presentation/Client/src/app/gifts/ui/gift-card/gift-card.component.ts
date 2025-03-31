@@ -5,9 +5,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReservationModalComponent } from '../reservation-modal/reservation-modal.component';
 
 @Component({
-  selector: 'app-gift-card',
-  templateUrl: './gift-card.component.html',
-  styleUrl: './gift-card.component.sass'
+    selector: 'app-gift-card',
+    templateUrl: './gift-card.component.html',
+    styleUrl: './gift-card.component.sass',
+    standalone: false
 })
 export class GiftCardComponent implements OnInit {
 

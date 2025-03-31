@@ -6,9 +6,10 @@ import { WishlistsService } from '../../data-access/wishlists.service';
 import {AccessType} from "../../models/accessRights";
 
 @Component({
-  selector: 'app-wishlists-library',
-  templateUrl: './wishlists-library.component.html',
-  styleUrl: './wishlists-library.component.sass',
+    selector: 'app-wishlists-library',
+    templateUrl: './wishlists-library.component.html',
+    styleUrl: './wishlists-library.component.sass',
+    standalone: false
 })
 export class WishlistsLibraryComponent implements OnInit{
 

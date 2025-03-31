@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FriendResponse, InvitationStatus, ManageFriendshipRequest } from '../friends';
 
 @Component({
-  selector: 'app-friend-card',
-  templateUrl: './friend-card.component.html',
-  styleUrl: './friend-card.component.sass'
+    selector: 'app-friend-card',
+    templateUrl: './friend-card.component.html',
+    styleUrl: './friend-card.component.sass',
+    standalone: false
 })
 export class FriendCardComponent {
 

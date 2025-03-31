@@ -13,9 +13,10 @@ import { ImageService } from '../../../shared/data-access/image.service';
 import { GiftService } from '../../data-access/gift.service';
 
 @Component({
-  selector: 'app-gift-modal',
-  templateUrl: './gift-modal.component.html',
-  styleUrl: './gift-modal.component.sass'
+    selector: 'app-gift-modal',
+    templateUrl: './gift-modal.component.html',
+    styleUrl: './gift-modal.component.sass',
+    standalone: false
 })
 export class GiftModalComponent implements OnInit {
 

@@ -11,9 +11,10 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../auth/data-access/auth.service';
 
 @Component({
-  selector: 'app-wishlist-access',
-  templateUrl: './wishlist-access.component.html',
-  styleUrl: './wishlist-access.component.sass'
+    selector: 'app-wishlist-access',
+    templateUrl: './wishlist-access.component.html',
+    styleUrl: './wishlist-access.component.sass',
+    standalone: false
 })
 export class WishlistAccessComponent implements OnInit {
   accessForm!: FormGroup;

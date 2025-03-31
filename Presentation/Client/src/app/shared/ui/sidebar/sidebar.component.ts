@@ -3,9 +3,10 @@ import { links } from '../../utils/link-data';
 import { AuthService } from '../../../auth/data-access/auth.service';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.sass'
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.sass',
+    standalone: false
 })
 export class SidebarComponent {
 

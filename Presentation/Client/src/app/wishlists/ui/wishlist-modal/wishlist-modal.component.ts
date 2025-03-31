@@ -6,9 +6,10 @@ import { WishlistsService } from '../../data-access/wishlists.service';
 import {WishlistBriefResponse, WishlistCreateRequest, WishlistUpdateRequest} from '../../models/wishlist';
 
 @Component({
-  selector: 'app-wishlist-modal',
-  templateUrl: './wishlist-modal.component.html',
-  styleUrl: './wishlist-modal.component.sass'
+    selector: 'app-wishlist-modal',
+    templateUrl: './wishlist-modal.component.html',
+    styleUrl: './wishlist-modal.component.sass',
+    standalone: false
 })
 export class WishlistModalComponent implements OnInit{
   wishlistForm!: FormGroup;

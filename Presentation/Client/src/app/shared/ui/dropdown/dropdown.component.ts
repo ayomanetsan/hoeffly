@@ -14,16 +14,17 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DropdownOption } from '../../models/dropdownOption';
 
 @Component({
-  selector: 'app-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.sass'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DropdownComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-dropdown',
+    templateUrl: './dropdown.component.html',
+    styleUrls: ['./dropdown.component.sass'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DropdownComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class DropdownComponent implements ControlValueAccessor {
   @Input() options: DropdownOption[] = [];

@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from "../../data-access/auth.service";
 
 @Component({
-  selector: 'app-auth-reset-password',
-  templateUrl: './auth-reset-password.component.html',
-  styleUrl: './auth-reset-password.component.sass'
+    selector: 'app-auth-reset-password',
+    templateUrl: './auth-reset-password.component.html',
+    styleUrl: './auth-reset-password.component.sass',
+    standalone: false
 })
 export class AuthResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;

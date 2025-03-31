@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../data-access/auth.service";
 
 @Component({
-  selector: 'app-auth-login',
-  templateUrl: './auth-login.component.html',
-  styleUrl: './auth-login.component.sass'
+    selector: 'app-auth-login',
+    templateUrl: './auth-login.component.html',
+    styleUrl: './auth-login.component.sass',
+    standalone: false
 })
 export class AuthLoginComponent {
   loginForm: FormGroup;

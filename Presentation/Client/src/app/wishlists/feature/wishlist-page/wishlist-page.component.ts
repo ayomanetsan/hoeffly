@@ -24,9 +24,10 @@ import { AuthService } from '../../../auth/data-access/auth.service';
 import { ReservationsHubService } from '../../../gifts/data-access/reservations-hub.service';
 
 @Component({
-  selector: 'app-wishlist-page',
-  templateUrl: './wishlist-page.component.html',
-  styleUrl: './wishlist-page.component.sass'
+    selector: 'app-wishlist-page',
+    templateUrl: './wishlist-page.component.html',
+    styleUrl: './wishlist-page.component.sass',
+    standalone: false
 })
 export class WishlistPageComponent implements OnInit, OnDestroy {
   private giftReservationSubscription!: Subscription;

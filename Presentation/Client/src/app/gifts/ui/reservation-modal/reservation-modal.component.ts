@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedGiftResponse, SharedGiftStatus } from '../../models/gift';
 
 @Component({
-  selector: 'app-reservation-modal',
-  templateUrl: './reservation-modal.component.html',
-  styleUrl: './reservation-modal.component.sass'
+    selector: 'app-reservation-modal',
+    templateUrl: './reservation-modal.component.html',
+    styleUrl: './reservation-modal.component.sass',
+    standalone: false
 })
 export class ReservationModalComponent implements OnInit {
   acceptReservationSent = new EventEmitter<string>();

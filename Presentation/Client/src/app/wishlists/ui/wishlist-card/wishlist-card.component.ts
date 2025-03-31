@@ -8,9 +8,10 @@ import {MatDialog} from "@angular/material/dialog";
 import { WishlistAccessComponent } from '../wishlist-access/wishlist-access.component';
 
 @Component({
-  selector: 'app-wishlist-card',
-  templateUrl: './wishlist-card.component.html',
-  styleUrl: './wishlist-card.component.sass',
+    selector: 'app-wishlist-card',
+    templateUrl: './wishlist-card.component.html',
+    styleUrl: './wishlist-card.component.sass',
+    standalone: false
 })
 export class WishlistCardComponent implements OnInit {
   @Input({ required: true }) wishlist!: WishlistBriefResponse;

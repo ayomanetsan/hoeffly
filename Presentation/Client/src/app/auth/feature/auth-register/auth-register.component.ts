@@ -3,9 +3,10 @@ import { AuthService } from "../../data-access/auth.service";
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-auth-register',
-  templateUrl: './auth-register.component.html',
-  styleUrl: './auth-register.component.sass'
+    selector: 'app-auth-register',
+    templateUrl: './auth-register.component.html',
+    styleUrl: './auth-register.component.sass',
+    standalone: false
 })
 export class AuthRegisterComponent {
   registerForm: FormGroup;

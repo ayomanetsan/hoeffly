@@ -6,9 +6,10 @@ import { FriendsHubService } from '../../data-access/friends-hub.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-friends-list',
-  templateUrl: './friends-list.component.html',
-  styleUrl: './friends-list.component.sass'
+    selector: 'app-friends-list',
+    templateUrl: './friends-list.component.html',
+    styleUrl: './friends-list.component.sass',
+    standalone: false
 })
 export class FriendsListComponent implements OnInit, OnDestroy {
 
