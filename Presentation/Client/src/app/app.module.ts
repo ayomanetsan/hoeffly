@@ -10,6 +10,8 @@ import { environment } from "../environments/environment.development";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
   providers: [
     provideHttpClient(),
     provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
   ],
   bootstrap: [AppComponent]
 })
