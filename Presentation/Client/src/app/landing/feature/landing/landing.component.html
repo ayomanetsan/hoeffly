@@ -1,62 +1,352 @@
-<footer>
-  <div class="container">
-    <div class="logo">
-      <h3>Höffly</h3>
+<header class="sticky top-0 z-50 bg-white shadow-sm">
+  <nav class="container mx-auto flex items-center justify-between p-4">
+    <a href="#">
+      <img
+        ngSrc="/assets/logo.png"
+        height="84"
+        width="256"
+        priority
+        alt="Logo"
+        class="h-8 w-24"
+      />
+    </a>
+    <ul class="flex items-center gap-8">
+      <li>
+        <a
+          href="#feature"
+          class="text-marmelade-900 transition-colors hover:text-marmelade-600"
+          >Features</a
+        >
+      </li>
+      <li>
+        <a
+          href="#how-it-works"
+          class="text-marmelade-900 transition-colors hover:text-marmelade-600"
+          >How It Works</a
+        >
+      </li>
+      <li>
+        <a
+          href="#testimonials"
+          class="text-marmelade-900 transition-colors hover:text-marmelade-600"
+          >Testimonials</a
+        >
+      </li>
+    </ul>
+    <div class="flex items-center gap-4">
+      <p-button
+        routerLink="/auth/login"
+        variant="text"
+        label="Log In"
+        styleClass="text-marmelade-900! transition-colors! hover:text-marmelade-600! bg-transparent! hidden! md:inline-block!"
+      ></p-button>
+      <p-button
+        routerLink="/auth/register"
+        label="Sign Up Free"
+        styleClass="bg-marmelade-500! hover:bg-marmelade-600! text-white! border-none!"
+      ></p-button>
     </div>
-    <div class="actions">
-      <ul>
-        <li><a href="#about">About Us</a></li>
-        <li><a routerLink="wishlists">Wishlists</a></li>
-      </ul>
-      <button class="secondary" routerLink="/auth/login">Sign Up</button>
+  </nav>
+</header>
+
+<main class="min-h-screen bg-gradient-to-b from-marmelade-50 to-white">
+  <section class="container mx-auto px-0 py-16 md:py-24">
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <p-chip
+          label="Wishlist Management Made Easy"
+          styleClass="bg-marmelade-100! text-marmelade-600! px-4! py-1! text-sm! font-medium! mb-6!"
+        ></p-chip>
+        <h1
+          class="mb-6 text-4xl leading-tight font-bold text-marmelade-900 md:text-5xl lg:text-6xl"
+        >
+          Visualize your wishlist right now!
+        </h1>
+        <p class="mb-8 text-xl text-marmelade-900">
+          Create, share, and discover wishlists for any occasion. Perfect for
+          birthdays, weddings, holidays, and more.
+        </p>
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <p-button
+            routerLink="/auth/register"
+            size="large"
+            label="Create a wishlist"
+            styleClass="border-2! border-marmelade-500! bg-marmelade-500! hover:bg-marmelade-600! text-white! shadow-md!"
+          >
+          </p-button>
+
+          <p-button
+            routerLink="/auth/register"
+            size="large"
+            label="Browse public lists"
+            styleClass="border-2! border-sky-400! text-sky-600! hover:bg-sky-50!"
+            variant="outlined"
+          >
+          </p-button>
+        </div>
+      </div>
+      <div>
+        <img
+          ngSrc="/assets/hero.png"
+          alt="Hero"
+          width="1368"
+          height="1266"
+          priority
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="feature" class="bg-white py-16! md:py-24!">
+    <div
+      class="container mx-auto mb-16 p-0 text-center"
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1500"
+      leaveClass="animate-leave fade-out-0"
+    >
+      <p-chip
+        label="Powerful Features"
+        styleClass="bg-sky-100! text-sky-600! px-4! py-1! rounded-full! text-sm! font-medium! mb-6!"
+      ></p-chip>
+      <h2 class="mb-6 text-3xl font-bold text-marmelade-900 md:text-4xl">
+        Everything you need for perfect gift management
+      </h2>
+      <p class="mx-auto max-w-3xl text-xl text-marmelade-900">
+        Whether you're planning a wedding, birthday, or holiday celebration,
+        Höffly makes gift management simple and fun.
+      </p>
+    </div>
+    <div
+      class="container mx-auto grid gap-8 p-0 md:grid-cols-2 lg:grid-cols-3"
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1500"
+      leaveClass="animate-leave fade-out-0"
+    >
+      <article
+        class="rounded-lg border border-gray-100 bg-white p-8 shadow-sm transition-shadow hover:shadow-md"
+        *ngFor="let feature of features"
+      >
+        <div
+          class="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-marmelade-50"
+        >
+          <i [class]="feature.icon" class=""></i>
+        </div>
+        <h3 class="mb-3 text-xl font-bold text-marmelade-900">
+          {{ feature.title }}
+        </h3>
+        <p class="text-marmelade-900">{{ feature.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section
+    pAnimateOnScroll
+    enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1500"
+    leaveClass="animate-leave fade-out-0"
+    id="how-it-works"
+    class="bg-gradient-to-r from-marmelade-50 to-sky-50 py-16 md:py-24"
+  >
+    <div class="container mx-auto mb-16 px-4 py-0 text-center">
+      <p-chip
+        label="Simple Process"
+        styleClass="bg-marmelade-100! text-marmelade-600! px-4! py-1! rounded-full! text-sm! font-medium! mb-6!"
+      ></p-chip>
+      <h2 class="mb-6 text-3xl font-bold text-marmelade-900 md:text-4xl">
+        How Höffly Works
+      </h2>
+      <p class="mx-auto max-w-3xl text-xl text-marmelade-900">
+        Getting started is easy - create your first wishlist in minutes
+      </p>
+    </div>
+
+    <div class="relative container mx-auto mb-16 p-0">
+      <div
+        class="absolute top-1/2 right-0 left-0 z-0 hidden h-1 -translate-y-1/2 transform bg-gradient-to-r from-marmelade-300 to-sky-300 md:block"
+      ></div>
+      <div class="relative z-10 grid gap-8 md:grid-cols-3">
+        <article
+          class="relative rounded-lg bg-white p-8 text-center shadow-md"
+          *ngFor="let step of steps; index as i"
+        >
+          <div
+            class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-marmelade-500 to-marmelade-600 text-2xl font-bold text-white"
+          >
+            {{ i + 1 }}
+          </div>
+          <h3 class="mb-3 text-xl font-bold text-marmelade-900">
+            {{ step.title }}
+          </h3>
+          <p class="text-marmelade-900">{{ step.description }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section
+    pAnimateOnScroll
+    enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1500"
+    leaveClass="animate-leave fade-out-0"
+    id="testimonials"
+    class="bg-white py-16 md:py-24"
+  >
+    <div class="container mx-auto mb-16 p-0 text-center">
+      <p-chip
+        label="Testimonials"
+        styleClass="bg-sky-100! text-sky-600! px-4! py-1! rounded-full! text-sm! font-medium! mb-6!"
+      ></p-chip>
+      <h2 class="mb-6 text-3xl font-bold text-marmelade-900 md:text-4xl">
+        Loved by gift-givers everywhere
+      </h2>
+      <p class="mx-auto! max-w-3xl text-xl text-marmelade-900">
+        See what our users are saying about their Höffly experience
+      </p>
+    </div>
+    <div class="container mx-auto grid gap-8 p-0 md:grid-cols-3">
+      <article
+        class="flex flex-col rounded-lg border border-gray-100 bg-white p-8 shadow-md"
+        *ngFor="let testimonial of testimonials"
+      >
+        <div>
+          <i
+            class="pi pi-star-fill mr-1 mb-6 inline-block h-5 w-5 fill-yellow-400 text-yellow-400"
+            *ngFor="let _ of [].constructor(5)"
+          ></i>
+        </div>
+        <p class="mb-6 text-marmelade-900 italic">"{{ testimonial.quote }}"</p>
+        <div class="mt-auto flex items-center">
+          <div
+            class="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-marmelade-400 to-marmelade-500 font-bold text-white"
+          >
+            {{ testimonial.name.charAt(0) }}
+          </div>
+          <div>
+            <p class="font-bold text-marmelade-900">{{ testimonial.name }}</p>
+            <p class="text-sm text-marmelade-600">{{ testimonial.title }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section
+    pAnimateOnScroll
+    enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1500"
+    leaveClass="animate-leave fade-out-0"
+    class="py-16 md:py-24"
+  >
+    <div class="container mx-auto p-0">
+      <div
+        class="relative mx-auto max-w-4xl overflow-hidden rounded-xl bg-gradient-to-r from-marmelade-400 to-marmelade-500 p-12 text-center shadow-xl"
+      >
+        <div class="absolute top-0 left-0 h-full w-full">
+          <div
+            class="absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 transform rounded-full bg-marmelade-600 opacity-30 blur-3xl filter"
+          ></div>
+          <div
+            class="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 transform rounded-full bg-sky-400 opacity-30 blur-3xl filter"
+          ></div>
+        </div>
+        <div class="relative z-10">
+          <h2 class="mb-6 text-3xl font-bold text-white md:text-4xl">
+            Ready to start your wishlist?
+          </h2>
+          <p class="mx-auto mb-10 max-w-2xl text-xl text-marmelade-100">
+            Join thousands of users who are already managing their gift
+            wishlists with Höffly.
+          </p>
+          <div class="flex flex-col justify-center gap-4 sm:flex-row">
+            <p-button
+              routerLink="/auth/register"
+              size="large"
+              label="Sign Up Now - It's Free!"
+              styleClass="bg-white! text-marmelade-600! hover:bg-marmelade-50! shadow-lg! border-none!"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-marmelade-800 pt-16 pb-8 text-white">
+  <div class="container mx-auto px-4">
+    <div class="mb-12 grid gap-8 md:grid-cols-4">
+      <div>
+        <a href="#">
+          <img
+            ngSrc="/assets/logo-mono.png"
+            height="130"
+            width="400"
+            priority
+            alt="Logo"
+            class="mb-4 h-8 w-24"
+          />
+        </a>
+        <p class="mb-6 text-marmelade-300">
+          The perfect platform for creating and sharing wishlists for any
+          occasion.
+        </p>
+      </div>
+      <div>
+        <h4 class="mb-4 text-lg font-bold">Features</h4>
+        <ul class="space-y-3">
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Create personal wishlists</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Browse public wishlists</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Share with friends</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Filter by events</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Save favorites</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Event organization</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 text-lg font-bold">Company</h4>
+        <ul class="space-y-3">
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">About us</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Contact</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Privacy policy</a>
+          </li>
+          <li class="text-marmelade-300 transition-colors hover:text-white">
+            <a href="">Terms of service</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 text-lg font-bold">Subscribe</h4>
+        <p class="mb-4 text-marmelade-300">Get the latest updates and offers</p>
+        <p-inputgroup>
+          <input
+            pInputText
+            placeholder="Your email"
+            class="w-full! border-none! bg-marmelade-900! text-white! placeholder-marmelade-300! focus:ring-1! focus:ring-marmelade-500! focus:outline-none!"
+          />
+          <p-button
+            icon="pi pi-arrow-right"
+            styleClass="bg-gradient-to-r! from-marmelade-500! border-none! rounded-l-none! to-marmelade-600! hover:from-marmelade-600! hover:to-marmelade-700! text-white! px-4! py-2! rounded-r-md! transition-colors!"
+          />
+        </p-inputgroup>
+      </div>
+    </div>
+    <div
+      class="border-t border-marmelade-700 pt-8 text-center text-marmelade-300"
+    >
+      <p>© 2025 Höffly. All rights reserved.</p>
     </div>
   </div>
 </footer>
-
-<div class="container">
-  <nav>
-    <div class="logo">
-      <h3>Höffly</h3>
-    </div>
-    <div class="actions">
-      <ul>
-        <li><a href="#about">About Us</a></li>
-        <li><a routerLink="wishlists">Wishlists</a></li>
-      </ul>
-      <button class="secondary" routerLink="/auth/login">Sign Up</button>
-    </div>
-  </nav>
-
-  <main>
-    <div class="hero">
-      <div class="text">
-        <h1>Visualize your wishlist right now!</h1>
-        <p class="bigger">Register and create your wishlist or look for gift ideas from public lists!</p>
-        <button class="accent">Create a wishlist</button>
-      </div>
-      <img src="./assets/hero.png" alt="Hero image">
-    </div>
-    <div id="about" class="about">
-      <h2>About Us</h2>
-      <div class="points">
-        <div class="point">
-          <img src="./assets/hand.png" alt="Hand with a pen">
-          <p class="bigger">With Höffly you can easily create your wishlists and add new ideas with the help of AI</p>
-        </div>
-        <div class="point">
-          <img src="./assets/stand.png" alt="Hand with a pen">
-          <p class="bigger">Choose gifts for friends or share presents with others</p>
-        </div>
-        <div class="point">
-          <img src="./assets/files.png" alt="Hand with a pen">
-          <p class="bigger">View public wishlists and share yours</p>
-        </div>
-      </div>
-    </div>
-    <div class="slogan">
-      <p class="bigger">Create your wishlist now, get one step closer to making your wish come true!</p>
-      <button class="accent">Create a wishlist</button>
-    </div>
-  </main>
-</div>
-

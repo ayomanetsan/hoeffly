@@ -1,2 +1,16 @@
 @import 'tailwindcss';
 @import 'tailwindcss-primeui';
+
+@theme {
+  --color-marmelade-50: oklch(95.99% 0.018 0.39);
+  --color-marmelade-100: oklch(91.8% 0.038 1.5);
+  --color-marmelade-200: oklch(84.05% 0.078 2.63);
+  --color-marmelade-300: oklch(77.29% 0.116 3.64);
+  --color-marmelade-400: oklch(70.54% 0.157 6.53);
+  --color-marmelade-500: oklch(60.73% 0.196 9.48);
+  --color-marmelade-600: oklch(58.47% 0.224 16.31);
+  --color-marmelade-700: oklch(47.61% 0.18 15.56);
+  --color-marmelade-800: oklch(35.01% 0.129 14.17);
+  --color-marmelade-900: oklch(22.42% 0.077 11.72);
+  --color-marmelade-950: oklch(15.54% 0.048 6.27);
+}
