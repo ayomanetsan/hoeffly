@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tailwindcss-primeui';
+@import "tailwindcss";
+@import "tailwindcss-primeui";
 
 @theme {
   --color-marmelade-50: oklch(95.99% 0.018 0.39);
@@ -13,4 +13,27 @@
   --color-marmelade-800: oklch(35.01% 0.129 14.17);
   --color-marmelade-900: oklch(22.42% 0.077 11.72);
   --color-marmelade-950: oklch(15.54% 0.048 6.27);
+}
+
+/* Custom Prime NG styles */
+.p-divider-content {
+  background: var(--color-marmelade-50) !important;
+}
+
+.p-password-overlay {
+  background: white !important;
+  color: var(--color-marmelade-950) !important;
+}
+
+.p-password-meter {
+  background: var(--color-marmelade-50) !important;
+}
+
+.p-password-input {
+  background: white !important;
+  color: var(--color-marmelade-950) !important;
+}
+
+.p-password-input:focus {
+  border: 1px solid var(--color-marmelade-400) !important;
 }
