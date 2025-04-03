@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AuthRegisterComponent} from "./auth-register.component";
+import { AuthRegisterComponent } from './auth-register.component';
 
 const routes: Routes = [
-  { path: '', component: AuthRegisterComponent, title: 'Höffly - Sign Up' }
+  { path: '', component: AuthRegisterComponent, title: 'Höffly - Sign Up' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRegisterRoutingModule { }
+export class AuthRegisterRoutingModule {}

@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { AuthService } from "../../data-access/auth.service";
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { AuthService } from '../../data-access/auth.service';
 
 @Component({
-    selector: 'app-auth-register',
-    templateUrl: './auth-register.component.html',
-    styleUrl: './auth-register.component.sass',
-    standalone: false
+  selector: 'app-auth-register',
+  templateUrl: './auth-register.component.html',
+  styleUrl: '../auth-login/auth-login.component.sass',
+  standalone: false,
 })
 export class AuthRegisterComponent {
   registerForm: FormGroup;
@@ -14,18 +20,29 @@ export class AuthRegisterComponent {
   showPassword: boolean = false;
   showRepeatPassword: boolean = false;
 
-  constructor(private auth: AuthService, private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(32),
-        Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!?*.]).{8,32}$/)
-      ]],
-      repeatPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
+  constructor(
+    private auth: AuthService,
+    private fb: FormBuilder,
+  ) {
+    this.registerForm = this.fb.group(
+      {
+        fullName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(32),
+            Validators.pattern(
+              /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!?*.]).{8,32}$/,
+            ),
+          ],
+        ],
+        repeatPassword: ['', Validators.required],
+      },
+      { validator: this.passwordMatchValidator },
+    );
   }
 
   async register() {
@@ -49,7 +66,9 @@ export class AuthRegisterComponent {
 
     if (isForRepeatPassword) {
       this.showRepeatPassword = !this.showPassword;
-      passwordInput = document.getElementById('repeatPassword') as HTMLInputElement;
+      passwordInput = document.getElementById(
+        'repeatPassword',
+      ) as HTMLInputElement;
     } else {
       this.showPassword = !this.showPassword;
       passwordInput = document.getElementById('password') as HTMLInputElement;
@@ -58,7 +77,9 @@ export class AuthRegisterComponent {
     passwordInput.type = this.showPassword ? 'text' : 'password';
   }
 
-  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  private passwordMatchValidator(
+    control: AbstractControl,
+  ): ValidationErrors | null {
     const password = control.get('password');
     const repeatPassword = control.get('repeatPassword');
 

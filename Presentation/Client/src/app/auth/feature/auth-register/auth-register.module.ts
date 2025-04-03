@@ -1,19 +1,27 @@
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { Divider } from 'primeng/divider';
+import { InputText } from 'primeng/inputtext';
+import { Message } from 'primeng/message';
+import { Password } from 'primeng/password';
 import { AuthRegisterRoutingModule } from './auth-register-routing.module';
 import { AuthRegisterComponent } from './auth-register.component';
-import { ReactiveFormsModule } from "@angular/forms";
-
 
 @NgModule({
-  declarations: [
-    AuthRegisterComponent
+  declarations: [AuthRegisterComponent],
+  imports: [
+    CommonModule,
+    AuthRegisterRoutingModule,
+    ReactiveFormsModule,
+    Button,
+    Divider,
+    InputText,
+    Message,
+    NgOptimizedImage,
+    Password,
   ],
-    imports: [
-        CommonModule,
-        AuthRegisterRoutingModule,
-        ReactiveFormsModule,
-    ]
 })
-export class AuthRegisterModule { }
+export class AuthRegisterModule {}
