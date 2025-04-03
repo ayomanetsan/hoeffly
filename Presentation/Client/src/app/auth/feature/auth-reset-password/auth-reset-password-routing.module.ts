@@ -5,12 +5,12 @@ import { AuthResetPasswordComponent } from './auth-reset-password.component';
 const routes: Routes = [
   {
     path: '',
-    component: AuthResetPasswordComponent
-  }
+    component: AuthResetPasswordComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthResetPasswordRoutingModule { }
+export class AuthResetPasswordRoutingModule {}

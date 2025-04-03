@@ -1,19 +1,25 @@
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { Divider } from 'primeng/divider';
+import { InputText } from 'primeng/inputtext';
+import { Message } from 'primeng/message';
 import { AuthResetPasswordRoutingModule } from './auth-reset-password-routing.module';
 import { AuthResetPasswordComponent } from './auth-reset-password.component';
-import { ReactiveFormsModule } from '@angular/forms';
-
 
 @NgModule({
-  declarations: [
-    AuthResetPasswordComponent
-  ],
+  declarations: [AuthResetPasswordComponent],
   imports: [
     CommonModule,
     AuthResetPasswordRoutingModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+    Button,
+    Divider,
+    InputText,
+    Message,
+    NgOptimizedImage,
+  ],
 })
-export class AuthResetPasswordModule { }
+export class AuthResetPasswordModule {}

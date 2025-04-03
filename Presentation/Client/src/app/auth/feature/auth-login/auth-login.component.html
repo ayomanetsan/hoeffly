@@ -36,7 +36,7 @@
         id="email"
         formControlName="email"
         placeholder="Email"
-        autocomplete="off"
+        autocomplete="email"
         class="bg-white! text-marmelade-950! focus:border-marmelade-400!"
         fluid="fluid"
       />
@@ -73,7 +73,6 @@
     <p-button
       label="Sign In"
       fluid="fluid"
-      styleClass="bg-marmelade-500! border-none! text-white! hover:bg-marmelade-600!"
       type="submit"
       [disabled]="loginForm.invalid"
       [loading]="loading"
