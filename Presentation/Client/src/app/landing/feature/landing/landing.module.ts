@@ -6,6 +6,7 @@ import { Button } from 'primeng/button';
 import { Chip } from 'primeng/chip';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputText } from 'primeng/inputtext';
+import { Tag } from 'primeng/tag';
 import { LandingRoutingModule } from './landing-routing.module';
 import { LandingComponent } from './landing.component';
 
@@ -20,6 +21,7 @@ import { LandingComponent } from './landing.component';
     AnimateOnScroll,
     InputGroup,
     InputText,
+    Tag,
   ],
 })
 export class LandingModule {}

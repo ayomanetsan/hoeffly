@@ -17,7 +17,7 @@ export class LandingComponent {
       title: 'Guest Browsing',
       description:
         'Browse public wishlists without registration, easy for anyone to find gift ideas.',
-      icon: 'pi pi-users text-3xl! text-sky-500',
+      icon: 'pi pi-users text-3xl! text-shark-500',
     },
     {
       title: 'Share with Friends',
@@ -29,7 +29,7 @@ export class LandingComponent {
       title: 'Filter by Event',
       description:
         'Find the perfect gift by using different filters to suit your needs.',
-      icon: 'pi pi-search text-3xl! text-sky-500',
+      icon: 'pi pi-search text-3xl! text-shark-500',
     },
     {
       title: 'Save Favorites',
@@ -41,7 +41,7 @@ export class LandingComponent {
       title: 'Event Organization',
       description:
         'Create wishlists for special events and keep track of important dates.',
-      icon: 'pi pi-calendar text-3xl! text-sky-500',
+      icon: 'pi pi-calendar text-3xl! text-shark-500',
     },
   ];
   steps: Feature[] = [

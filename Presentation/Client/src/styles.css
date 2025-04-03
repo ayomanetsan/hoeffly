@@ -1,3 +1,5 @@
+@import "ngx-toastr/toastr";
+@import "primeicons/primeicons.css";
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 
@@ -13,27 +15,25 @@
   --color-marmelade-800: oklch(35.01% 0.129 14.17);
   --color-marmelade-900: oklch(22.42% 0.077 11.72);
   --color-marmelade-950: oklch(15.54% 0.048 6.27);
+  --color-shark-50: #f5f7ff;
+  --color-shark-100: #e7ecfe;
+  --color-shark-200: #c9d5fd;
+  --color-shark-300: #acbefb;
+  --color-shark-400: #809cf9;
+  --color-shark-500: #4a72f7;
+  --color-shark-600: #3260f6;
+  --color-shark-700: #194df5;
+  --color-shark-800: #0a39d7;
+  --color-shark-900: #072a9c;
+  --color-shark-950: #051d6b;
 }
 
-/* Custom Prime NG styles */
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* Custom Prime NG component styles */
 .p-divider-content {
   background: var(--color-marmelade-50) !important;
-}
-
-.p-password-overlay {
-  background: white !important;
-  color: var(--color-marmelade-950) !important;
-}
-
-.p-password-meter {
-  background: var(--color-marmelade-50) !important;
-}
-
-.p-password-input {
-  background: white !important;
-  color: var(--color-marmelade-950) !important;
-}
-
-.p-password-input:focus {
-  border: 1px solid var(--color-marmelade-400) !important;
 }
