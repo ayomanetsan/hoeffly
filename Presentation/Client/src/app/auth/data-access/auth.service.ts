@@ -1,26 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from "../../shared/data-access/http.service";
-import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { GoogleAuthProvider } from "firebase/auth";
-import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
-import firebase from 'firebase/compat/app';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+  User,
+} from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { HttpService } from '../../shared/data-access/http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   constructor(
+    private auth: Auth,
     private http: HttpService,
-    private afAuth: AngularFireAuth,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   async login(email: string, password: string): Promise<void> {
     try {
-      const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password,
+      );
 
       if (userCredential.user) {
         const user = userCredential.user;
@@ -28,6 +40,7 @@ export class AuthService {
         await this.navigateToWishlists();
       }
     } catch (error: any) {
+      console.error(error);
       switch (error.code) {
         case 'auth/invalid-credential':
           this.toastr.error('Provided credentials are not valid', 'Error');
@@ -38,17 +51,22 @@ export class AuthService {
 
   async register(name: string, email: string, password: string): Promise<void> {
     try {
-      const userCredential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password,
+      );
 
       if (userCredential.user) {
         const user = userCredential.user;
         await this.saveUserInfo(user);
-        await user.updateProfile({ displayName: name });
-        await user.sendEmailVerification();
+        await updateProfile(user, { displayName: name });
+        await sendEmailVerification(user);
         await this.createUser(name, email, user.uid);
         await this.navigateToWishlists();
       }
     } catch (error: any) {
+      console.error(error);
       switch (error.code) {
         case 'auth/email-already-in-use':
           this.toastr.error('Email is already in use', 'Error');
@@ -59,7 +77,8 @@ export class AuthService {
 
   async loginWithGoogle() {
     try {
-      const userCredential = await this.afAuth.signInWithPopup(new GoogleAuthProvider());
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(this.auth, provider);
 
       if (userCredential.user) {
         const user = userCredential.user;
@@ -73,19 +92,20 @@ export class AuthService {
 
         // Google automatically verifies gmail.com domains and the business google domain only
         if (!user.emailVerified) {
-          await user.sendEmailVerification();
+          await sendEmailVerification(user);
         }
 
         await this.navigateToWishlists();
       }
     } catch (error) {
+      console.error(error);
       this.toastr.error('Error', 'Something went wrong');
     }
   }
 
   async sendPasswordResetEmail(email: string): Promise<void> {
     try {
-      await this.afAuth.sendPasswordResetEmail(email);
+      await sendPasswordResetEmail(this.auth, email);
       return Promise.resolve();
     } catch (error: any) {
       switch (error.code) {
@@ -98,20 +118,22 @@ export class AuthService {
   }
 
   async logout() {
-    await this.afAuth.signOut();
+    await signOut(this.auth);
     this.clearUserInfo();
     await this.router.navigate(['/auth/login']);
   }
 
   async getCurrentUserEmail() {
-    return await this.afAuth.currentUser.then(user => user!.email);
+    return this.auth.currentUser!.email!;
   }
 
   private async createUser(name: string, email: string, firebaseUid: string) {
-    await this.http.post('/users', { name: name, email: email, firebaseUid: firebaseUid}).toPromise();
+    await this.http
+      .post('/users', { name: name, email: email, firebaseUid: firebaseUid })
+      .toPromise();
   }
 
-  private async saveUserInfo(user: firebase.User) {
+  private async saveUserInfo(user: User) {
     const token = await user.getIdToken();
     localStorage.setItem('token', token);
     localStorage.setItem('displayName', user.displayName!);
