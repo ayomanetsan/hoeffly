@@ -1,21 +1,20 @@
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Avatar } from 'primeng/avatar';
+import { Menu } from 'primeng/menu';
 import { SidebarComponent } from './sidebar.component';
-import { RouterLink, RouterLinkActive } from "@angular/router";
-
-
 
 @NgModule({
-  declarations: [
-    SidebarComponent
-  ],
-  exports: [
-    SidebarComponent
-  ],
+  declarations: [SidebarComponent],
+  exports: [SidebarComponent],
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive
-  ]
+    RouterLinkActive,
+    NgOptimizedImage,
+    Avatar,
+    Menu,
+  ],
 })
-export class SidebarModule { }
+export class SidebarModule {}
