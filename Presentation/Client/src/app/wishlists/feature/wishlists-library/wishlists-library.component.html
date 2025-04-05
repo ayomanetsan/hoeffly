@@ -1,33 +1,52 @@
-<div class="container">
-  <aside>
-    <app-sidebar></app-sidebar>
-  </aside>
-  <main>
-    <div class="actions">
-      <button (click)="changeFilter(AccessType.Owner)" [ngClass]="selectedFilter === AccessType.Owner ? 'secondary' : ''">Owner</button>
-      <button (click)="changeFilter(AccessType.Editor)" [ngClass]="selectedFilter === AccessType.Editor ? 'secondary' : ''">Editor</button>
-      <button (click)="changeFilter(AccessType.Viewer)" [ngClass]="selectedFilter === AccessType.Viewer ? 'secondary' : ''">Viewer</button>
-    </div>
-    <div class="no-wishlists">
-      <h1 *ngIf="selectedFilter === AccessType.Editor && this.wishlists.length === 0">You have no wishlists to edit.</h1>
-      <h1 *ngIf="selectedFilter === AccessType.Viewer && this.wishlists.length === 0">You have no wishlists to view.</h1>
-    </div>
-    <div class="wishlists">
-      <app-wishlist-card
-        *ngFor="let wishlist of wishlists"
-        [wishlist]="wishlist"
-        (wishlistDeleted)="onWishlistDeleted($event)"
-        (wishlistUpdated)="onWishlistUpdated()"
-      >
-      </app-wishlist-card>
-      <div class="create-card" (click)="openCreateModal()" *ngIf="selectedFilter === AccessType.Owner">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M38 6H10C7.79086 6 6 7.79086 6 10V38C6 40.2091 7.79086 42 10 42H38C40.2091 42 42 40.2091 42 38V10C42 7.79086 40.2091 6 38 6Z" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M24 16V32" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 24H32" stroke="#280109" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <p>Create a wishlist</p>
+<div class="flex min-h-screen">
+  <app-sidebar></app-sidebar>
+  <main class="w-full p-6">
+    <section
+      class="mb-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center"
+    >
+      <div>
+        <h1 class="text-2xl font-bold text-marmelade-900">My Wishlists</h1>
+        <p class="mt-1 text-marmelade-700">
+          Manage and organize all your wishlists
+        </p>
       </div>
-    </div>
+      <p-button
+        icon="pi pi-plus"
+        label="Create Wishlist"
+        (onClick)="openCreateModal()"
+      ></p-button>
+    </section>
+    <p-select-button
+      [options]="accessTypeOptions"
+      [(ngModel)]="selectedFilter"
+      (onOptionClick)="loadWishlists()"
+      [allowEmpty]="false"
+      class="mb-4"
+    ></p-select-button>
+    <section
+      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+    >
+      <ng-container *ngIf="!loading">
+        <app-wishlist-card
+          [wishlist]="wishlist"
+          *ngFor="let wishlist of wishlists"
+          (wishlistUpdated)="onWishlistUpdated()"
+          (wishlistDeleted)="onWishlistDeleted(wishlist.id)"
+        ></app-wishlist-card>
+        <div
+          (click)="openCreateModal()"
+          class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-marmelade-300 p-8 text-marmelade-500 transition-all hover:bg-marmelade-50"
+        >
+          <i class="pi pi-plus" style="color: var(--color-marmelade-800)"></i>
+          <span class="font-medium text-marmelade-800">Create Wishlist</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <app-wishlist-skeleton></app-wishlist-skeleton>
+        <app-wishlist-skeleton></app-wishlist-skeleton>
+        <app-wishlist-skeleton></app-wishlist-skeleton>
+        <app-wishlist-skeleton></app-wishlist-skeleton>
+      </ng-container>
+    </section>
   </main>
 </div>

@@ -1,75 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import { WishlistBriefResponse } from '../../models/wishlist';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { WishlistModalComponent } from '../../ui/wishlist-modal/wishlist-modal.component';
 import { WishlistsService } from '../../data-access/wishlists.service';
-import {AccessType} from "../../models/accessRights";
+import { AccessType } from '../../models/accessRights';
+import { WishlistBriefResponse } from '../../models/wishlist';
+import { WishlistModalComponent } from '../../ui/wishlist-modal/wishlist-modal.component';
 
 @Component({
-    selector: 'app-wishlists-library',
-    templateUrl: './wishlists-library.component.html',
-    styleUrl: './wishlists-library.component.sass',
-    standalone: false
+  selector: 'app-wishlists-library',
+  templateUrl: './wishlists-library.component.html',
+  standalone: false,
 })
-export class WishlistsLibraryComponent implements OnInit{
-
+export class WishlistsLibraryComponent implements OnInit {
+  selectedFilter: AccessType = AccessType.Owner;
+  accessTypeOptions: any[] = [
+    { label: 'Owner', value: AccessType.Owner },
+    { label: 'Editor', value: AccessType.Editor },
+    { label: 'Viewer', value: AccessType.Viewer },
+  ];
   wishlists: WishlistBriefResponse[] = [];
-  public selectedFilter: number = AccessType.Owner;
+  loading = false;
 
-  constructor(private wishlistsService: WishlistsService, private dialogRef: MatDialog) { }
+  constructor(
+    private wishlistsService: WishlistsService,
+    private dialogRef: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.loadWishlists();
   }
 
   loadWishlists() {
-    this.wishlistsService.get(this.selectedFilter).subscribe(
-      response => {
+    this.loading = true;
+    this.wishlistsService.get(this.selectedFilter).subscribe({
+      next: (response) => {
         this.wishlists = response.collection;
-      }
-    );
-  }
-
-  changeFilter(selectedFilter: number): void {
-    if (this.selectedFilter === selectedFilter) {
-      return;
-    }
-
-    this.selectedFilter = selectedFilter;
-
-    switch (this.selectedFilter) {
-      case 0:
-        this.getWishlistsWithAccessTypeOwner();
-        break;
-      case 1:
-        this.getWishlistsWithAccessTypeEditor();
-        break
-      case 2:
-        this.getWishlistsWithAccessTypeViewer();
-        break
-    }
-  }
-
-  private getWishlistsWithAccessTypeOwner(): void {
-    this.wishlistsService.get(0).subscribe(
-      response => {
-        this.wishlists = response.collection;
-      }
-    );
-  }
-  private getWishlistsWithAccessTypeEditor(): void {
-    this.wishlistsService.get(1).subscribe(
-      response => {
-        this.wishlists = response.collection;
-      }
-    );
-  }
-  private getWishlistsWithAccessTypeViewer(): void {
-    this.wishlistsService.get(2).subscribe(
-      response => {
-        this.wishlists = response.collection;
-      }
-    );
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
   openCreateModal() {
@@ -81,13 +50,12 @@ export class WishlistsLibraryComponent implements OnInit{
       createdAt: new Date(),
       photoUrls: [],
       giftsCount: 0,
-      occasionDate: new Date()
+      occasionDate: new Date(),
     };
-
 
     const dialogRef = this.dialogRef.open(WishlistModalComponent, {
       width: '560px',
-      data: { wishlist: defaultWishlist, mode: "create" }
+      data: { wishlist: defaultWishlist, mode: 'create' },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -98,13 +66,12 @@ export class WishlistsLibraryComponent implements OnInit{
   }
 
   onWishlistDeleted(wishlistId: string) {
-    this.wishlists = this.wishlists.filter(wishlist => wishlist.id !== wishlistId);
+    this.wishlists = this.wishlists.filter(
+      (wishlist) => wishlist.id !== wishlistId,
+    );
   }
-
 
   onWishlistUpdated() {
     this.loadWishlists();
   }
-
-  protected readonly AccessType = AccessType;
 }
