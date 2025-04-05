@@ -1,72 +1,56 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MenuItem } from 'primeng/api';
+import { WishlistsService } from '../../data-access/wishlists.service';
 import { WishlistBriefResponse } from '../../models/wishlist';
-import {Subscription} from "rxjs";
-import {WishlistCardStateService} from "../../data-access/wishlist-card-state.service";
-import {WishlistsService} from "../../data-access/wishlists.service";
-import {WishlistModalComponent} from "../wishlist-modal/wishlist-modal.component";
-import {MatDialog} from "@angular/material/dialog";
 import { WishlistAccessComponent } from '../wishlist-access/wishlist-access.component';
+import { WishlistModalComponent } from '../wishlist-modal/wishlist-modal.component';
 
 @Component({
-    selector: 'app-wishlist-card',
-    templateUrl: './wishlist-card.component.html',
-    styleUrl: './wishlist-card.component.sass',
-    standalone: false
+  selector: 'app-wishlist-card',
+  templateUrl: './wishlist-card.component.html',
+  standalone: false,
 })
-export class WishlistCardComponent implements OnInit {
+export class WishlistCardComponent {
   @Input({ required: true }) wishlist!: WishlistBriefResponse;
   @Output() wishlistDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() wishlistUpdated: EventEmitter<void> = new EventEmitter<void>();
 
-  isMenuOpen = false;
-  private subscription: Subscription = new Subscription();
+  menuItems: MenuItem[] = [
+    {
+      label: 'Wishlist Actions',
+      items: [
+        {
+          label: 'Edit',
+          icon: 'pi pi-pencil',
+          command: () => this.openEditModal(),
+        },
+        {
+          label: 'Share',
+          icon: 'pi pi-share-alt',
+          command: () => this.openShareModal(),
+        },
+        {
+          label: 'Delete',
+          icon: 'pi pi-trash',
+          command: () => this.deleteWishlist(this.wishlist.id),
+        },
+      ],
+    },
+  ];
 
-  constructor(private wishlistCardStateService: WishlistCardStateService, private wishlistsService: WishlistsService, private dialog: MatDialog) {}
+  constructor(
+    private wishlistsService: WishlistsService,
+    private dialog: MatDialog,
+  ) {}
 
-  ngOnInit(): void {
-    this.subscription = this.wishlistCardStateService.menuOpened$.subscribe(openedWishlistId => {
-      if (openedWishlistId !== this.wishlist.id) {
-        this.isMenuOpen = false;
-      }
-    });
-  }
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-    if (this.isMenuOpen) {
-      this.wishlistCardStateService.notifyMenuOpened(this.wishlist.id);
-    }
-  }
-
-  handleAction(action: string): void {
-    this.isMenuOpen = false;
-
-    switch (action) {
-      case 'edit':
-        this.openEditModal();
-        break;
-      case 'share':
-        this.openShareModal();
-        break;
-      case 'remove':
-        this.deleteWishlist(this.wishlist.id);
-        break;
-      case 'done':
-        console.log('Mark wishlist as done');
-        // TODO: done
-        break;
-      default:
-        console.log('Unknown action');
-    }
-  }
-
-  openEditModal(): void {
+  private openEditModal(): void {
     const dialogRef = this.dialog.open(WishlistModalComponent, {
       width: '560px',
-      data: { wishlist: this.wishlist, mode: "edit" },
+      data: { wishlist: this.wishlist, mode: 'edit' },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.wishlistUpdated.emit();
       }
@@ -74,27 +58,16 @@ export class WishlistCardComponent implements OnInit {
   }
 
   private openShareModal(): void {
-    const dialogRef = this.dialog.open(WishlistAccessComponent, {
+    this.dialog.open(WishlistAccessComponent, {
       data: { wishlistId: this.wishlist.id, wishlistName: this.wishlist.name },
     });
   }
 
-  deleteWishlist(wishlistId: string) {
+  private deleteWishlist(wishlistId: string) {
     this.wishlistsService.delete(wishlistId).subscribe({
       next: () => {
         this.wishlistDeleted.emit(wishlistId);
-      }
+      },
     });
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const isMenuButton = target.closest('.actions-menu-button');
-    const isMenuContent = target.closest('.actions-menu');
-
-    if (!isMenuButton && !isMenuContent) {
-      this.isMenuOpen = false;
-    }
   }
 }

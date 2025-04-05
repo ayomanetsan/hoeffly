@@ -1,23 +1,27 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { WishlistCardComponent } from './wishlist-card.component';
+import { NgModule } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Chip } from 'primeng/chip';
+import { Menu } from 'primeng/menu';
+import { Tag } from 'primeng/tag';
 import { WishlistAccessModule } from '../wishlist-access/wishlist-access.module';
-
-
+import { WishlistCardComponent } from './wishlist-card.component';
 
 @NgModule({
-  declarations: [
-    WishlistCardComponent
+  declarations: [WishlistCardComponent],
+  exports: [WishlistCardComponent],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    RouterLink,
+    WishlistAccessModule,
+    Card,
+    Button,
+    Tag,
+    Chip,
+    Menu,
   ],
-  exports: [
-    WishlistCardComponent
-  ],
-    imports: [
-      CommonModule,
-      NgOptimizedImage,
-      RouterLink,
-      WishlistAccessModule
-    ]
 })
-export class WishlistCardModule { }
+export class WishlistCardModule {}
