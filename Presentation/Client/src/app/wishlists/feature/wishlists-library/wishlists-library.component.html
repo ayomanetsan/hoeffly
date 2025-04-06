@@ -13,7 +13,7 @@
       <p-button
         icon="pi pi-plus"
         label="Create Wishlist"
-        (onClick)="openCreateModal()"
+        (onClick)="openCreateDialog()"
       ></p-button>
     </section>
     <p-select-button
@@ -34,8 +34,8 @@
           (wishlistDeleted)="onWishlistDeleted(wishlist.id)"
         ></app-wishlist-card>
         <div
-          (click)="openCreateModal()"
-          class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-marmelade-300 p-8 text-marmelade-500 transition-all hover:bg-marmelade-50"
+          (click)="openCreateDialog()"
+          class="flex min-h-[260px] cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-marmelade-300 p-8 text-marmelade-500 transition-all hover:bg-marmelade-50"
         >
           <i class="pi pi-plus" style="color: var(--color-marmelade-800)"></i>
           <span class="font-medium text-marmelade-800">Create Wishlist</span>

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuItem } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WishlistsService } from '../../data-access/wishlists.service';
 import { WishlistBriefResponse } from '../../models/wishlist';
+import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
 import { WishlistAccessComponent } from '../wishlist-access/wishlist-access.component';
-import { WishlistModalComponent } from '../wishlist-modal/wishlist-modal.component';
 
 @Component({
   selector: 'app-wishlist-card',
@@ -16,6 +17,7 @@ export class WishlistCardComponent {
   @Output() wishlistDeleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() wishlistUpdated: EventEmitter<void> = new EventEmitter<void>();
 
+  ref: DynamicDialogRef | undefined;
   menuItems: MenuItem[] = [
     {
       label: 'Wishlist Actions',
@@ -23,7 +25,7 @@ export class WishlistCardComponent {
         {
           label: 'Edit',
           icon: 'pi pi-pencil',
-          command: () => this.openEditModal(),
+          command: () => this.openEditDialog(),
         },
         {
           label: 'Share',
@@ -42,15 +44,18 @@ export class WishlistCardComponent {
   constructor(
     private wishlistsService: WishlistsService,
     private dialog: MatDialog,
+    private dialogService: DialogService,
   ) {}
 
-  private openEditModal(): void {
-    const dialogRef = this.dialog.open(WishlistModalComponent, {
-      width: '560px',
-      data: { wishlist: this.wishlist, mode: 'edit' },
+  private openEditDialog(): void {
+    this.ref = this.dialogService.open(CreateDialogComponent, {
+      data: this.wishlist,
+      modal: true,
+      showHeader: false,
+      width: '450px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    this.ref.onClose.subscribe((result) => {
       if (result) {
         this.wishlistUpdated.emit();
       }

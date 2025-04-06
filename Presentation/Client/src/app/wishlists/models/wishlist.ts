@@ -1,5 +1,5 @@
-﻿import { PagedResponse } from '../../shared/models/pagedResponse';
-import { GiftResponse } from '../../gifts/models/gift';
+﻿import { GiftResponse } from '../../gifts/models/gift';
+import { PagedResponse } from '../../shared/models/pagedResponse';
 
 export interface WishlistBriefResponse {
   id: string;
@@ -16,7 +16,7 @@ export interface WishlistCreateRequest {
   name: string;
   isPublic: boolean;
   categories: string[];
-  occasionDate: Date;
+  occasionDate: string;
 }
 
 export interface WishlistUpdateRequest {
@@ -24,10 +24,10 @@ export interface WishlistUpdateRequest {
   name: string;
   isPublic: boolean;
   categories: string[];
-  occasionDate: Date;
+  occasionDate: string;
 }
 
 export interface WishlistWithGifts {
-  name: string
-  gifts: PagedResponse<GiftResponse>
+  name: string;
+  gifts: PagedResponse<GiftResponse>;
 }

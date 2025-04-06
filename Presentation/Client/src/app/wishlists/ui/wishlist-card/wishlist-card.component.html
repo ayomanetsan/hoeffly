@@ -32,6 +32,15 @@
         height="64"
         class="h-16 w-16 object-cover"
       />
+      <div
+        *ngIf="!wishlist.photoUrls.length"
+        class="flex h-16 w-full flex-col items-center justify-center gap-1"
+      >
+        <p class="text-marmelade-700">No gifts added yet</p>
+        <p class="text-sm text-marmelade-500">
+          Click "View" to add your first gift
+        </p>
+      </div>
     </div>
   </div>
   <div class="flex items-center justify-between bg-white p-3">

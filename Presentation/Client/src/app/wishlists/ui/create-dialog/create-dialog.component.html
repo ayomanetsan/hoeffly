@@ -1,0 +1,144 @@
+<header class="mt-5 mb-4 flex justify-between">
+  <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+    <h2 class="text-2xl font-bold tracking-tight text-marmelade-900">
+      {{ this.wishlist ? "Edit Wishlist" : "Create New Wishlist" }}
+    </h2>
+    <p class="text-sm text-marmelade-700">
+      {{
+        this.wishlist
+          ? "Update the details of your wishlist."
+          : "Fill in the details to create your new wishlist."
+      }}
+    </p>
+  </div>
+  <p-button
+    variant="text"
+    icon="pi pi-times"
+    size="small"
+    severity="secondary"
+    (onClick)="close()"
+  ></p-button>
+</header>
+<form [formGroup]="wishlistForm" class="grid gap-6 pt-4" (submit)="onSubmit()">
+  <div class="grid gap-2">
+    <label
+      for="name"
+      class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >Wishlist name <span class="text-red-500">*</span></label
+    >
+    <input
+      id="name"
+      type="text"
+      pInputText
+      formControlName="name"
+      placeholder="e. g. Birthday Wishes"
+    />
+  </div>
+  <div class="grid gap-2">
+    <label
+      for="occasionDate"
+      class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >Occasion date <span class="text-red-500">*</span></label
+    >
+    <p-datePicker
+      id="occasionDate"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [fluid]="true"
+      [minDate]="today"
+      dateFormat="d M yy"
+      formControlName="occasionDate"
+    ></p-datePicker>
+  </div>
+  <div class="grid gap-2">
+    <label
+      for="occasionDate"
+      class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >Privacy setting</label
+    >
+    <div class="flex gap-4">
+      <div class="flex items-center space-x-2">
+        <p-radioButton
+          inputId="private"
+          [value]="false"
+          formControlName="isPublic"
+        />
+        <label
+          for="private"
+          class="cursor-pointer leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >Private</label
+        >
+      </div>
+      <div class="flex items-center space-x-2">
+        <p-radioButton
+          inputId="public"
+          [value]="true"
+          formControlName="isPublic"
+        />
+        <label
+          for="public"
+          class="cursor-pointer leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >Public</label
+        >
+      </div>
+    </div>
+    <p
+      *ngIf="!wishlistForm.get('isPublic')?.value"
+      class="text-sm text-gray-500"
+    >
+      Only you and people you share with can see this wishlist
+    </p>
+    <p
+      *ngIf="wishlistForm.get('isPublic')?.value"
+      class="text-sm text-gray-500"
+    >
+      Anyone can discover and view this wishlist
+    </p>
+  </div>
+  <div class="mb-4 grid gap-2">
+    <div class="flex items-center justify-between">
+      <label
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Categories <span class="text-red-500">*</span></label
+      >
+      <span class="text-sm text-gray-500"
+        >Select up to 3 categories ({{ getSelectedCategoriesCount() }}/3)</span
+      >
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <div
+        [ngClass]="
+          isSelectedCategory(i)
+            ? 'cursor-pointer border-none bg-marmelade-500 text-white hover:bg-marmelade-600'
+            : getSelectedCategoriesCount() === 3
+              ? 'cursor-not-allowed opacity-50'
+              : 'cursor-pointer text-marmelade-900 hover:bg-marmelade-50'
+        "
+        (click)="selectCategory(i)"
+        *ngFor="let category of wishlistCategories; index as i"
+        class="focus:ring-ring flex flex-grow items-center justify-center gap-1 rounded-full border-1 border-surface-300 px-3 py-1.5 text-xs font-semibold transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+      >
+        <i
+          *ngIf="isSelectedCategory(i)"
+          class="pi pi-check text-white"
+          style="font-size: 0.5rem"
+        ></i>
+        {{ category }}
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      variant="outlined"
+      (onClick)="close()"
+    ></p-button>
+    <p-button
+      type="submit"
+      [label]="this.wishlist ? 'Edit Wishlist' : 'Create Wishlist'"
+      [loading]="loading"
+      [disabled]="wishlistForm.invalid"
+    ></p-button>
+  </div>
+</form>

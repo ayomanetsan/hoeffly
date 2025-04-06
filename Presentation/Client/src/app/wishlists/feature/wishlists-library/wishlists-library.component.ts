@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WishlistsService } from '../../data-access/wishlists.service';
 import { AccessType } from '../../models/accessRights';
 import { WishlistBriefResponse } from '../../models/wishlist';
-import { WishlistModalComponent } from '../../ui/wishlist-modal/wishlist-modal.component';
+import { CreateDialogComponent } from '../../ui/create-dialog/create-dialog.component';
 
 @Component({
   selector: 'app-wishlists-library',
   templateUrl: './wishlists-library.component.html',
   standalone: false,
+  providers: [DialogService],
 })
 export class WishlistsLibraryComponent implements OnInit {
+  ref: DynamicDialogRef | undefined;
   selectedFilter: AccessType = AccessType.Owner;
   accessTypeOptions: any[] = [
     { label: 'Owner', value: AccessType.Owner },
@@ -22,11 +24,25 @@ export class WishlistsLibraryComponent implements OnInit {
 
   constructor(
     private wishlistsService: WishlistsService,
-    private dialogRef: MatDialog,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
     this.loadWishlists();
+  }
+
+  openCreateDialog() {
+    this.ref = this.dialogService.open(CreateDialogComponent, {
+      modal: true,
+      showHeader: false,
+      width: '450px',
+    });
+
+    this.ref.onClose.subscribe((result) => {
+      if (result) {
+        this.loadWishlists();
+      }
+    });
   }
 
   loadWishlists() {
@@ -38,30 +54,6 @@ export class WishlistsLibraryComponent implements OnInit {
       complete: () => {
         this.loading = false;
       },
-    });
-  }
-
-  openCreateModal() {
-    const defaultWishlist: WishlistBriefResponse = {
-      id: '',
-      name: '',
-      isPublic: false,
-      categories: [],
-      createdAt: new Date(),
-      photoUrls: [],
-      giftsCount: 0,
-      occasionDate: new Date(),
-    };
-
-    const dialogRef = this.dialogRef.open(WishlistModalComponent, {
-      width: '560px',
-      data: { wishlist: defaultWishlist, mode: 'create' },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.loadWishlists();
-      }
     });
   }
 
