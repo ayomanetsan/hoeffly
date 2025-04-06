@@ -4,5 +4,5 @@ public enum Currency
 {
     Euro,
     UkrainianHryvnia,
-    UnitedStatesDollar
+    UnitedStatesDollar,
 }

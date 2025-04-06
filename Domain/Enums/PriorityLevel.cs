@@ -6,5 +6,5 @@ public enum PriorityLevel
     ReallyWanted,
     WouldLike,
     NiceToHave,
-    Optional
+    Optional,
 }

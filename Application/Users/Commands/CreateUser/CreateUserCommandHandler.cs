@@ -17,7 +17,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
     {
         var user = _mapper.Map<User>(request);
         await _userService.CreateUserAsync(user, cancellationToken);
-            
+
         return Unit.Value;
     }
 }

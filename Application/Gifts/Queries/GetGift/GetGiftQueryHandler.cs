@@ -4,7 +4,7 @@ public sealed class GetGiftQueryHandler : IRequestHandler<GetGiftQuery, GiftResp
 {
     private readonly IGiftService _giftService;
     private readonly IMapper _mapper;
-    
+
     public GetGiftQueryHandler(IGiftService giftService, IMapper mapper)
     {
         _giftService = giftService;

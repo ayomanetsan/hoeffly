@@ -21,45 +21,45 @@ public class GiftsController(IMediator mediatr) : ControllerBase
         var gift = await mediatr.Send(new GetGiftQuery(id), cancellationToken);
         return Ok(gift);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> CreateGiftAsync(CreateGiftCommand command, CancellationToken cancellationToken)
     {
         var id = await mediatr.Send(command, cancellationToken);
         return Ok(id);
     }
-    
+
     [HttpPut]
     public async Task<IActionResult> UpdateGiftAsync(UpdateGiftCommand command, CancellationToken cancellationToken)
     {
         await mediatr.Send(command, cancellationToken);
         return Ok();
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGiftAsync(Guid id, CancellationToken cancellationToken)
     {
         var result = await mediatr.Send(new DeleteGiftCommand(id), cancellationToken);
         return Ok(result);
     }
-    
+
     [HttpPost("{id}/reserve")]
     public async Task<IActionResult> ReserveGiftAsync(Guid id, CancellationToken cancellationToken)
     {
         var sharedGiftId = await mediatr.Send(new ReserveGiftCommand(id), cancellationToken);
         return Ok(sharedGiftId);
     }
-    
+
     [HttpDelete("{id}/cancel-reservation")]
     public async Task<IActionResult> CancelGiftReservationAsync(Guid id, CancellationToken cancellationToken)
     {
         await mediatr.Send(new CancelGiftReservationCommand(id), cancellationToken);
         return Ok();
     }
-    
+
     [HttpPut("accept-reservation")]
     public async Task<IActionResult> AcceptGiftReservationAsync(
-        [FromBody] AcceptGiftReservationCommand request, 
+        [FromBody] AcceptGiftReservationCommand request,
         CancellationToken cancellationToken)
     {
         await mediatr.Send(request, cancellationToken);

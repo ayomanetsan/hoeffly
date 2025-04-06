@@ -29,7 +29,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             "Halloween",
             "Thanksgiving",
             "Black Friday",
-            "Summer Vacation"
+            "Summer Vacation",
         };
 
         var giftCategories = new[]
@@ -65,7 +65,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             Type = categoryType,
             CreatedBy = "system",
             CreatedAt = DateTimeOffset.UtcNow,
-            LastModifiedBy = "system"
+            LastModifiedBy = "system",
         });
     }
 }

@@ -6,5 +6,5 @@ public class ReserveGiftCommandProfile : Profile
     {
         CreateMap<ReserveGiftCommand, SharedGift>()
             .ForMember(dest => dest.GiftId, opt => opt.MapFrom(src => src.GiftId));
-    } 
+    }
 }

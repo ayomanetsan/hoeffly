@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using System.Security.Claims;
 
 namespace Infrastructure.Hubs;
 
@@ -25,7 +25,7 @@ public class FriendsHub : Hub<IFriendsClient>
     {
         await Clients.Group(receiverEmail).ReceiveFriendRequestStatus(friendshipId, status);
     }
-    
+
     public async Task DeleteFriendRequest(string receiverEmail, Guid friendshipId)
     {
         await Clients.Group(receiverEmail).ReceiveFriendRequestDelete(friendshipId);

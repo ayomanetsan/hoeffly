@@ -14,21 +14,22 @@ public sealed class GetFilteredWishlistsQueryHandler :
         _mapper = mapper;
     }
 
-    public async Task<PageResponse<WishlistBriefResponse>> Handle(GetFilteredWishlistsQuery request, 
+    public async Task<PageResponse<WishlistBriefResponse>> Handle(
+        GetFilteredWishlistsQuery request,
         CancellationToken cancellationToken)
     {
         var (wishlists, totalPages) = await _wishlistService.GetWishlistsAsync(
-            request.AccessType, 
-            request.PageNumber, 
-            request.PageSize, 
+            request.AccessType,
+            request.PageNumber,
+            request.PageSize,
             cancellationToken);
 
         var mappedWishlists = _mapper.Map<IEnumerable<WishlistBriefResponse>>(wishlists);
 
         return new PageResponse<WishlistBriefResponse>(
-            mappedWishlists, 
-            request.PageNumber, 
-            request.PageSize, 
+            mappedWishlists,
+            request.PageNumber,
+            request.PageSize,
             totalPages);
     }
 }

@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Http;
 namespace Infrastructure.Services;
 
 public class UserService(
-    IRepository<User> userRepository, 
-    IRepository<Friendship> friendshipRepository, 
-    IUnitOfWork unitOfWork, 
-    IHttpContextAccessor httpContextAccessor) 
+    IRepository<User> userRepository,
+    IRepository<Friendship> friendshipRepository,
+    IUnitOfWork unitOfWork,
+    IHttpContextAccessor httpContextAccessor)
     : IUserService
 {
     public async Task CreateUserAsync(User user, CancellationToken cancellationToken)
@@ -19,7 +19,7 @@ public class UserService(
         {
             throw new ConflictException("User with the same email already exists.");
         }
-        
+
         await userRepository.AddAsync(user, cancellationToken); 
         await unitOfWork.SaveChangesAsync(cancellationToken);
     }
@@ -27,12 +27,12 @@ public class UserService(
     public async Task<(IEnumerable<User> users, int totalPages)> GetUsersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         var userEmail = GetUserEmailFromContext();
-    
+
         var currentUser = await userRepository.GetQueryable()
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Email == userEmail, cancellationToken)
             ?? throw new NotFoundException("Current user not found.");
-    
+
         // Get the list of user IDs that are friends with the current user
         var friendIds = await friendshipRepository.GetQueryable()
             .AsNoTracking()

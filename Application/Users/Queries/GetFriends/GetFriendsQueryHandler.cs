@@ -8,19 +8,19 @@ public class GetFriendsQueryHandler(IFriendshipService friendshipService, IMappe
     public async Task<PageResponse<FriendsResponse>> Handle(GetFriendsQuery request, CancellationToken cancellationToken)
     {
         var (friends, totalPages, userEmail) = await friendshipService.GetFriendsAsync(
-            request.PageNumber, 
-            request.PageSize, 
+            request.PageNumber,
+            request.PageSize,
             cancellationToken);
 
         var mappedFriends = mapper.Map<IEnumerable<FriendsResponse>>(friends, opt =>
         {
             opt.Items["UserEmail"] = userEmail;
         });
-        
+
         return new PageResponse<FriendsResponse>(
-            mappedFriends, 
-            request.PageNumber, 
-            request.PageSize, 
+            mappedFriends,
+            request.PageNumber,
+            request.PageSize,
             totalPages);
     }
 }

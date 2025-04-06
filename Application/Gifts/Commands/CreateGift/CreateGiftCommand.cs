@@ -3,14 +3,13 @@
 namespace Application.Gifts.Commands.CreateGift;
 
 public record CreateGiftCommand(
-    string Name, 
+    string Name,
     string CategoryName,
-    string? Note, 
+    string? Note,
     string? ShopLink,
-    string? PhotoLink, 
-    string? ThumbnailLink, 
-    double Price, 
+    string? PhotoLink,
+    string? ThumbnailLink,
+    double Price,
     Currency Currency,
     PriorityLevel Priority,
-    Guid WishlistId
-) : IRequest<Guid>;
+    Guid WishlistId) : IRequest<Guid>;

@@ -22,15 +22,15 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
     {
         logger.LogError(ex, ex.Message);
 
-        var httpStatusCode = ex is ExceptionBase exceptionBase 
-            ? exceptionBase.HttpStatusCode 
+        var httpStatusCode = ex is ExceptionBase exceptionBase
+            ? exceptionBase.HttpStatusCode
             : HttpStatusCode.InternalServerError;
-        
+
         var problem = new ProblemDetails()
         {
             Status = (int)httpStatusCode,
             Type = httpStatusCode.ToString(),
-            Detail = ex.Message
+            Detail = ex.Message,
         };
 
         var problemJson = JsonSerializer.Serialize(problem);

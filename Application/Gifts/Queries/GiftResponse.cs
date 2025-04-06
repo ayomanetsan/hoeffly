@@ -29,16 +29,18 @@ public record GiftResponse
     public int LikeCount { get; set; }
 
     public bool IsReserved { get; set; }
-    
-    public IEnumerable<SharedGiftResponse> SharedGifts { get; set; }
-    
+
+    public IEnumerable<SharedGiftResponse> SharedGifts { get; set; } = Enumerable.Empty<SharedGiftResponse>();
+
     public class SharedGiftResponse
     {
         public Guid UserId { get; set; }
-        public string UserEmail { get; set; }
+
+        public required string UserEmail { get; set; }
+
         public SharedGiftStatus Status { get; set; }
     }
-    
+
     private class MappingProfile : Profile
     {
         public MappingProfile()

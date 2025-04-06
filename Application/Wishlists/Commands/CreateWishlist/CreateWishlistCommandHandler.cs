@@ -10,12 +10,12 @@ public sealed class CreateWishlistCommandHandler : IRequestHandler<CreateWishlis
         _mapper = mapper;
         _wishlistService = wishlistService;
     }
-    
+
     public async Task<Unit> Handle(CreateWishlistCommand request, CancellationToken cancellationToken)
     {
         var wishlist = _mapper.Map<Wishlist>(request);
         await _wishlistService.CreateWishlistAsync(wishlist, request.categories, cancellationToken);
-        
+
         return Unit.Value;
     }
 }

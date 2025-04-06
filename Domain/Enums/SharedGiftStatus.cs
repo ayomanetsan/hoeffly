@@ -4,5 +4,5 @@ public enum SharedGiftStatus
 {
     Pending,
     Accepted,
-    Primary
+    Primary,
 }

@@ -8,7 +8,7 @@ public class DeleteGiftCommandHandler : IRequestHandler<DeleteGiftCommand, Unit>
     {
         _giftService = giftService;
     }
-    
+
     public async Task<Unit> Handle(DeleteGiftCommand request, CancellationToken cancellationToken)
     {
         await _giftService.DeleteGiftAsync(request.Id, cancellationToken);

@@ -1,7 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
-using Application.Wishlists.Commands.DeleteWishlistAccess;
+using Application.Wishlists.Commands.RevokeWishlistAccess;
 using Application.Wishlists.Commands.ShareWishlist;
 using Application.Wishlists.Commands.UpdateWishlist;
 using Application.Wishlists.Queries.CheckAccess;

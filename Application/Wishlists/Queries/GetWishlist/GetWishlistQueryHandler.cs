@@ -13,17 +13,17 @@ public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlis
         _wishlistService = wishlistService;
         _mapper = mapper;
     }
-    
+
     public async Task<WishlistResponse> Handle(GetWishlistQuery request, CancellationToken cancellationToken)
     {
         var wishlist = await _wishlistService.GetWishlistAsync(request.Id, cancellationToken);
         var (gifts, totalPages) = await _wishlistService.GetPagedGiftsAsync(
-            request.Id, 
-            request.PageNumber, 
+            request.Id,
+            request.PageNumber,
             request.PageSize,
             request.Filters,
             cancellationToken);
-        
+
         return new WishlistResponse
         {
             Name = wishlist.Name,
@@ -32,7 +32,7 @@ public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlis
                 request.PageNumber,
                 request.PageSize,
                 totalPages
-            )
+            ),
         };
     }
 }
