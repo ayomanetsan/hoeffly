@@ -82,7 +82,7 @@ public class FriendshipService(
 
     public async Task DeleteFriendshipAsync(Guid id, CancellationToken cancellationToken)
     {
-        var friendship = await GetExistingFriendshipAsync(id, cancellationToken) 
+        var friendship = await GetExistingFriendshipAsync(id, cancellationToken)
                          ?? throw new NotFoundException("Friendship not found.");
 
         var email = GetUserEmailFromContext();

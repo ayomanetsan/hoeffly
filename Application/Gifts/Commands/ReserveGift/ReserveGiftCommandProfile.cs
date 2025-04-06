@@ -1,6 +1,6 @@
 namespace Application.Gifts.Commands.ReserveGift;
 
-public class ReserveGiftCommandProfile : Profile
+public sealed class ReserveGiftCommandProfile : Profile
 {
     public ReserveGiftCommandProfile()
     {

@@ -1,6 +1,6 @@
 namespace Application.Wishlists.Commands.ShareWishlist;
 
-public class ShareWishlistCommandProfile : Profile
+public sealed class ShareWishlistCommandProfile : Profile
 {
     public ShareWishlistCommandProfile()
     {

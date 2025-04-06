@@ -9,7 +9,7 @@ public record WishlistResponse
 
     public required PageResponse<GiftResponse> Gifts { get; set; } = null!;
 
-    private class MappingProfile : Profile
+    private sealed class MappingProfile : Profile
     {
         public MappingProfile()
         {

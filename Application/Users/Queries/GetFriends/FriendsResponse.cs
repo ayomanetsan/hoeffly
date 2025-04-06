@@ -4,11 +4,14 @@ namespace Application.Users.Queries.GetFriends;
 
 public record FriendsResponse(
     Guid Id,
-    string Name, 
+    string Name,
     string Email,
     InvitationStatus Status,
     bool IsSender
     )
 {
-    public FriendsResponse() : this(Guid.Empty, "", "", InvitationStatus.Accepted, false){ }
+    public FriendsResponse()
+        : this(Guid.Empty, string.Empty, string.Empty, InvitationStatus.Accepted, false)
+    {
+    }
 };

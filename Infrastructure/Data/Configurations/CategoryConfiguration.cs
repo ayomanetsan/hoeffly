@@ -48,7 +48,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             "Music",
             "Office",
             "Garden",
-            "Gourmet"
+            "Gourmet",
         };
 
         return CreateCategories(wishlistCategories, CategoryType.Wishlist)

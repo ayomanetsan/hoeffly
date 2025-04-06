@@ -1,6 +1,6 @@
 namespace Application.Gifts.Commands.UpdateGift;
 
-public class UpdateGiftCommandProfile : Profile
+public sealed class UpdateGiftCommandProfile : Profile
 {
     public UpdateGiftCommandProfile()
     {

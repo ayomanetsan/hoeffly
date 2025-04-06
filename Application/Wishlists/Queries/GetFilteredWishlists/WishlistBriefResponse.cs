@@ -11,5 +11,15 @@ public record WishlistBriefResponse(
     int GiftsCount)
 {
     public WishlistBriefResponse()
-        : this(Guid.Empty, string.Empty, false, new DateTimeOffset(), new List<string>(), new DateTimeOffset(), new List<string>(), 0) { }
+        : this(
+            Guid.Empty,
+            string.Empty,
+            false,
+            DateTimeOffset.MinValue,
+            new List<string>(),
+            DateTimeOffset.MinValue,
+            new List<string>(),
+            0)
+    {
+    }
 };

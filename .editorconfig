@@ -28,7 +28,20 @@ dotnet_diagnostic.SA1206.severity = None
 # A call to an instance member of the local class or a base class is not prefixed with 'this.', within a C# code file.
 dotnet_diagnostic.SA1101.severity = None
 
+# A closing parenthesis within a C# statement is not spaced correctly.
 dotnet_diagnostic.SA1009.severity = None
+
+# A closing brace within a C# element, statement, or expression is not followed by a blank line.
+dotnet_diagnostic.SA1513.severity = None
+
+# Parameter '_' should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = None
+
+# The C# code contains an extra semicolon.
+dotnet_diagnostic.SA1106.severity = None
+
+# Element should not be on a single line
+dotnet_diagnostic.SA1502.severity = None
 
 ##
 ## SonarAnalyzers.CSharp

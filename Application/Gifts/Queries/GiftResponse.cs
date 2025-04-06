@@ -41,7 +41,7 @@ public record GiftResponse
         public SharedGiftStatus Status { get; set; }
     }
 
-    private class MappingProfile : Profile
+    private sealed class MappingProfile : Profile
     {
         public MappingProfile()
         {

@@ -2,29 +2,20 @@
 
 namespace Application.Wishlists.Queries.GetFilteredWishlists;
 
-public sealed class GetFilteredWishlistsQueryHandler :
+public sealed class GetFilteredWishlistsQueryHandler(IWishlistService wishlistService, IMapper mapper) :
     IRequestHandler<GetFilteredWishlistsQuery, PageResponse<WishlistBriefResponse>>
 {
-    private readonly IWishlistService _wishlistService;
-    private readonly IMapper _mapper;
-
-    public GetFilteredWishlistsQueryHandler(IWishlistService wishlistService, IMapper mapper)
-    {
-        _wishlistService = wishlistService;
-        _mapper = mapper;
-    }
-
     public async Task<PageResponse<WishlistBriefResponse>> Handle(
         GetFilteredWishlistsQuery request,
         CancellationToken cancellationToken)
     {
-        var (wishlists, totalPages) = await _wishlistService.GetWishlistsAsync(
+        var (wishlists, totalPages) = await wishlistService.GetWishlistsAsync(
             request.AccessType,
             request.PageNumber,
             request.PageSize,
             cancellationToken);
 
-        var mappedWishlists = _mapper.Map<IEnumerable<WishlistBriefResponse>>(wishlists);
+        var mappedWishlists = mapper.Map<IEnumerable<WishlistBriefResponse>>(wishlists);
 
         return new PageResponse<WishlistBriefResponse>(
             mappedWishlists,

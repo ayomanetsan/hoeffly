@@ -20,7 +20,7 @@ public class UserService(
             throw new ConflictException("User with the same email already exists.");
         }
 
-        await userRepository.AddAsync(user, cancellationToken); 
+        await userRepository.AddAsync(user, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 

@@ -8,6 +8,9 @@ public interface IWishlistAccessService
 
     Task RevokeWishlistAccessAsync(Guid accessRightId, CancellationToken cancellationToken);
 
-    Task<(IEnumerable<AccessRights> accessRights, int totalPages)> GetWishlistAccessRightAsync(Guid wishlistId, int pageNumber,
-        int pageSize, CancellationToken cancellationToken);
+    Task<(IEnumerable<AccessRights> accessRights, int totalPages)> GetWishlistAccessRightAsync(
+        Guid wishlistId,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken);
 }

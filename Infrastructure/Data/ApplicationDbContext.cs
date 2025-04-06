@@ -31,13 +31,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Message> Messages => Set<Message>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        base.OnModelCreating(modelBuilder);
-    }
-
     public override int SaveChanges()
     {
         ApplyAuditInfo();
@@ -48,6 +41,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         ApplyAuditInfo();
         return base.SaveChangesAsync(cancellationToken);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        base.OnModelCreating(modelBuilder);
     }
 
     private void ApplyAuditInfo()

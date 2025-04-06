@@ -1,6 +1,6 @@
 ﻿namespace Application.Users.Commands.CreateUser;
 
-public class CreateUserCommandProfile : Profile
+public sealed class CreateUserCommandProfile : Profile
 {
     public CreateUserCommandProfile()
     {

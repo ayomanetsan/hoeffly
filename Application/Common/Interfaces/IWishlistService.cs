@@ -7,8 +7,11 @@ namespace Application.Common.Interfaces;
 
 public interface IWishlistService
 {
-    Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(int accessType, int pageNumber,
-        int pageSize, CancellationToken cancellationToken);
+    Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetWishlistsAsync(
+        int accessType,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken);
 
     Task CreateWishlistAsync(Wishlist wishlist, IEnumerable<string> categories, CancellationToken cancellationToken);
 

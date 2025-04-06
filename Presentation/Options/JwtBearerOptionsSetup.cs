@@ -4,64 +4,59 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Presentation.Options;
 
-public class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
+public class JwtBearerOptionsSetup(IConfiguration configuration) : IConfigureNamedOptions<JwtBearerOptions>
 {
-    private readonly IConfiguration _configuration;
-
-    public JwtBearerOptionsSetup(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     public void Configure(JwtBearerOptions options)
     {
-        options.Authority = _configuration["JwtBearerOptions:ValidIssuer"];
+        options.Authority = configuration["JwtBearerOptions:ValidIssuer"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidIssuer = _configuration["JwtBearerOptions:ValidIssuer"],
-            ValidAudience = _configuration["JwtBearerOptions:ValidAudience"]
+            ValidIssuer = configuration["JwtBearerOptions:ValidIssuer"],
+            ValidAudience = configuration["JwtBearerOptions:ValidAudience"],
         };
         options.Events = new JwtBearerEvents
         {
-            OnMessageReceived = context => {
+            OnMessageReceived = context =>
+            {
                 var accessToken = context.Request.Query["access_token"];
                 var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) 
+                if (!string.IsNullOrEmpty(accessToken)
                     && path.ToString().Contains("hub", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Token = accessToken;
                 }
                 return Task.CompletedTask;
-            }
+            },
         };
     }
 
     public void Configure(string? name, JwtBearerOptions options)
     {
-        options.Authority = _configuration["JwtBearerOptions:ValidIssuer"];
+        options.Authority = configuration["JwtBearerOptions:ValidIssuer"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidIssuer = _configuration["JwtBearerOptions:ValidIssuer"],
-            ValidAudience = _configuration["JwtBearerOptions:ValidAudience"]
+            ValidIssuer = configuration["JwtBearerOptions:ValidIssuer"],
+            ValidAudience = configuration["JwtBearerOptions:ValidAudience"],
         };
         options.Events = new JwtBearerEvents
         {
-            OnMessageReceived = context => {
+            OnMessageReceived = context =>
+            {
                 var accessToken = context.Request.Query["access_token"];
                 var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) 
+                if (!string.IsNullOrEmpty(accessToken)
                     && path.ToString().Contains("hub", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Token = accessToken;
                 }
                 return Task.CompletedTask;
-            }
+            },
         };
     }
 }
