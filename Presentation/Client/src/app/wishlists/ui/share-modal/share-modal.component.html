@@ -1,0 +1,147 @@
+<p-toast styleClass="w-[552px]!" position="top-center"></p-toast>
+<p-confirmDialog />
+<header class="mt-5 mb-4 flex justify-between">
+  <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+    <h2 class="text-2xl font-bold tracking-tight text-marmelade-900">
+      Share Wishlist
+    </h2>
+    <p class="text-sm text-marmelade-700">
+      Share "{{ wishlistName }}" with friends or via email
+    </p>
+  </div>
+  <p-button
+    variant="text"
+    icon="pi pi-times"
+    size="small"
+    severity="secondary"
+    (onClick)="closeModal()"
+  ></p-button>
+</header>
+<p-select-button
+  *ngIf="isOwner"
+  [options]="accessTypeOptions"
+  [(ngModel)]="selectedFilter"
+  [allowEmpty]="false"
+  class="mb-4"
+  styleClass="w-[280px]"
+>
+  <ng-template #item let-item>
+    <i [class]="item.icon"></i>{{ item.label }}
+  </ng-template>
+</p-select-button>
+<form
+  *ngIf="isOwner"
+  [formGroup]="accessForm"
+  class="mb-8 space-y-6"
+  (ngSubmit)="shareAccess()"
+>
+  <div class="flex gap-2">
+    <p-select
+      *ngIf="selectedFilter === 'Friends'"
+      formControlName="email"
+      [options]="friendsDropdownOptions"
+      optionLabel="name"
+      optionValue="email"
+      [filter]="true"
+      filterBy="name"
+      [showClear]="true"
+      [loading]="friendsLoading"
+      placeholder="Enter friend name..."
+      class="flex-1"
+    ></p-select>
+    <input
+      pInputText
+      *ngIf="selectedFilter === 'Email'"
+      type="email"
+      formControlName="email"
+      autocomplete="off"
+      [fluid]="true"
+      placeholder="Enter user email..."
+    />
+    <p-button
+      label="Invite"
+      [loading]="invitationLoading"
+      [disabled]="accessForm.invalid"
+      type="submit"
+    ></p-button>
+  </div>
+</form>
+<h3 class="mb-3 font-medium text-gray-900">Shared with</h3>
+<div class="space-y-3 pr-1">
+  <article
+    class="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+    *ngFor="let person of peopleWithAccess"
+  >
+    <div class="flex items-center gap-3">
+      <p-avatar
+        [label]="getInitials(person.name)"
+        shape="circle"
+        styleClass="bg-marmelade-100! text-marmelade-800!"
+      ></p-avatar>
+      <div>
+        <p class="font-medium text-gray-900">
+          {{
+            person.email === currentUserEmail
+              ? person.name + " (You)"
+              : person.name
+          }}
+        </p>
+        <p class="text-xs text-gray-500">{{ person.email }}</p>
+      </div>
+    </div>
+    <input
+      *ngIf="person.initialType === 0; else dropdownTemplate"
+      type="text"
+      pInputText
+      value="Owner"
+      [disabled]="true"
+      pSize="small"
+      class="w-36"
+    />
+    <ng-template #dropdownTemplate>
+      <div *ngIf="isOwner" class="flex w-36 items-center justify-between gap-2">
+        <p-select
+          [ngModel]="person.type"
+          (ngModelChange)="updateAccessType(person, $event)"
+          [options]="accessTypeDropdown"
+          optionValue="value"
+          optionLabel="text"
+          size="small"
+          class="min-w-26"
+        ></p-select>
+        <p-button
+          variant="text"
+          icon="pi pi-trash"
+          severity="secondary"
+          size="small"
+          (click)="revokeAccess(person, $event)"
+        ></p-button>
+      </div>
+      <div *ngIf="!isOwner">
+        <input
+          type="text"
+          pInputText
+          [value]="AccessType[person.type]"
+          [disabled]="true"
+          pSize="small"
+          class="w-36"
+        />
+      </div>
+    </ng-template>
+  </article>
+</div>
+<div class="mt-4 flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+  <p-button
+    label="Cancel"
+    severity="secondary"
+    variant="outlined"
+    (onClick)="closeModal()"
+  ></p-button>
+  <p-button
+    *ngIf="isOwner"
+    type="submit"
+    label="Save Changes"
+    [loading]="changesLoading"
+    (click)="saveChanges()"
+  ></p-button>
+</div>

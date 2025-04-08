@@ -37,3 +37,7 @@ html {
 .p-divider-content {
   background: var(--color-marmelade-50) !important;
 }
+
+.p-dialog-content {
+  overflow: hidden !important;
+}

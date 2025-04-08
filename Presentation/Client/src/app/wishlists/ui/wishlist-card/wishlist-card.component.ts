@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { WishlistsService } from '../../data-access/wishlists.service';
 import { WishlistBriefResponse } from '../../models/wishlist';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
-import { WishlistAccessComponent } from '../wishlist-access/wishlist-access.component';
+import { ShareModalComponent } from '../share-modal/share-modal.component';
 
 @Component({
   selector: 'app-wishlist-card',
@@ -63,8 +63,11 @@ export class WishlistCardComponent {
   }
 
   private openShareModal(): void {
-    this.dialog.open(WishlistAccessComponent, {
+    this.ref = this.dialogService.open(ShareModalComponent, {
       data: { wishlistId: this.wishlist.id, wishlistName: this.wishlist.name },
+      modal: true,
+      showHeader: false,
+      width: '600px',
     });
   }
 

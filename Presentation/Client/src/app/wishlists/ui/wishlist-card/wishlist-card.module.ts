@@ -6,7 +6,7 @@ import { Card } from 'primeng/card';
 import { Chip } from 'primeng/chip';
 import { Menu } from 'primeng/menu';
 import { Tag } from 'primeng/tag';
-import { WishlistAccessModule } from '../wishlist-access/wishlist-access.module';
+import { ShareModalModule } from '../share-modal/share-modal.module';
 import { WishlistCardComponent } from './wishlist-card.component';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { WishlistCardComponent } from './wishlist-card.component';
     CommonModule,
     NgOptimizedImage,
     RouterLink,
-    WishlistAccessModule,
+    ShareModalModule,
     Card,
     Button,
     Tag,
