@@ -41,3 +41,7 @@ html {
 .p-dialog-content {
   overflow: hidden !important;
 }
+
+.icon-sm .pi {
+  font-size: 0.75rem !important;
+}

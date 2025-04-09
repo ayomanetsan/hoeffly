@@ -1,22 +1,51 @@
-<div class="gift">
-  <img [src]="gift.thumbnailLink" [alt]="gift.name">
-  <div class="gift-info">
-    <p class="smaller tinted">{{ gift.categoryName }}</p>
-    <h4>{{ gift.name }}</h4>
-    <p>{{ gift.price | currency: getCurrencyString(gift.currency) }}</p>
-    <ng-container *ngIf="accessType === AccessType.Viewer">
-      <button class="accent smaller" *ngIf="!gift.isReserved" (click)="onReserve(ReserveAction.Reserve)">Reserve</button>
-<!--
-Perhaps there is a reason to make 'manageReservation' instead of cancel here
--->
-<!--      <button class="danger smaller" *ngIf="reservedByCurrentUser" (click)="onReserve(ReserveAction.CancelReservation)">Cancel reservation</button>-->
-      <button class="danger smaller" *ngIf="reservedByCurrentUser || reservationRequestAccepted" (click)="openReservationModal()">Manage reservation</button>
-      <button class="secondary smaller" *ngIf="!reservedByCurrentUser && gift.isReserved && !reservationRequestPending && !reservationRequestAccepted" (click)="onReserve(ReserveAction.RequestSharedReservation)">Join reservation</button>
-      <button class="secondary smaller" *ngIf="reservationRequestPending" (click)="onReserve(ReserveAction.RequestSharedReservation)">Reservation pending</button>
-    </ng-container>
+<article
+  class="bg-card text-card-foreground flex h-full flex-col overflow-hidden rounded-lg border-1 border-gray-200 shadow-sm"
+>
+  <div class="relative h-48 bg-gray-100">
+    <img
+      [src]="gift.thumbnailLink"
+      [alt]="gift.name"
+      loading="lazy"
+      class="h-full w-full object-cover"
+    />
+    <p-tag
+      [value]="getPriorityString()"
+      [rounded]="true"
+      class="absolute top-2 right-2 text-xs!"
+    ></p-tag>
   </div>
-  <div *ngIf="accessType !== AccessType.Viewer">
-    <button (click)="onUpdate()">Update</button>
-    <button (click)="onDelete()">Delete</button>
+  <div class="p-4">
+    <div class="flex items-start justify-between gap-8">
+      <div>
+        <h3 class="font-medium text-gray-900">{{ gift.name }}</h3>
+        <p class="text-sm text-gray-500">{{ gift.categoryName }}</p>
+      </div>
+      <p class="font-medium text-marmelade-600">
+        {{ gift.price | currency: getCurrencyString(gift.currency) }}
+      </p>
+    </div>
+    <p class="mt-2 line-clamp-2 text-sm text-gray-600">
+      {{ gift.note }}
+    </p>
   </div>
-</div>
+  <div class="mt-auto flex items-center justify-end p-4 pt-0">
+    <p-button
+      severity="secondary"
+      variant="outlined"
+      icon="pi pi-external-link"
+      label="Shop"
+      size="small"
+      styleClass="icon-sm"
+    ></p-button>
+    <p-button
+      *ngIf="accessType !== AccessType.Viewer"
+      severity="secondary"
+      variant="text"
+      icon="pi pi-pen-to-square"
+      size="small"
+      styleClass="icon-sm ml-2"
+      (click)="menu.toggle($event)"
+    ></p-button>
+    <p-menu #menu [model]="menuItems" [popup]="true" />
+  </div>
+</article>
