@@ -1,4 +1,4 @@
-namespace Application.Wishlists.Commands.DeleteWishlistAccess;
+namespace Application.Wishlists.Commands.RevokeWishlistAccess;
 
 public class RevokeWishlistAccessCommandHandler(IWishlistAccessService wishlistService) : IRequestHandler<RevokeWishlistAccessCommand, Unit>
 {

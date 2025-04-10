@@ -9,5 +9,8 @@ public record AccessRightResponse(
     string Email
     )
 {
-    public AccessRightResponse() : this(Guid.Empty, AccessType.Owner,"", ""){ }
+    public AccessRightResponse()
+        : this(Guid.Empty, AccessType.Owner, string.Empty, string.Empty)
+    {
+    }
 }

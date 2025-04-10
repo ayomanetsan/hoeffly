@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
@@ -20,7 +19,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ClientPolicy",
+    options.AddPolicy(
+        "ClientPolicy",
         policyBuilder =>
         {
             policyBuilder
@@ -34,7 +34,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
 
 app.UseCors("ClientPolicy");
@@ -54,4 +53,4 @@ app.MapHub<ReservationsHub>("/reservationsHub");
 
 app.MigrateContext();
 
-app.Run();
+await app.RunAsync();

@@ -1,8 +1,6 @@
-﻿using Application.Gifts.Commands.CreateGift;
+﻿namespace Application.Gifts.Commands.CreateGift;
 
-namespace Application.Gifts.Commands;
-
-public class CreateGiftCommandProfile : Profile
+public sealed class CreateGiftCommandProfile : Profile
 {
     public CreateGiftCommandProfile()
     {

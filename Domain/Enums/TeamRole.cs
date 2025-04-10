@@ -3,5 +3,5 @@
 public enum TeamRole
 {
     Creator,
-    Member
+    Member,
 }

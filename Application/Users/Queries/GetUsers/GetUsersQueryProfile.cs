@@ -1,6 +1,6 @@
 namespace Application.Users.Queries.GetUsers;
 
-public class GetUsersQueryProfile : Profile
+public sealed class GetUsersQueryProfile : Profile
 {
     public GetUsersQueryProfile()
     {

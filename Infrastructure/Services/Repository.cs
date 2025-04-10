@@ -19,7 +19,7 @@ public class Repository<T>(ApplicationDbContext context) : IRepository<T>
     {
         return await context.Set<T>().ToListAsync(cancellationToken);
     }
-    
+
     public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
     {
         return await context.Set<T>().AnyAsync(e => e.Id == id, cancellationToken);

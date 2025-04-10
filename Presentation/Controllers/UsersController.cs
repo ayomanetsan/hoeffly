@@ -15,7 +15,7 @@ public class UsersController(IMediator mediatr) : ControllerBase
         var result = await mediatr.Send(command);
         return Ok(result);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetUserByEmail([FromQuery] string email)
     {

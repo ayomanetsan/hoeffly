@@ -17,7 +17,7 @@ public static class ApplicationServices
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         });
-        
+
         return services;
     }
 }

@@ -9,7 +9,8 @@ namespace Infrastructure;
 
 public static class InfrastructureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, 
+    public static IServiceCollection AddInfrastructureServices(
+        this IServiceCollection services,
         IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -20,17 +21,17 @@ public static class InfrastructureServices
         services.AddHttpContextAccessor();
         services.AddRepositoriesFromAssemblies();
         services.AddServicesFromAssemblies();
-        
+
         return services;
-    } 
-    
+    }
+
     public static void MigrateContext(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
         using var context = scope?.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         context?.Database.Migrate();
     }
-    
+
     private static void AddRepositoriesFromAssemblies(this IServiceCollection services)
     {
         var entityAssembly = Assembly.GetAssembly(typeof(EntityBase));
@@ -44,7 +45,7 @@ public static class InfrastructureServices
             services.AddScoped(repositoryInterface, repositoryImplementation);
         }
     }
-    
+
     private static void AddServicesFromAssemblies(this IServiceCollection services)
     {
         var interfaceAssembly = Assembly.GetAssembly(typeof(IUserService));
@@ -58,7 +59,7 @@ public static class InfrastructureServices
             var implementationName = @interface.Name.Substring(1);
             var implementation = implementationAssembly!.GetTypes()
                 .FirstOrDefault(t => t.IsClass && t.Namespace == typeof(UserService).Namespace && t.Name == implementationName);
-            
+
             if (implementation != null && @interface.IsAssignableFrom(implementation))
             {
                 services.AddScoped(@interface, implementation);

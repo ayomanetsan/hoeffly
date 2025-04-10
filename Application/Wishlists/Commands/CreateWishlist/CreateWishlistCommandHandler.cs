@@ -1,21 +1,13 @@
 namespace Application.Wishlists.Commands.CreateWishlist;
 
-public sealed class CreateWishlistCommandHandler : IRequestHandler<CreateWishlistCommand, Unit>
+public sealed class CreateWishlistCommandHandler(IWishlistService wishlistService, IMapper mapper)
+    : IRequestHandler<CreateWishlistCommand, Unit>
 {
-    private readonly IMapper _mapper;
-    private readonly IWishlistService _wishlistService;
-
-    public CreateWishlistCommandHandler(IWishlistService wishlistService, IMapper mapper)
-    {
-        _mapper = mapper;
-        _wishlistService = wishlistService;
-    }
-    
     public async Task<Unit> Handle(CreateWishlistCommand request, CancellationToken cancellationToken)
     {
-        var wishlist = _mapper.Map<Wishlist>(request);
-        await _wishlistService.CreateWishlistAsync(wishlist, request.categories, cancellationToken);
-        
+        var wishlist = mapper.Map<Wishlist>(request);
+        await wishlistService.CreateWishlistAsync(wishlist, request.categories, cancellationToken);
+
         return Unit.Value;
     }
 }

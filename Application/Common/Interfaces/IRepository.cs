@@ -2,7 +2,8 @@
 
 namespace Application.Common.Interfaces;
 
-public interface IRepository<T> where T : EntityBase
+public interface IRepository<T>
+    where T : EntityBase
 {
     Task AddAsync(T entity, CancellationToken cancellationToken);
 

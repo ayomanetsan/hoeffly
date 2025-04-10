@@ -1,3 +1,3 @@
-namespace Application.Wishlists.Commands.DeleteWishlistAccess;
+namespace Application.Wishlists.Commands.RevokeWishlistAccess;
 
-public record RevokeWishlistAccessCommand(Guid AccessRightId): IRequest<Unit>;
+public record RevokeWishlistAccessCommand(Guid AccessRightId) : IRequest<Unit>;

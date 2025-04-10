@@ -5,87 +5,70 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services;
 
-public class GiftService : IGiftService
+public class GiftService(
+    IRepository<Gift> giftRepository,
+    IRepository<Wishlist> wishlistRepository,
+    IRepository<Category> categoryRepository,
+    IRepository<SharedGift> sharedGiftRepository,
+    IRepository<User> userRepository,
+    IUnitOfWork unitOfWork,
+    IHttpContextAccessor httpContextAccessor)
+    : IGiftService
 {
-    private readonly IRepository<Gift> _giftRepository;
-    private readonly IRepository<Wishlist> _wishlistRepository;
-    private readonly IRepository<Category> _categoryRepository;
-    private readonly IRepository<SharedGift> _sharedGiftRepository;
-    private readonly IRepository<User> _userRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GiftService(
-        IRepository<Gift> giftRepository, 
-        IRepository<Wishlist> wishlistRepository, 
-        IRepository<Category> categoryRepository, 
-        IRepository<SharedGift> sharedGiftRepository,
-        IRepository<User> userRepository,
-        IUnitOfWork unitOfWork, 
-        IHttpContextAccessor httpContextAccessor)
-    {
-        _giftRepository = giftRepository;
-        _wishlistRepository = wishlistRepository;
-        _categoryRepository = categoryRepository;
-        _sharedGiftRepository = sharedGiftRepository;
-        _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public async Task<Guid> CreateGiftAsync(Gift gift, string categoryName, CancellationToken cancellationToken)
     {
-        if (!await _wishlistRepository.GetQueryable().AnyAsync(w => w.Id == gift.WishlistId, cancellationToken))
+        if (!await wishlistRepository.GetQueryable().AnyAsync(w => w.Id == gift.WishlistId, cancellationToken))
         {
             throw new NotFoundException("Wishlist not found.");
         }
 
-        var category = await _categoryRepository.GetQueryable()
+        var category = await categoryRepository.GetQueryable()
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Name == categoryName && c.Type == CategoryType.Gift, cancellationToken)
             ?? throw new NotFoundException("Category not found or invalid for gifts.");
 
         gift.CategoryId = category.Id;
-        
-        await _giftRepository.AddAsync(gift, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await giftRepository.AddAsync(gift, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return gift.Id;
     }
 
-    public async Task UpdateGiftAsync(Gift updatedGift, string categoryName, CancellationToken cancellationToken)
+    public async Task UpdateGiftAsync(Gift gift, string categoryName, CancellationToken cancellationToken)
     {
-        var gift = await _giftRepository.GetAsync(updatedGift.Id, cancellationToken)
-                       ?? throw new NotFoundException("Gift not found.");
-        
+        var updatedGift = await giftRepository.GetAsync(gift.Id, cancellationToken)
+                          ?? throw new NotFoundException("Gift not found.");
+
         var email = GetUserEmailFromContext();
-        if (gift.CreatedBy != email)
+        if (updatedGift.CreatedBy != email)
         {
             throw new ForbiddenException("You are not authorized to update this gift.");
         }
-        
-        var category = await _categoryRepository.GetQueryable()
+
+        var category = await categoryRepository.GetQueryable()
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Name == categoryName && c.Type == CategoryType.Gift, cancellationToken)
             ?? throw new NotFoundException("Category not found or invalid for gifts.");
-        
-        gift.Name = updatedGift.Name;
-        gift.CategoryId = category.Id;
-        gift.Note = updatedGift.Note;
-        gift.ShopLink = updatedGift.ShopLink;
+
+        updatedGift.Name = gift.Name;
+        updatedGift.CategoryId = category.Id;
+        updatedGift.Note = gift.Note;
+        updatedGift.ShopLink = gift.ShopLink;
+
         // TODO: fix the update with the photo and thumbnail links
         // gift.PhotoLink = updatedGift.PhotoLink;
         // gift.ThumbnailLink = updatedGift.ThumbnailLink;
-        gift.Price = updatedGift.Price;
-        gift.Currency = updatedGift.Currency;
-        gift.Priority = updatedGift.Priority;
-        
-        _giftRepository.Update(gift);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        updatedGift.Price = gift.Price;
+        updatedGift.Currency = gift.Currency;
+        updatedGift.Priority = gift.Priority;
+
+        giftRepository.Update(updatedGift);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteGiftAsync(Guid id, CancellationToken cancellationToken)
     {
-        var gift = await _giftRepository.GetAsync(id, cancellationToken)
+        var gift = await giftRepository.GetAsync(id, cancellationToken)
                    ?? throw new NotFoundException("Gift not found.");
         var email = GetUserEmailFromContext();
 
@@ -93,14 +76,14 @@ public class GiftService : IGiftService
         {
             throw new ForbiddenException("You are not authorized to delete this gift.");
         }
-        
-        _giftRepository.Delete(gift);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        giftRepository.Delete(gift);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<Gift> GetGiftAsync(Guid id, CancellationToken cancellationToken)
     {
-        var gift = await _giftRepository.GetAsync(id, cancellationToken)
+        var gift = await giftRepository.GetAsync(id, cancellationToken)
                    ?? throw new NotFoundException("Gift not found.");
         var email = GetUserEmailFromContext();
 
@@ -114,43 +97,43 @@ public class GiftService : IGiftService
 
     public async Task<Guid> ReserveGiftAsync(SharedGift sharedGift, CancellationToken cancellationToken)
     {
-        var gift = await _giftRepository.GetAsync(sharedGift.GiftId, cancellationToken)
+        var gift = await giftRepository.GetAsync(sharedGift.GiftId, cancellationToken)
                    ?? throw new NotFoundException("Gift not found.");
         var email = GetUserEmailFromContext();
-        var user = await _userRepository.GetQueryable()
+        var user = await userRepository.GetQueryable()
                        .AsNoTracking()
                        .FirstOrDefaultAsync(c => c.Email == email, cancellationToken)
                    ?? throw new NotFoundException("User not found.");
-        
+
         sharedGift.UserId = user.Id;
 
-        if (gift.IsReserved == false)
+        if (gift.IsReserved)
+        {
+            sharedGift.Status = SharedGiftStatus.Pending;
+        }
+        else
         {
             sharedGift.Status = SharedGiftStatus.Primary;
             gift.IsReserved = true;
         }
-        else
-        {
-            sharedGift.Status = SharedGiftStatus.Pending;
-        }
 
-        await _sharedGiftRepository.AddAsync(sharedGift, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await sharedGiftRepository.AddAsync(sharedGift, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return sharedGift.Id;
     }
 
     public async Task CancelGiftReservationAsync(Guid giftId, CancellationToken cancellationToken)
     {
         var email = GetUserEmailFromContext();
-        var user = await _userRepository.GetQueryable()
+        var user = await userRepository.GetQueryable()
                        .AsNoTracking()
                        .FirstOrDefaultAsync(c => c.Email == email, cancellationToken)
                    ?? throw new NotFoundException("User not found.");
 
-        var gift = await _giftRepository.GetAsync(giftId, cancellationToken)
+        var gift = await giftRepository.GetAsync(giftId, cancellationToken)
                    ?? throw new NotFoundException("Gift not found.");
-        
-        var userSharedGift = await _sharedGiftRepository.GetQueryable()
+
+        var userSharedGift = await sharedGiftRepository.GetQueryable()
             .FirstOrDefaultAsync(sg => sg.GiftId == giftId && sg.UserId == user.Id, cancellationToken);
 
         if (userSharedGift == null)
@@ -158,13 +141,13 @@ public class GiftService : IGiftService
             throw new NotFoundException("User has not reserved this gift.");
         }
 
-        _sharedGiftRepository.Delete(userSharedGift);
+        sharedGiftRepository.Delete(userSharedGift);
 
         if (userSharedGift.Status == SharedGiftStatus.Primary)
         {
-            var nextAcceptedUser = await _sharedGiftRepository.GetQueryable()
-                .Where(sg => sg.GiftId == giftId && 
-                             sg.Status == SharedGiftStatus.Accepted && 
+            var nextAcceptedUser = await sharedGiftRepository.GetQueryable()
+                .Where(sg => sg.GiftId == giftId &&
+                             sg.Status == SharedGiftStatus.Accepted &&
                              sg.Id != userSharedGift.Id)
                 .OrderBy(sg => sg.CreatedAt)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -172,13 +155,13 @@ public class GiftService : IGiftService
             if (nextAcceptedUser != null)
             {
                 nextAcceptedUser.Status = SharedGiftStatus.Primary;
-                _sharedGiftRepository.Update(nextAcceptedUser);
+                sharedGiftRepository.Update(nextAcceptedUser);
             }
             else
             {
-                var nextPendingUser = await _sharedGiftRepository.GetQueryable()
-                    .Where(sg => sg.GiftId == giftId && 
-                                 sg.Status == SharedGiftStatus.Pending && 
+                var nextPendingUser = await sharedGiftRepository.GetQueryable()
+                    .Where(sg => sg.GiftId == giftId &&
+                                 sg.Status == SharedGiftStatus.Pending &&
                                  sg.Id != userSharedGift.Id)
                     .OrderBy(sg => sg.CreatedAt)
                     .FirstOrDefaultAsync(cancellationToken);
@@ -186,47 +169,50 @@ public class GiftService : IGiftService
                 if (nextPendingUser != null)
                 {
                     nextPendingUser.Status = SharedGiftStatus.Primary;
-                    _sharedGiftRepository.Update(nextPendingUser);
+                    sharedGiftRepository.Update(nextPendingUser);
                 }
                 else
                 {
                     gift.IsReserved = false;
-                    _giftRepository.Update(gift);
+                    giftRepository.Update(gift);
                 }
             }
         }
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task AcceptGiftReservation(string email, Guid giftId, CancellationToken cancellationToken)
     {
         var currentUserEmail = GetUserEmailFromContext();
-        var userQuery = _userRepository.GetQueryable().AsNoTracking();
+        var userQuery = userRepository.GetQueryable().AsNoTracking();
         var currentUser = await userQuery
                               .FirstOrDefaultAsync(c => c.Email == currentUserEmail, cancellationToken)
                           ?? throw new NotFoundException("Current user not found.");
         var userToAccept = await userQuery
                                .FirstOrDefaultAsync(c => c.Email == email, cancellationToken)
                            ?? throw new NotFoundException("User to accept not found.");
-        
-        var giftQuery = _sharedGiftRepository.GetQueryable().AsNoTracking();
-        var primarySharedGift = await giftQuery
-                                    .FirstOrDefaultAsync(sg => sg.GiftId == giftId && 
-                                                               sg.UserId == currentUser.Id && 
-                                                               sg.Status == SharedGiftStatus.Primary, cancellationToken)
-                                ?? throw new NotFoundException("Current user is not the primary reserver for this gift.");
+
+        var giftQuery = sharedGiftRepository.GetQueryable().AsNoTracking();
+        if (await giftQuery.FirstOrDefaultAsync(
+                sg => sg.GiftId == giftId &&
+                      sg.UserId == currentUser.Id &&
+                      sg.Status == SharedGiftStatus.Primary, cancellationToken) is null)
+        {
+            throw new NotFoundException("The current user is not the primary one who is reserving this gift.");
+        }
         var pendingSharedGift = await giftQuery
-                                    .FirstOrDefaultAsync(sg => sg.GiftId == giftId && 
-                                                               sg.UserId == userToAccept.Id && 
-                                                               sg.Status == SharedGiftStatus.Pending, cancellationToken)
+                                    .FirstOrDefaultAsync(
+                                        sg => sg.GiftId == giftId &&
+                                              sg.UserId == userToAccept.Id &&
+                                              sg.Status == SharedGiftStatus.Pending, cancellationToken)
                                 ?? throw new NotFoundException("Pending reservation not found for the specified user.");
 
         pendingSharedGift.Status = SharedGiftStatus.Accepted;
-        
-        _sharedGiftRepository.Update(pendingSharedGift);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        sharedGiftRepository.Update(pendingSharedGift);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    private string GetUserEmailFromContext() => _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+    private string GetUserEmailFromContext() => httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
 }

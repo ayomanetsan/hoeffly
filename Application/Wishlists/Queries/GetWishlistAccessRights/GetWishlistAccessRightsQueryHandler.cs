@@ -9,16 +9,16 @@ public class GetWishlistAccessRightsQueryHandler(IWishlistAccessService wishlist
     {
         var (accessRights, totalPages) = await wishlistService.GetWishlistAccessRightAsync(
             request.WishlistId,
-            request.PageNumber, 
-            request.PageSize, 
+            request.PageNumber,
+            request.PageSize,
             cancellationToken);
 
         var mappedAccessRights = mapper.Map<IEnumerable<AccessRightResponse>>(accessRights);
-        
+
         return new PageResponse<AccessRightResponse>(
-            mappedAccessRights, 
-            request.PageNumber, 
-            request.PageSize, 
+            mappedAccessRights,
+            request.PageNumber,
+            request.PageSize,
             totalPages);
     }
 }

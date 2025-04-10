@@ -1,6 +1,6 @@
 namespace Application.Wishlists.Commands.CreateWishlist;
 
-public class CreateWishlistCommandProfile : Profile
+public sealed class CreateWishlistCommandProfile : Profile
 {
     public CreateWishlistCommandProfile()
     {

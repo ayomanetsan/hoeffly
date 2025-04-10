@@ -1,6 +1,6 @@
 namespace Application.Wishlists.Commands.UpdateWishlist;
 
-public class UpdateWishlistCommandProfile : Profile
+public sealed class UpdateWishlistCommandProfile : Profile
 {
     public UpdateWishlistCommandProfile()
     {

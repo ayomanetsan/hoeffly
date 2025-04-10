@@ -1,6 +1,6 @@
 namespace Application.Users.Queries.GetFriends;
 
-public class GetFriendsQueryProfile : Profile
+public sealed class GetFriendsQueryProfile : Profile
 {
     public GetFriendsQueryProfile()
     {
