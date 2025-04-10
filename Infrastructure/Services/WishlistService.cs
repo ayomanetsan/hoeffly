@@ -78,6 +78,28 @@ public class WishlistService : IWishlistService, IWishlistAccessService
         return (wishlists, totalPages);
     }
 
+    public async Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetPublicWishlistsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+    {
+        var queryable = _wishlistRepository
+            .GetQueryable()
+            .Where(w => w.IsPublic);
+
+        var totalItems = await queryable.CountAsync(cancellationToken);
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        var wishlists = await queryable
+            .AsNoTracking()
+            .OrderByDescending(w => w.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Include(w => w.Gifts)
+            .Include(w => w.WishlistCategories)
+            .ThenInclude(wc => wc.Category)
+            .ToListAsync(cancellationToken);
+    
+        return (wishlists, totalPages);
+    }
+
     public async Task CreateWishlistAsync(Wishlist wishlist, IEnumerable<string> categories, CancellationToken cancellationToken)
     {
         foreach (var category in categories)

@@ -20,6 +20,10 @@ export class WishlistsService {
     return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists?accessType=${accessType}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
+  getPublicWishlists(pageNumber = 1, pageSize = 10) {
+    return this.http.get<PagedResponse<WishlistBriefResponse>>(`/wishlists/public`);
+  }
+
   getById(id: string, filters?: {
     categoryNames?: string[],
     isReserved?: boolean,

@@ -1,0 +1,14 @@
+<div class="container">
+  <aside>
+    <app-sidebar></app-sidebar>
+  </aside>
+  <main>
+    <div class="wishlists">
+      <app-wishlist-card
+        *ngFor="let wishlist of wishlists"
+        [wishlist]="wishlist"
+      >
+      </app-wishlist-card>
+    </div>
+  </main>
+</div>

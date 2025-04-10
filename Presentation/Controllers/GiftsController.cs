@@ -5,7 +5,7 @@ using Application.Gifts.Commands.DeleteGift;
 using Application.Gifts.Commands.ReserveGift;
 using Application.Gifts.Commands.UpdateGift;
 using Application.Gifts.Queries.GetGift;
-using Domain.Exceptions;
+using Application.Gifts.Queries.ScrapeGiftDetails;
 using MediatR;
 
 namespace Presentation.Controllers;
@@ -15,6 +15,18 @@ namespace Presentation.Controllers;
 [Route("api/[controller]")]
 public class GiftsController(IMediator mediatr) : ControllerBase
 {
+    [HttpGet("scrape")]
+    public async Task<IActionResult> Scrape([FromQuery] string url, CancellationToken cancellationToken)
+    {
+        if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        {
+            return BadRequest("Invalid URL");
+        }
+
+        var giftDetails = await mediatr.Send(new ScrapeGiftDetailsQuery(url), cancellationToken);
+        return Ok(giftDetails);
+    }
+    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
     {
