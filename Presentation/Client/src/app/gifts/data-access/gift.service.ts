@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpService} from "../../shared/data-access/http.service";
-import { AcceptGiftReservationRequest, GiftCreateRequest, GiftResponse, GiftUpdateRequest } from '../models/gift';
+import {
+  AcceptGiftReservationRequest,
+  GiftCreateRequest,
+  GiftDetails,
+  GiftResponse,
+  GiftUpdateRequest
+} from '../models/gift';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +40,9 @@ export class GiftService {
 
   acceptReservation(acceptGiftReservationRequest: AcceptGiftReservationRequest) {
     return this.http.put('/gifts/accept-reservation', acceptGiftReservationRequest);
+  }
+
+  scrapeGiftDetails(url: string) {
+    return this.http.get<GiftDetails>(`/gifts/scrape?url=${url}`);
   }
 }

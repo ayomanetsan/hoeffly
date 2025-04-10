@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+using Application.Common.Models;
 using Application.Gifts.Queries;
 using Application.Wishlists.Queries.GetWishlist;
 using Domain.Enums;
@@ -11,6 +11,11 @@ public interface IWishlistService
         int accessType,
         int pageNumber,
         int pageSize,
+        CancellationToken cancellationToken);
+    
+    Task<(IEnumerable<Wishlist> wishlists, int totalPages)> GetPublicWishlistsAsync(
+        int pageNumber,
+        int pageSize, 
         CancellationToken cancellationToken);
 
     Task CreateWishlistAsync(Wishlist wishlist, IEnumerable<string> categories, CancellationToken cancellationToken);

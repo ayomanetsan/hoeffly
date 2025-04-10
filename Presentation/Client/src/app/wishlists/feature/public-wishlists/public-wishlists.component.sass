@@ -1,0 +1,60 @@
+@import '../../../../styles'
+
+.container
+  display: grid
+  grid-template-columns: 320px 1fr
+  width: 100vw
+  height: 100vh
+
+  main
+    padding: 16px
+
+    .actions
+      display: flex
+      margin-bottom: 2rem
+
+      button
+        &:first-child
+          border-radius: 10px 0 0 10px
+
+        &:nth-child(2)
+          border-radius: 0
+
+        &:last-child
+          border-radius: 0 10px 10px 0
+
+        &:hover
+          background-color: #D86E52
+
+    .no-wishlists
+      text-align: center
+      margin: 3rem auto
+      width: 100%
+
+      h1
+        font-size: 1.5rem
+        color: #666
+        font-weight: 500
+        margin: 0
+        padding: 2rem 0
+        font-style: italic
+
+    .wishlists
+      display: flex
+      flex-wrap: wrap
+      gap: 1rem
+
+      .create-card
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 352px
+        height: 215px
+        border-radius: 10px
+        border: 2px dashed $text
+        cursor: pointer
+        opacity: .7
+
+        &:hover
+          opacity: 1

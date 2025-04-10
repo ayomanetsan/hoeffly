@@ -13,7 +13,7 @@ export class ImageService {
   private apiUrl = 'https://api.imgbb.com/1/upload';
   private apiKey = '4da1b0901d3529915d0786b71a7abc02';
 
-  uploadImage(image: File, fileName: string): Observable<ImgBBResponse> {
+  uploadImage(image: File | string, fileName: string): Observable<ImgBBResponse> {
     const formData = new FormData();
     formData.append('key', this.apiKey);
     formData.append('image', image);

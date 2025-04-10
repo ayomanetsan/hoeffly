@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+using Application.Common.Models;
 using Application.Wishlists.Commands.CreateWishlist;
 using Application.Wishlists.Commands.DeleteWishlist;
 using Application.Wishlists.Commands.RevokeWishlistAccess;
@@ -6,6 +6,7 @@ using Application.Wishlists.Commands.ShareWishlist;
 using Application.Wishlists.Commands.UpdateWishlist;
 using Application.Wishlists.Queries.CheckAccess;
 using Application.Wishlists.Queries.GetFilteredWishlists;
+using Application.Wishlists.Queries.GetPublicWishlists;
 using Application.Wishlists.Queries.GetWishlist;
 using Application.Wishlists.Queries.GetWishlistAccessRights;
 using Domain.Enums;
@@ -24,7 +25,14 @@ public class WishlistsController(IMediator mediatr) : ControllerBase
         var response = await mediatr.Send(query, cancellationToken);
         return Ok(response);
     }
-
+    
+    [HttpGet("public")]
+    public async Task<IActionResult> GetPublicWishlists(CancellationToken cancellationToken)
+    {
+        var response = await mediatr.Send(new GetPublicWishlistsQuery(), cancellationToken);
+        return Ok(response);
+    }
+    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetWishlist(
         [FromRoute] Guid id,

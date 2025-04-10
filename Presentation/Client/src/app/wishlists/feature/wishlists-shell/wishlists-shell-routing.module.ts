@@ -11,6 +11,14 @@ const routes: Routes = [
     title: 'Wishlists - Library'
   },
   {
+    path: 'explore',
+    loadChildren: () =>
+      import('../public-wishlists/public-wishlists.module').then(
+        (m) => m.PublicWishlistsModule
+      ),
+    title: 'Wishlists - Library'
+  },
+  {
     path: ':id',
     loadChildren: () =>
         import('../wishlist-page/wishlist-page.module').then(
