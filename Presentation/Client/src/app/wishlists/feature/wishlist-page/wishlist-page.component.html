@@ -46,7 +46,7 @@
           styleClass="bg-white! border-none! text-marmelade-600! hover:bg-white/90!"
           *ngIf="accessType !== AccessType.Viewer"
           class="create-card"
-          (click)="openCreateModal()"
+          (click)="openGiftCreateDialog()"
         ></p-button>
       </div>
     </section>
@@ -54,7 +54,7 @@
       <app-gift-card
         *ngFor="let gift of gifts"
         [gift]="gift"
-        [dialogRef]="dialogRef"
+        [dialogRef]="matDialogRefg"
         [accessType]="accessType"
         [currentUserEmail]="currentUserEmail"
       ></app-gift-card>

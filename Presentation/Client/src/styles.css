@@ -45,3 +45,7 @@ html {
 .icon-sm .pi {
   font-size: 0.75rem !important;
 }
+
+.p-inputnumber-input {
+  width: 100% !important;
+}

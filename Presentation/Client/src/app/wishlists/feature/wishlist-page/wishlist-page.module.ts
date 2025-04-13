@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { GiftCardModule } from '../../../gifts/ui/gift-card/gift-card.module';
+import { GiftCreateDialogModule } from '../../../gifts/ui/gift-create-dialog/gift-create-dialog.module';
 import { GiftModalModule } from '../../../gifts/ui/gift-modal/gift-modal.module';
 import { ReservationModalModule } from '../../../gifts/ui/reservation-modal/reservation-modal.module';
 import { DropdownModule } from '../../../shared/ui/dropdown/dropdown.module';
@@ -25,6 +26,7 @@ import { WishlistPageComponent } from './wishlist-page.component';
     ReservationModalModule,
     Button,
     Tag,
+    GiftCreateDialogModule,
   ],
 })
 export class WishlistPageModule {}

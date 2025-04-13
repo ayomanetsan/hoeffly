@@ -1,0 +1,193 @@
+<header class="mt-5 mb-4 flex justify-between">
+  <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+    <h2 class="text-2xl font-bold tracking-tight text-marmelade-900">
+      Add New Gift
+    </h2>
+    <p class="text-sm text-marmelade-700">
+      Fill in the details to add a gift to your wishlist
+    </p>
+  </div>
+  <p-button
+    variant="text"
+    icon="pi pi-times"
+    size="small"
+    severity="secondary"
+    (onClick)="closeDialog()"
+  ></p-button>
+</header>
+<form [formGroup]="giftCreateForm" class="grid gap-6 py-4 md:grid-cols-2">
+  <section class="space-y-6">
+    <div class="grid gap-2">
+      <label
+        for="name"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Gift name <span class="text-red-500">*</span></label
+      >
+      <input
+        id="name"
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="e. g. Apple AirPods Pro 2"
+      />
+    </div>
+    <div class="grid gap-2">
+      <label
+        for="category"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Category <span class="text-red-500">*</span></label
+      >
+      <p-select
+        id="category"
+        type="text"
+        optionValue="value"
+        optionLabel="text"
+        [options]="categoryDropdownOptions"
+        formControlName="category"
+      />
+    </div>
+    <div class="grid gap-2">
+      <label
+        for="note"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Note</label
+      >
+      <textarea id="note" rows="5" pTextarea formControlName="note"></textarea>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="grid gap-2">
+        <label
+          for="price"
+          class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >Price <span class="text-red-500">*</span></label
+        >
+        <p-input-number
+          id="price"
+          mode="currency"
+          formControlName="price"
+          [currency]="currency"
+          styleClass="max-w-1!"
+        />
+      </div>
+      <div class="grid gap-2">
+        <label
+          for="currency"
+          class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >Currency <span class="text-red-500">*</span></label
+        >
+        <p-select
+          id="currency"
+          type="text"
+          optionValue="value"
+          optionLabel="text"
+          [options]="currencyDropdownOptions"
+          formControlName="currency"
+        />
+      </div>
+    </div>
+    <div class="grid gap-2">
+      <label
+        for="priority"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Priority <span class="text-red-500">*</span></label
+      >
+      <p-select
+        id="priority"
+        optionValue="value"
+        optionLabel="text"
+        [options]="priorityDropdownOptions"
+        formControlName="priority"
+      />
+    </div>
+    <div class="grid gap-2">
+      <label
+        for="shopLink"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >Shop Link</label
+      >
+      <p-inputgroup>
+        <input
+          id="shopLink"
+          type="text"
+          pInputText
+          formControlName="shopLink"
+          placeholder="https://example.com/product"
+        />
+        <p-button
+          icon="pi pi-sync"
+          styleClass="rounded-l-none!"
+          pTooltip="Höffly will try and fill gift details for you"
+          tooltipPosition="bottom"
+          showDelay="1000"
+          hideDelay="300"
+          severity="secondary"
+        />
+      </p-inputgroup>
+    </div>
+  </section>
+  <section class="space-y-6">
+    <div class="grid gap-2">
+      <label
+        for="image__preview"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >Image preview</label
+      >
+      <div id="image__preview" class="border-1 border-gray-200 rounded-md overflow-hidden bg-gray-50 aspect-square flex flex-col items-center justify-center">
+        <ng-container *ngIf="!previewImage && !imagePreviewLoading">
+          <i class="pi pi-gift text-gray-300 mb-2" style="font-size: 3rem"></i>
+          <p class="text-gray-500 text-sm">No image provided</p>
+          <p class="text-gray-400 text-xs">Preview will appear here</p>
+        </ng-container>
+
+        <ng-container *ngIf="imagePreviewLoading">
+          <i class="pi pi-spin pi-spinner text-gray-300 mb-2" style="font-size: 3rem"></i>
+          <p class="text-gray-500 text-sm">Loading image...</p>
+        </ng-container>
+
+        <img *ngIf="previewImage && !imagePreviewLoading" [src]="previewImage" class="max-w-full max-h-full object-contain" alt="Preview">
+      </div>
+    </div>
+    <div class="grid gap-2">
+      <label
+        for="photoLink"
+        class="text-sm leading-none font-medium text-marmelade-900 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      >Photo Link</label
+      >
+      <p-inputgroup>
+        <input
+          type="file"
+          id="fileUpload"
+          hidden="hidden"
+          accept="image/*"
+          (change)="uploadImage($event)"
+        />
+        <input
+          id="photoLink"
+          type="text"
+          pInputText
+          formControlName="photoLink"
+          placeholder="https://example.com/image"
+        />
+        <p-button
+          icon="pi pi-upload"
+          styleClass="rounded-l-none!"
+          severity="secondary"
+          (click)="onButtonClick()"
+        />
+      </p-inputgroup>
+      <p class="text-sm text-gray-500">Enter a URL to an image or upload your own. Leave blank to use a placeholder.</p>
+    </div>
+  </section>
+</form>
+<div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+  <p-button
+    label="Cancel"
+    severity="secondary"
+    variant="outlined"
+    (onClick)="closeDialog()"
+  ></p-button>
+  <p-button
+    type="submit"
+    label="Add Gift"
+  ></p-button>
+</div>

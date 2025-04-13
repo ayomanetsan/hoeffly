@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Avatar } from 'primeng/avatar';
+import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { SidebarComponent } from './sidebar.component';
 
@@ -15,6 +16,7 @@ import { SidebarComponent } from './sidebar.component';
     NgOptimizedImage,
     Avatar,
     Menu,
+    Button,
   ],
 })
 export class SidebarModule {}
